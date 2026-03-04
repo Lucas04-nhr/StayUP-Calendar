@@ -26,7 +26,9 @@ android/local.properties
 
 # Others
 *.log
-*.lock# Miscellaneous
+*.lock
+
+# Miscellaneous
 *.class
 *.log
 *.pyc
