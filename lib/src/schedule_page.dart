@@ -3,7 +3,7 @@ import 'models.dart';
 import 'common_widgets.dart';
 import 'course_editor.dart';
 import 'schedule_settings.dart';
-import '../main.dart';
+import 'app_pages.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
