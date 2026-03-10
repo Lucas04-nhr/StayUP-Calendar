@@ -35,6 +35,22 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Setup Android signing
+        shell: bash
+        run: |
+          set -euxo pipefail
+          if [ -z "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
+            echo "Signing secrets not found, using default signing for CI build."
+            exit 0
+          fi
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/upload-keystore.jks
+          cat > android/key.properties <<EOF
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=../upload-keystore.jks
+          EOF
+
       - name: Setup Android SDK components
         shell: bash
         env:
@@ -94,6 +110,22 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Setup Android signing
+        shell: bash
+        run: |
+          set -euxo pipefail
+          test -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}"
+          test -n "${{ secrets.ANDROID_STORE_PASSWORD }}"
+          test -n "${{ secrets.ANDROID_KEY_PASSWORD }}"
+          test -n "${{ secrets.ANDROID_KEY_ALIAS }}"
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/upload-keystore.jks
+          cat > android/key.properties <<EOF
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=../upload-keystore.jks
+          EOF
 
       - name: Setup Android SDK components
         shell: bash
