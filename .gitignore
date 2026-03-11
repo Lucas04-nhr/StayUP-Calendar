@@ -20,6 +20,12 @@ ios/Flutter/Flutter.podspec
 android/.gradle/
 android/app/build/
 android/local.properties
+key_password
+upload-keystore.jks*
+local_build_script.sh
+
+# Debug symbols
+**/symbols/
 
 # Mac
 .DS_Store
