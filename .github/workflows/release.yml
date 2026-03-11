@@ -25,6 +25,7 @@ jobs:
     outputs:
       version: ${{ steps.tag_version.outputs.VERSION }}
       version_number: ${{ steps.tag_version.outputs.VERSION_NUMBER }}
+      pubspec_build_number: ${{ steps.tag_version.outputs.PUBSPEC_BUILD_NUMBER }}
 
     steps:
       - name: Checkout repository
@@ -49,6 +50,26 @@ jobs:
 
           echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
           echo "VERSION_NUMBER=${VERSION#v}" >> "$GITHUB_OUTPUT"
+
+          VERSION_LINE="$(grep -E '^version:' pubspec.yaml | awk '{print $2}')"
+          if [ -z "$VERSION_LINE" ]; then
+            echo "Failed to read version from pubspec.yaml" >&2
+            exit 1
+          fi
+
+          PUBSPEC_VERSION="${VERSION_LINE%%+*}"
+          if [ "$PUBSPEC_VERSION" != "${VERSION#v}" ]; then
+            echo "Tag version (${VERSION#v}) does not match pubspec version ($PUBSPEC_VERSION)." >&2
+            exit 1
+          fi
+
+          PUBSPEC_BUILD_NUMBER="${VERSION_LINE##*+}"
+          if ! [[ "$PUBSPEC_BUILD_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "Invalid build number in pubspec.yaml version: $VERSION_LINE" >&2
+            exit 1
+          fi
+
+          echo "PUBSPEC_BUILD_NUMBER=$PUBSPEC_BUILD_NUMBER" >> "$GITHUB_OUTPUT"
 
       - name: Prepare release notes
         shell: bash
@@ -108,7 +129,7 @@ jobs:
           set -euo pipefail
           SHORT_SHA="$(git rev-parse --short HEAD)"
           echo "BUILD_NAME=${{ needs.create-release.outputs.version_number }}-${SHORT_SHA}" >> "$GITHUB_OUTPUT"
-          echo "BUILD_NUMBER=${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+          echo "BUILD_NUMBER=${{ needs.create-release.outputs.pubspec_build_number }}" >> "$GITHUB_OUTPUT"
 
       - name: Setup Android signing
         shell: bash

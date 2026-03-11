@@ -47,11 +47,27 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          VERSION_LINE="$(grep '^version:' pubspec.yaml | awk '{print $2}')"
+          VERSION_LINE="$(grep -E '^version:' pubspec.yaml | awk '{print $2}')"
+          if [ -z "$VERSION_LINE" ]; then
+            echo "Failed to read version from pubspec.yaml" >&2
+            exit 1
+          fi
+
           BASE_VERSION="${VERSION_LINE%%+*}"
+          if [ "$BASE_VERSION" = "$VERSION_LINE" ]; then
+            echo "pubspec.yaml version must include build number suffix (+N). Got: $VERSION_LINE" >&2
+            exit 1
+          fi
+
+          BUILD_NUMBER="${VERSION_LINE##*+}"
+          if ! [[ "$BUILD_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "Invalid build number in pubspec.yaml version: $VERSION_LINE" >&2
+            exit 1
+          fi
+
           SHORT_SHA="$(git rev-parse --short HEAD)"
           echo "BUILD_NAME=${BASE_VERSION}-${SHORT_SHA}" >> "$GITHUB_OUTPUT"
-          echo "BUILD_NUMBER=${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+          echo "BUILD_NUMBER=${BUILD_NUMBER}" >> "$GITHUB_OUTPUT"
 
       - name: Setup Android signing
         shell: bash
