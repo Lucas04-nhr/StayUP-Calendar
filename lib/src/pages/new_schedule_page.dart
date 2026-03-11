@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../common_widgets.dart';
+import '../l10n.dart';
 import '../models.dart';
 
 class NewSchedulePage extends StatefulWidget {
@@ -15,7 +17,8 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
   int _sectionsPerDay = 20;
   int _totalWeeks = 20;
 
-  String _fmtDate(DateTime d) => '${d.year}年${d.month}月${d.day}日';
+  String _fmtDate(BuildContext context, DateTime d) =>
+      DateFormat.yMd(context.l10n.localeName).format(d);
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -58,13 +61,19 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
             children: [
               const SizedBox(height: 8),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
                       onPressed: () => Navigator.pop(ctx),
-                      child: const Text('取消', style: TextStyle(color: kAccent)),
+                      child: Text(
+                        context.l10n.cancelAction,
+                        style: const TextStyle(color: kAccent),
+                      ),
                     ),
                     Text(
                       title,
@@ -79,7 +88,10 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
                         cb(tmp);
                         Navigator.pop(ctx);
                       },
-                      child: const Text('确定', style: TextStyle(color: kAccent)),
+                      child: Text(
+                        context.l10n.confirmAction,
+                        style: const TextStyle(color: kAccent),
+                      ),
                     ),
                   ],
                 ),
@@ -91,7 +103,9 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
                   perspective: 0.003,
                   diameterRatio: 1.8,
                   physics: const FixedExtentScrollPhysics(),
-                  controller: FixedExtentScrollController(initialItem: current - min),
+                  controller: FixedExtentScrollController(
+                    initialItem: current - min,
+                  ),
                   onSelectedItemChanged: (i) => ss(() => tmp = min + i),
                   childDelegate: ListWheelChildBuilderDelegate(
                     childCount: max - min + 1,
@@ -103,7 +117,9 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
                           style: TextStyle(
                             color: v == tmp ? Colors.white : kHint,
                             fontSize: v == tmp ? 18 : 15,
-                            fontWeight: v == tmp ? FontWeight.w700 : FontWeight.w400,
+                            fontWeight: v == tmp
+                                ? FontWeight.w700
+                                : FontWeight.w400,
                           ),
                         ),
                       );
@@ -123,9 +139,9 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
     final name = _nameCtrl.text.trim();
     if (name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('请填写课表名称'),
-          backgroundColor: Color(0xFFE5E5EA),
+        SnackBar(
+          content: Text(context.l10n.scheduleNameRequired),
+          backgroundColor: const Color(0xFFE5E5EA),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -161,18 +177,26 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
         automaticallyImplyLeading: false,
         leading: TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('取消', style: TextStyle(color: kAccent, fontSize: 16)),
+          child: Text(
+            context.l10n.cancelAction,
+            style: const TextStyle(color: kAccent, fontSize: 16),
+          ),
         ),
         leadingWidth: 64,
-        title: const Text('新建课表', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
+        title: Text(
+          context.l10n.newScheduleTitle,
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+        ),
         centerTitle: true,
         actions: [
           TextButton(
             onPressed: isEmpty ? null : _save,
             child: Text(
-              '保存',
+              context.l10n.saveAction,
               style: TextStyle(
-                color: isEmpty ? const Color(0xFFD1D1D6) : const Color(0xFF6C6C70),
+                color: isEmpty
+                    ? const Color(0xFFD1D1D6)
+                    : const Color(0xFF6C6C70),
                 fontSize: 16,
               ),
             ),
@@ -190,11 +214,14 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
                 onChanged: (_) => setState(() {}),
                 autofocus: true,
                 style: const TextStyle(color: Color(0xFF1C1C1E), fontSize: 15),
-                decoration: const InputDecoration(
-                  hintText: '课表名称（必填）',
-                  hintStyle: TextStyle(color: Color(0xFFD1D1D6), fontSize: 15),
+                decoration: InputDecoration(
+                  hintText: context.l10n.scheduleNameRequiredHint,
+                  hintStyle: const TextStyle(
+                    color: Color(0xFFD1D1D6),
+                    fontSize: 15,
+                  ),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 14),
                 ),
               ),
             ),
@@ -202,58 +229,79 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
           const SizedBox(height: 20),
           settingCard(context, [
             SettingRow(
-              label: '第一周的第一天',
+              label: context.l10n.firstDayOfWeekOne,
               onTap: _pickDate,
               trailing: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFE5E5EA),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  _fmtDate(_firstDay),
-                  style: const TextStyle(color: Color(0xFF1C1C1E), fontSize: 14),
+                  _fmtDate(context, _firstDay),
+                  style: const TextStyle(
+                    color: Color(0xFF1C1C1E),
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ),
-            const SettingRow(
-              label: '一周起始天',
-              trailing: Text('Monday', style: TextStyle(color: kHint, fontSize: 14)),
+            SettingRow(
+              label: context.l10n.weekStartDay,
+              trailing: Text(
+                context.l10n.mondayLabel,
+                style: const TextStyle(color: kHint, fontSize: 14),
+              ),
             ),
-            const SettingRow(
-              label: '当前周',
+            SettingRow(
+              label: context.l10n.currentWeek,
               showDivider: false,
-              trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                Text('自动', style: TextStyle(color: kHint, fontSize: 14)),
-                SizedBox(width: 4),
-                Icon(Icons.unfold_more, color: kHint, size: 18),
-              ]),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    context.l10n.autoLabel,
+                    style: const TextStyle(color: kHint, fontSize: 14),
+                  ),
+                  const SizedBox(width: 4),
+                  const Icon(Icons.unfold_more, color: kHint, size: 18),
+                ],
+              ),
             ),
           ]),
           const SizedBox(height: 20),
           settingCard(context, [
             SettingRow(
-              label: '一天课程节数',
+              label: context.l10n.sectionsPerDay,
               onTap: () => _pickNumber(
-                '一天课程节数',
+                context.l10n.sectionsPerDay,
                 _sectionsPerDay,
                 1,
                 20,
                 (v) => setState(() => _sectionsPerDay = v),
               ),
-              trailing: Text('$_sectionsPerDay', style: const TextStyle(color: kHint, fontSize: 15)),
+              trailing: Text(
+                '$_sectionsPerDay',
+                style: const TextStyle(color: kHint, fontSize: 15),
+              ),
             ),
             SettingRow(
-              label: '学期周数',
+              label: context.l10n.totalWeeks,
               showDivider: false,
               onTap: () => _pickNumber(
-                '学期周数',
+                context.l10n.totalWeeks,
                 _totalWeeks,
                 1,
                 30,
                 (v) => setState(() => _totalWeeks = v),
               ),
-              trailing: Text('$_totalWeeks', style: const TextStyle(color: kHint, fontSize: 15)),
+              trailing: Text(
+                '$_totalWeeks',
+                style: const TextStyle(color: kHint, fontSize: 15),
+              ),
             ),
           ]),
         ],

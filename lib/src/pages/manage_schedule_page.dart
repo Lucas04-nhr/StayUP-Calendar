@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../common_widgets.dart';
+import '../l10n.dart';
 import '../models.dart';
 import 'new_schedule_page.dart';
 import '../schedule_settings.dart';
@@ -28,16 +29,22 @@ class _ManageSchedulePageState extends State<ManageSchedulePage> {
         elevation: 0,
         leading: TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('返回', style: TextStyle(color: kAccent, fontSize: 16)),
+          child: Text(
+            context.l10n.backAction,
+            style: const TextStyle(color: kAccent, fontSize: 16),
+          ),
         ),
         leadingWidth: 60,
-        title: const Text('多课表管理', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
+        title: Text(
+          context.l10n.manageScheduleTitle,
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+        ),
         centerTitle: true,
         actions: [
           TextButton(
             onPressed: () => setState(() => _isEditing = !_isEditing),
             child: Text(
-              _isEditing ? '完成' : '编辑',
+              _isEditing ? context.l10n.doneAction : context.l10n.editAction,
               style: const TextStyle(color: kAccent, fontSize: 16),
             ),
           ),
@@ -51,15 +58,21 @@ class _ManageSchedulePageState extends State<ManageSchedulePage> {
             onReorder: _isEditing
                 ? (oldIndex, newIndex) {
                     if (newIndex > oldIndex) newIndex--;
-                    final idxList = List<int>.generate(schedules.length, (i) => i);
+                    final idxList = List<int>.generate(
+                      schedules.length,
+                      (i) => i,
+                    );
                     final item = idxList.removeAt(oldIndex);
                     idxList.insert(newIndex, item);
                     s.reorderSchedules(idxList);
                   }
                 : (_, __) {},
-            header: const Padding(
-              padding: EdgeInsets.only(left: 2, bottom: 10),
-              child: Text('点右上角的编辑以排序或删除', style: TextStyle(color: kHint, fontSize: 13)),
+            header: Padding(
+              padding: const EdgeInsets.only(left: 2, bottom: 10),
+              child: Text(
+                context.l10n.manageScheduleHint,
+                style: const TextStyle(color: kHint, fontSize: 13),
+              ),
             ),
             itemCount: schedules.length,
             itemBuilder: (ctx, i) {
@@ -79,11 +92,15 @@ class _ManageSchedulePageState extends State<ManageSchedulePage> {
                   } else {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => const ScheduleDataPage()),
+                      MaterialPageRoute(
+                        builder: (_) => const ScheduleDataPage(),
+                      ),
                     );
                   }
                 },
-                onDelete: schedules.length > 1 ? () => _confirmDelete(ctx, s, i, name) : null,
+                onDelete: schedules.length > 1
+                    ? () => _confirmDelete(ctx, s, i, name)
+                    : null,
               );
             },
           ),
@@ -101,9 +118,13 @@ class _ManageSchedulePageState extends State<ManageSchedulePage> {
                 );
                 setState(() {});
               },
-              child: const Text(
-                '新建课表',
-                style: TextStyle(color: kAccent, fontSize: 17, fontWeight: FontWeight.w500),
+              child: Text(
+                context.l10n.newScheduleButton,
+                style: const TextStyle(
+                  color: kAccent,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),
@@ -118,15 +139,21 @@ class _ManageSchedulePageState extends State<ManageSchedulePage> {
       builder: (_) => AlertDialog(
         backgroundColor: ac(context).card,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        title: const Text('删除课表', style: TextStyle(fontSize: 16)),
+        title: Text(
+          context.l10n.deleteScheduleTitle,
+          style: const TextStyle(fontSize: 16),
+        ),
         content: Text(
-          '确定删除「$name」？此操作不可恢复。',
+          context.l10n.deleteScheduleMessage(name),
           style: const TextStyle(color: kHint, fontSize: 14, height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('取消', style: TextStyle(color: kHint)),
+            child: Text(
+              context.l10n.cancelAction,
+              style: const TextStyle(color: kHint),
+            ),
           ),
           TextButton(
             onPressed: () {
@@ -134,7 +161,10 @@ class _ManageSchedulePageState extends State<ManageSchedulePage> {
               s.removeSchedule(i);
               setState(() {});
             },
-            child: const Text('删除', style: TextStyle(color: Color(0xFFFF3B5C))),
+            child: Text(
+              context.l10n.deleteAction,
+              style: const TextStyle(color: Color(0xFFFF3B5C)),
+            ),
           ),
         ],
       ),

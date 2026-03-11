@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../common_widgets.dart';
+import '../l10n.dart';
+
+enum _ExportFormat { png, jpg, pdf, ics, csv }
 
 class ExportPage extends StatefulWidget {
   const ExportPage({super.key});
@@ -9,30 +12,52 @@ class ExportPage extends StatefulWidget {
 }
 
 class _ExportPageState extends State<ExportPage> {
-  String _format = '图片 (PNG)';
+  _ExportFormat _format = _ExportFormat.png;
   bool _includeNonWeek = false;
   bool _includeSaturday = true;
   bool _includeSunday = false;
 
-  final List<String> _formats = ['图片 (PNG)', '图片 (JPG)', 'PDF', 'iCalendar (.ics)', 'CSV'];
+  List<_ExportFormat> get _formats => _ExportFormat.values;
+
+  String _formatLabel(BuildContext context, _ExportFormat format) {
+    final l10n = context.l10n;
+    switch (format) {
+      case _ExportFormat.png:
+        return l10n.exportFormatPng;
+      case _ExportFormat.jpg:
+        return l10n.exportFormatJpg;
+      case _ExportFormat.pdf:
+        return l10n.exportFormatPdf;
+      case _ExportFormat.ics:
+        return l10n.exportFormatIcs;
+      case _ExportFormat.csv:
+        return l10n.exportFormatCsv;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return SubPageScaffold(
-      title: '导出课表',
+      title: context.l10n.exportScheduleTitle,
       children: [
         settingCard(context, [
           SettingRow(
-            label: '导出格式',
-            trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-              Text(_format, style: const TextStyle(color: kHint, fontSize: 13)),
-              const SizedBox(width: 4),
-              const Icon(Icons.chevron_right, color: kHint, size: 18),
-            ]),
+            label: context.l10n.exportFormatLabel,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  _formatLabel(context, _format),
+                  style: const TextStyle(color: kHint, fontSize: 13),
+                ),
+                const SizedBox(width: 4),
+                const Icon(Icons.chevron_right, color: kHint, size: 18),
+              ],
+            ),
             onTap: _pickFormat,
           ),
           SettingRow(
-            label: '包含非本周课程',
+            label: context.l10n.exportIncludeNonWeek,
             trailing: Switch(
               value: _includeNonWeek,
               onChanged: (v) => setState(() => _includeNonWeek = v),
@@ -40,7 +65,7 @@ class _ExportPageState extends State<ExportPage> {
             ),
           ),
           SettingRow(
-            label: '包含周六',
+            label: context.l10n.exportIncludeSaturday,
             trailing: Switch(
               value: _includeSaturday,
               onChanged: (v) => setState(() => _includeSaturday = v),
@@ -48,7 +73,7 @@ class _ExportPageState extends State<ExportPage> {
             ),
           ),
           SettingRow(
-            label: '包含周日',
+            label: context.l10n.exportIncludeSunday,
             showDivider: false,
             trailing: Switch(
               value: _includeSunday,
@@ -64,7 +89,9 @@ class _ExportPageState extends State<ExportPage> {
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('课表已导出为 $_format'),
+                  content: Text(
+                    context.l10n.exportSuccess(_formatLabel(context, _format)),
+                  ),
                   backgroundColor: const Color(0xFFE5E5EA),
                   behavior: SnackBarBehavior.floating,
                 ),
@@ -74,10 +101,15 @@ class _ExportPageState extends State<ExportPage> {
               backgroundColor: const Color(0xFF4ECDC4),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               elevation: 0,
             ),
-            child: const Text('立即导出', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+            child: Text(
+              context.l10n.exportNow,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            ),
           ),
         ),
       ],
@@ -97,9 +129,9 @@ class _ExportPageState extends State<ExportPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '选择格式',
-              style: TextStyle(
+            Text(
+              context.l10n.exportSelectFormat,
+              style: const TextStyle(
                 color: Color(0xFF1C1C1E),
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -114,22 +146,35 @@ class _ExportPageState extends State<ExportPage> {
                 },
                 child: Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 4),
-                  decoration: const BoxDecoration(
-                    border: Border(bottom: BorderSide(color: kDivider, width: 0.5)),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 4,
                   ),
-                  child: Row(children: [
-                    Text(
-                      f,
-                      style: TextStyle(
-                        color: f == _format ? const Color(0xFF4ECDC4) : Colors.white,
-                        fontSize: 15,
-                      ),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: kDivider, width: 0.5),
                     ),
-                    const Spacer(),
-                    if (f == _format)
-                      const Icon(Icons.check, color: Color(0xFF4ECDC4), size: 18),
-                  ]),
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        _formatLabel(context, f),
+                        style: TextStyle(
+                          color: f == _format
+                              ? const Color(0xFF4ECDC4)
+                              : Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+                      const Spacer(),
+                      if (f == _format)
+                        const Icon(
+                          Icons.check,
+                          color: Color(0xFF4ECDC4),
+                          size: 18,
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),

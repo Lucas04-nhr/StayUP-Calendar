@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'l10n/app_localizations.dart';
+import 'src/l10n.dart';
 import 'src/models.dart';
 import 'src/schedule_page.dart';
 
@@ -57,16 +60,26 @@ class _WakeUpAppState extends State<WakeUpApp> {
       // 启动加载屏
       return MaterialApp(
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           backgroundColor: const Color(0xFF1C1C1E),
-          body: const Center(
+          body: Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircularProgressIndicator(color: Color(0xFF4ECDC4), strokeWidth: 2),
-                SizedBox(height: 20),
-                Text('正在加载课表…',
-                    style: TextStyle(color: Color(0xFF6C6C70), fontSize: 14)),
+                const CircularProgressIndicator(
+                  color: Color(0xFF4ECDC4),
+                  strokeWidth: 2,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  context.l10n.loadingSchedule,
+                  style: const TextStyle(
+                    color: Color(0xFF6C6C70),
+                    fontSize: 14,
+                  ),
+                ),
               ],
             ),
           ),
@@ -86,9 +99,20 @@ class _AppWithTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'WakeUp 课程表',
+      onGenerateTitle: (context) => context.l10n.appTitle,
+      locale: appState.appLocale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4ECDC4), brightness: Brightness.light),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF4ECDC4),
+          brightness: Brightness.light,
+        ),
         scaffoldBackgroundColor: const Color(0xFFF2F2F7),
         cardColor: const Color(0xFFFFFFFF),
         dividerColor: const Color(0xFFE5E5EA),
@@ -98,17 +122,35 @@ class _AppWithTheme extends StatelessWidget {
           backgroundColor: Color(0xFFFFFFFF),
           foregroundColor: Color(0xFF1C1C1E),
           elevation: 0,
-          titleTextStyle: TextStyle(color: Color(0xFF1C1C1E), fontSize: 17, fontWeight: FontWeight.w600, fontFamily: 'PingFang SC'),
+          titleTextStyle: TextStyle(
+            color: Color(0xFF1C1C1E),
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PingFang SC',
+          ),
           iconTheme: IconThemeData(color: Color(0xFF1C1C1E)),
         ),
         dialogTheme: const DialogThemeData(
-          titleTextStyle: TextStyle(color: Color(0xFF1C1C1E), fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'PingFang SC'),
-          contentTextStyle: TextStyle(color: Color(0xFF6C6C70), fontSize: 14, height: 1.5, fontFamily: 'PingFang SC'),
+          titleTextStyle: TextStyle(
+            color: Color(0xFF1C1C1E),
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PingFang SC',
+          ),
+          contentTextStyle: TextStyle(
+            color: Color(0xFF6C6C70),
+            fontSize: 14,
+            height: 1.5,
+            fontFamily: 'PingFang SC',
+          ),
         ),
         extensions: const [AppColors.light],
       ),
       darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4ECDC4), brightness: Brightness.dark),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF4ECDC4),
+          brightness: Brightness.dark,
+        ),
         scaffoldBackgroundColor: const Color(0xFF1C1C1E),
         cardColor: const Color(0xFF2C2C2E),
         dividerColor: const Color(0xFF3A3A3C),
@@ -118,20 +160,33 @@ class _AppWithTheme extends StatelessWidget {
           backgroundColor: Color(0xFF2C2C2E),
           foregroundColor: Colors.white,
           elevation: 0,
-          titleTextStyle: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w600, fontFamily: 'PingFang SC'),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PingFang SC',
+          ),
           iconTheme: IconThemeData(color: Colors.white),
         ),
         dialogTheme: const DialogThemeData(
-          titleTextStyle: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'PingFang SC'),
-          contentTextStyle: TextStyle(color: Color(0xFF8E8E93), fontSize: 14, height: 1.5, fontFamily: 'PingFang SC'),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PingFang SC',
+          ),
+          contentTextStyle: TextStyle(
+            color: Color(0xFF8E8E93),
+            fontSize: 14,
+            height: 1.5,
+            fontFamily: 'PingFang SC',
+          ),
         ),
         extensions: const [AppColors.dark],
       ),
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      builder: (context, child) => AppStateScope(
-        notifier: appState,
-        child: child!,
-      ),
+      builder: (context, child) =>
+          AppStateScope(notifier: appState, child: child!),
       home: const SchedulePage(),
     );
   }

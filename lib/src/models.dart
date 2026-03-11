@@ -28,53 +28,60 @@ class AppColors extends ThemeExtension<AppColors> {
   });
 
   static const light = AppColors(
-    bg:            Color(0xFFF2F2F7),
-    card:          Color(0xFFFFFFFF),
-    divider:       Color(0xFFE5E5EA),
-    hint:          Color(0xFF6C6C70),
-    primaryText:   Color(0xFF1C1C1E),
+    bg: Color(0xFFF2F2F7),
+    card: Color(0xFFFFFFFF),
+    divider: Color(0xFFE5E5EA),
+    hint: Color(0xFF6C6C70),
+    primaryText: Color(0xFF1C1C1E),
     secondaryText: Color(0xFF3C3C43),
-    inputBg:       Color(0xFFE5E5EA),
-    iconBg:        Color(0xFFE5E5EA),
+    inputBg: Color(0xFFE5E5EA),
+    iconBg: Color(0xFFE5E5EA),
   );
 
   static const dark = AppColors(
-    bg:            Color(0xFF1C1C1E),
-    card:          Color(0xFF2C2C2E),
-    divider:       Color(0xFF3A3A3C),
-    hint:          Color(0xFF8E8E93),
-    primaryText:   Color(0xFFFFFFFF),
+    bg: Color(0xFF1C1C1E),
+    card: Color(0xFF2C2C2E),
+    divider: Color(0xFF3A3A3C),
+    hint: Color(0xFF8E8E93),
+    primaryText: Color(0xFFFFFFFF),
     secondaryText: Color(0xFFEBEBF5),
-    inputBg:       Color(0xFF2C2C2E),
-    iconBg:        Color(0xFF3A3A3C),
+    inputBg: Color(0xFF2C2C2E),
+    iconBg: Color(0xFF3A3A3C),
   );
 
   @override
-  AppColors copyWith({Color? bg, Color? card, Color? divider, Color? hint,
-      Color? primaryText, Color? secondaryText, Color? inputBg, Color? iconBg}) =>
-      AppColors(
-        bg:            bg            ?? this.bg,
-        card:          card          ?? this.card,
-        divider:       divider       ?? this.divider,
-        hint:          hint          ?? this.hint,
-        primaryText:   primaryText   ?? this.primaryText,
-        secondaryText: secondaryText ?? this.secondaryText,
-        inputBg:       inputBg       ?? this.inputBg,
-        iconBg:        iconBg        ?? this.iconBg,
-      );
+  AppColors copyWith({
+    Color? bg,
+    Color? card,
+    Color? divider,
+    Color? hint,
+    Color? primaryText,
+    Color? secondaryText,
+    Color? inputBg,
+    Color? iconBg,
+  }) => AppColors(
+    bg: bg ?? this.bg,
+    card: card ?? this.card,
+    divider: divider ?? this.divider,
+    hint: hint ?? this.hint,
+    primaryText: primaryText ?? this.primaryText,
+    secondaryText: secondaryText ?? this.secondaryText,
+    inputBg: inputBg ?? this.inputBg,
+    iconBg: iconBg ?? this.iconBg,
+  );
 
   @override
   AppColors lerp(AppColors? other, double t) {
     if (other == null) return this;
     return AppColors(
-      bg:            Color.lerp(bg, other.bg, t)!,
-      card:          Color.lerp(card, other.card, t)!,
-      divider:       Color.lerp(divider, other.divider, t)!,
-      hint:          Color.lerp(hint, other.hint, t)!,
-      primaryText:   Color.lerp(primaryText, other.primaryText, t)!,
+      bg: Color.lerp(bg, other.bg, t)!,
+      card: Color.lerp(card, other.card, t)!,
+      divider: Color.lerp(divider, other.divider, t)!,
+      hint: Color.lerp(hint, other.hint, t)!,
+      primaryText: Color.lerp(primaryText, other.primaryText, t)!,
       secondaryText: Color.lerp(secondaryText, other.secondaryText, t)!,
-      inputBg:       Color.lerp(inputBg, other.inputBg, t)!,
-      iconBg:        Color.lerp(iconBg, other.iconBg, t)!,
+      inputBg: Color.lerp(inputBg, other.inputBg, t)!,
+      iconBg: Color.lerp(iconBg, other.iconBg, t)!,
     );
   }
 }
@@ -96,7 +103,7 @@ class TimeTableConfig {
   Map<String, dynamic> toJson() => {'name': name, 'times': times};
 
   factory TimeTableConfig.fromJson(Map<String, dynamic> j) => TimeTableConfig(
-    name:  j['name'] as String? ?? '时间表',
+    name: j['name'] as String? ?? '时间表',
     times: (j['times'] as List).map((r) => (r as List).cast<String>()).toList(),
   );
 
@@ -112,16 +119,16 @@ class TimeTableConfig {
 // 每张课表独立配置
 // ─────────────────────────────────────────────
 class ScheduleConfig {
-  final String    name;
-  final DateTime  firstWeekDay;
-  final int       sectionsPerDay; // 1–20
-  final int       totalWeeks;    // 1–20
+  final String name;
+  final DateTime firstWeekDay;
+  final int sectionsPerDay; // 1–20
+  final int totalWeeks; // 1–20
 
   const ScheduleConfig({
     required this.name,
     required this.firstWeekDay,
     this.sectionsPerDay = 10,
-    this.totalWeeks     = 20,
+    this.totalWeeks = 20,
   });
 
   ScheduleConfig copyWith({
@@ -130,42 +137,65 @@ class ScheduleConfig {
     int? sectionsPerDay,
     int? totalWeeks,
   }) => ScheduleConfig(
-    name:           name           ?? this.name,
-    firstWeekDay:   firstWeekDay   ?? this.firstWeekDay,
+    name: name ?? this.name,
+    firstWeekDay: firstWeekDay ?? this.firstWeekDay,
     sectionsPerDay: sectionsPerDay ?? this.sectionsPerDay,
-    totalWeeks:     totalWeeks     ?? this.totalWeeks,
+    totalWeeks: totalWeeks ?? this.totalWeeks,
   );
 
   Map<String, dynamic> toJson() => {
-    'name':           name,
-    'firstWeekDay':   firstWeekDay.millisecondsSinceEpoch,
+    'name': name,
+    'firstWeekDay': firstWeekDay.millisecondsSinceEpoch,
     'sectionsPerDay': sectionsPerDay,
-    'totalWeeks':     totalWeeks,
+    'totalWeeks': totalWeeks,
   };
 
   factory ScheduleConfig.fromJson(Map<String, dynamic> j) => ScheduleConfig(
-    name:           j['name'] as String,
-    firstWeekDay:   DateTime.fromMillisecondsSinceEpoch(j['firstWeekDay'] as int),
+    name: j['name'] as String,
+    firstWeekDay: DateTime.fromMillisecondsSinceEpoch(j['firstWeekDay'] as int),
     sectionsPerDay: j['sectionsPerDay'] as int,
-    totalWeeks:     j['totalWeeks'] as int,
+    totalWeeks: j['totalWeeks'] as int,
   );
 }
+
+const String kLocaleModeSystem = 'system';
+const String kLocaleModeChineseSimplified = 'zh-Hans';
+const String kLocaleModeChineseTraditional = 'zh-Hant';
+const String kLocaleModeEnglish = 'en';
+const String kLocaleModeJapanese = 'ja';
 
 class AppState extends ChangeNotifier {
   List<TimeTableConfig> allTimeTables;
   int activeTimeTableIndex;
 
   // 向后兼容：当前激活时间表的 times
-  List<List<String>> get customTimes => allTimeTables[activeTimeTableIndex].times;
+  List<List<String>> get customTimes =>
+      allTimeTables[activeTimeTableIndex].times;
 
   bool showWeekend;
   bool showNonWeek;
   bool showSection;
   bool isDarkMode;
+  String localeMode;
 
   // 全局主题色（null = 使用 kCourseColors[0] 默认值）
   int? themeColorValue;
-  Color get themeColor => themeColorValue != null ? Color(themeColorValue!) : kCourseColors[0];
+  Color get themeColor =>
+      themeColorValue != null ? Color(themeColorValue!) : kCourseColors[0];
+  Locale? get appLocale {
+    switch (localeMode) {
+      case kLocaleModeChineseSimplified:
+        return const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans');
+      case kLocaleModeChineseTraditional:
+        return const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant');
+      case kLocaleModeEnglish:
+        return const Locale('en');
+      case kLocaleModeJapanese:
+        return const Locale('ja');
+      default:
+        return null;
+    }
+  }
 
   // ── 多课表：每张课表独立配置 + 课程数据 ──
   List<ScheduleConfig> allConfigs;
@@ -173,8 +203,8 @@ class AppState extends ChangeNotifier {
   List<List<Course>> allCourses;
 
   // ── 快捷 getter ──
-  ScheduleConfig get config  => allConfigs[activeScheduleIndex];
-  List<Course>   get courses => allCourses[activeScheduleIndex];
+  ScheduleConfig get config => allConfigs[activeScheduleIndex];
+  List<Course> get courses => allCourses[activeScheduleIndex];
   List<String> get scheduleNames => allConfigs.map((c) => c.name).toList();
 
   static final _defaultFirstWeekDay = DateTime(DateTime.now().year, 9, 1);
@@ -183,39 +213,51 @@ class AppState extends ChangeNotifier {
     List<TimeTableConfig>? allTimeTables,
     this.activeTimeTableIndex = 0,
     required List<Course> initialCourses,
-    this.showWeekend        = true,
-    this.showNonWeek        = true,
-    this.showSection        = true,
-    this.isDarkMode         = false,
+    this.showWeekend = true,
+    this.showNonWeek = true,
+    this.showSection = true,
+    this.isDarkMode = false,
+    this.localeMode = kLocaleModeSystem,
     this.themeColorValue,
     this.activeScheduleIndex = 0,
     List<ScheduleConfig>? allConfigs,
-  }) : allTimeTables = allTimeTables ?? [
-         TimeTableConfig(
-           name: '默认',
-           times: kTimeSlots.map((s) => [s.start, s.end]).toList(),
-         ),
-       ], allConfigs = allConfigs ?? [
-         ScheduleConfig(
-           name:           '新建课表',
-           firstWeekDay:   _defaultFirstWeekDay,
-           sectionsPerDay: 20,
-           totalWeeks:     20,
-         ),
-       ],
+  }) : allTimeTables =
+           allTimeTables ??
+           [
+             TimeTableConfig(
+               name: '默认',
+               times: kTimeSlots.map((s) => [s.start, s.end]).toList(),
+             ),
+           ],
+       allConfigs =
+           allConfigs ??
+           [
+             ScheduleConfig(
+               name: '新建课表',
+               firstWeekDay: _defaultFirstWeekDay,
+               sectionsPerDay: 20,
+               totalWeeks: 20,
+             ),
+           ],
        allCourses = List.generate(
          allConfigs != null ? allConfigs.length : 1,
-         (i) => i == (activeScheduleIndex) ? List<Course>.from(initialCourses) : <Course>[],
+         (i) => i == (activeScheduleIndex)
+             ? List<Course>.from(initialCourses)
+             : <Course>[],
        );
 
   // ── 当前课表配置更新 ──
-  void updateActiveConfig({DateTime? firstWeekDay, int? sectionsPerDay, int? totalWeeks}) {
+  void updateActiveConfig({
+    DateTime? firstWeekDay,
+    int? sectionsPerDay,
+    int? totalWeeks,
+  }) {
     allConfigs = List.from(allConfigs)
       ..[activeScheduleIndex] = allConfigs[activeScheduleIndex].copyWith(
-          firstWeekDay:   firstWeekDay,
-          sectionsPerDay: sectionsPerDay,
-          totalWeeks:     totalWeeks,
-        );
+        firstWeekDay: firstWeekDay,
+        sectionsPerDay: sectionsPerDay,
+        totalWeeks: totalWeeks,
+      );
     notifyListeners();
   }
 
@@ -229,7 +271,8 @@ class AppState extends ChangeNotifier {
   void deleteCourse(int id) {
     allCourses = List.from(allCourses)
       ..[activeScheduleIndex] = allCourses[activeScheduleIndex]
-          .where((c) => c.id != id).toList();
+          .where((c) => c.id != id)
+          .toList();
     notifyListeners();
   }
 
@@ -261,8 +304,8 @@ class AppState extends ChangeNotifier {
     if (activeScheduleIndex >= index && activeScheduleIndex > 0) {
       newActive = activeScheduleIndex - 1;
     }
-    allConfigs          = newConfigs;
-    allCourses          = newCourses;
+    allConfigs = newConfigs;
+    allCourses = newCourses;
     activeScheduleIndex = newActive.clamp(0, newConfigs.length - 1);
     notifyListeners();
   }
@@ -325,17 +368,27 @@ class AppState extends ChangeNotifier {
   }
 
   // 向后兼容旧调用
-  void updateTimes(List<List<String>> times) => updateTimeTable(activeTimeTableIndex, times);
+  void updateTimes(List<List<String>> times) =>
+      updateTimeTable(activeTimeTableIndex, times);
 
-  void updateSettings({bool? showWeekend, bool? showNonWeek, bool? showSection}) {
+  void updateSettings({
+    bool? showWeekend,
+    bool? showNonWeek,
+    bool? showSection,
+  }) {
     if (showWeekend != null) this.showWeekend = showWeekend;
-    if (showNonWeek  != null) this.showNonWeek  = showNonWeek;
-    if (showSection  != null) this.showSection  = showSection;
+    if (showNonWeek != null) this.showNonWeek = showNonWeek;
+    if (showSection != null) this.showSection = showSection;
     notifyListeners();
   }
 
   void updateDarkMode(bool value) {
     isDarkMode = value;
+    notifyListeners();
+  }
+
+  void updateLocaleMode(String value) {
+    localeMode = value;
     notifyListeners();
   }
 
@@ -370,16 +423,17 @@ class AppState extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       final data = jsonEncode({
-        'activeScheduleIndex':  activeScheduleIndex,
+        'activeScheduleIndex': activeScheduleIndex,
         'activeTimeTableIndex': activeTimeTableIndex,
-        'showWeekend':  showWeekend,
-        'showNonWeek':  showNonWeek,
-        'showSection':  showSection,
-        'isDarkMode':   isDarkMode,
+        'showWeekend': showWeekend,
+        'showNonWeek': showNonWeek,
+        'showSection': showSection,
+        'isDarkMode': isDarkMode,
+        'localeMode': localeMode,
         'themeColorValue': themeColorValue,
         'allTimeTables': allTimeTables.map((t) => t.toJson()).toList(),
-        'allConfigs':   allConfigs.map((c) => c.toJson()).toList(),
-        'allCourses':   allCourses
+        'allConfigs': allConfigs.map((c) => c.toJson()).toList(),
+        'allCourses': allCourses
             .map((list) => list.map((c) => c.toJson()).toList())
             .toList(),
       });
@@ -401,9 +455,11 @@ class AppState extends ChangeNotifier {
             .toList();
 
         final allCourses = (j['allCourses'] as List)
-            .map((list) => (list as List)
-                .map((e) => Course.fromJson(e as Map<String, dynamic>))
-                .toList())
+            .map(
+              (list) => (list as List)
+                  .map((e) => Course.fromJson(e as Map<String, dynamic>))
+                  .toList(),
+            )
             .toList();
 
         // 兼容旧数据：优先读 allTimeTables，否则从 customTimes 迁移
@@ -414,26 +470,31 @@ class AppState extends ChangeNotifier {
               .toList();
         } else if (j['customTimes'] != null) {
           final rawTimes = j['customTimes'] as List;
-          final times = rawTimes.map((row) => (row as List).cast<String>()).toList();
+          final times = rawTimes
+              .map((row) => (row as List).cast<String>())
+              .toList();
           allTimeTables = [TimeTableConfig(name: '默认', times: times)];
         } else {
-          allTimeTables = [TimeTableConfig(
-            name: '默认',
-            times: kTimeSlots.map((s) => [s.start, s.end]).toList(),
-          )];
+          allTimeTables = [
+            TimeTableConfig(
+              name: '默认',
+              times: kTimeSlots.map((s) => [s.start, s.end]).toList(),
+            ),
+          ];
         }
 
         return AppState(
-          allTimeTables:        allTimeTables,
+          allTimeTables: allTimeTables,
           activeTimeTableIndex: j['activeTimeTableIndex'] as int? ?? 0,
-          initialCourses:      [],
+          initialCourses: [],
           activeScheduleIndex: j['activeScheduleIndex'] as int? ?? 0,
-          allConfigs:          allConfigs,
-          showWeekend:         j['showWeekend'] as bool? ?? true,
-          showNonWeek:         j['showNonWeek'] as bool? ?? true,
-          showSection:         j['showSection'] as bool? ?? true,
-          isDarkMode:          j['isDarkMode'] as bool? ?? false,
-          themeColorValue:     j['themeColorValue'] as int?,
+          allConfigs: allConfigs,
+          showWeekend: j['showWeekend'] as bool? ?? true,
+          showNonWeek: j['showNonWeek'] as bool? ?? true,
+          showSection: j['showSection'] as bool? ?? true,
+          isDarkMode: j['isDarkMode'] as bool? ?? false,
+          localeMode: j['localeMode'] as String? ?? kLocaleModeSystem,
+          themeColorValue: j['themeColorValue'] as int?,
         ).._loadedCourses(allCourses);
       }
     } catch (e) {
@@ -445,10 +506,10 @@ class AppState extends ChangeNotifier {
       activeScheduleIndex: 0,
       allConfigs: [
         ScheduleConfig(
-          name:           '新建课表',
-          firstWeekDay:   DateTime(DateTime.now().year, 9, 1),
+          name: '新建课表',
+          firstWeekDay: DateTime(DateTime.now().year, 9, 1),
           sectionsPerDay: 20,
-          totalWeeks:     20,
+          totalWeeks: 20,
         ),
       ],
     );
@@ -463,7 +524,11 @@ class AppState extends ChangeNotifier {
 
 // InheritedWidget 透传 AppState
 class AppStateScope extends InheritedNotifier<AppState> {
-  const AppStateScope({super.key, required super.notifier, required super.child});
+  const AppStateScope({
+    super.key,
+    required super.notifier,
+    required super.child,
+  });
 
   static AppState of(BuildContext context) {
     final scope = context.dependOnInheritedWidgetOfExactType<AppStateScope>();
@@ -503,28 +568,37 @@ class CourseSlot {
   });
 
   int get span => (endSection - startSection + 1).clamp(1, 20);
-  List<int> get weeks => List.generate(endWeek - startWeek + 1, (i) => startWeek + i);
+  List<int> get weeks =>
+      List.generate(endWeek - startWeek + 1, (i) => startWeek + i);
 
-  CourseSlot copyWith({int? day, int? startSection, int? endSection, int? startWeek, int? endWeek}) =>
-      CourseSlot(
-        day:          day          ?? this.day,
-        startSection: startSection ?? this.startSection,
-        endSection:   endSection   ?? this.endSection,
-        startWeek:    startWeek    ?? this.startWeek,
-        endWeek:      endWeek      ?? this.endWeek,
-      );
+  CourseSlot copyWith({
+    int? day,
+    int? startSection,
+    int? endSection,
+    int? startWeek,
+    int? endWeek,
+  }) => CourseSlot(
+    day: day ?? this.day,
+    startSection: startSection ?? this.startSection,
+    endSection: endSection ?? this.endSection,
+    startWeek: startWeek ?? this.startWeek,
+    endWeek: endWeek ?? this.endWeek,
+  );
 
   Map<String, dynamic> toJson() => {
-    'day': day, 'startSection': startSection, 'endSection': endSection,
-    'startWeek': startWeek, 'endWeek': endWeek,
+    'day': day,
+    'startSection': startSection,
+    'endSection': endSection,
+    'startWeek': startWeek,
+    'endWeek': endWeek,
   };
 
   factory CourseSlot.fromJson(Map<String, dynamic> j) => CourseSlot(
-    day:          j['day'] as int,
+    day: j['day'] as int,
     startSection: j['startSection'] as int,
-    endSection:   j['endSection'] as int? ?? j['startSection'] as int,
-    startWeek:    j['startWeek'] as int? ?? 1,
-    endWeek:      j['endWeek'] as int? ?? 18,
+    endSection: j['endSection'] as int? ?? j['startSection'] as int,
+    startWeek: j['startWeek'] as int? ?? 1,
+    endWeek: j['endWeek'] as int? ?? 18,
   );
 }
 
@@ -551,9 +625,13 @@ class Course {
 
   /// 所有时间段（主 + 附加），供网格渲染遍历
   List<CourseSlot> get allSlots => [
-    CourseSlot(day: day, startSection: startSection,
-        endSection: startSection + span - 1,
-        startWeek: startWeek, endWeek: endWeek),
+    CourseSlot(
+      day: day,
+      startSection: startSection,
+      endSection: startSection + span - 1,
+      startWeek: startWeek,
+      endWeek: endWeek,
+    ),
     ...extraSlots,
   ];
 
@@ -577,45 +655,46 @@ class Course {
   });
 
   Map<String, dynamic> toJson() => {
-    'id':           id,
-    'name':         name,
-    'location':     location,
-    'teacher':      teacher,
-    'credit':       credit,
-    'note':         note,
-    'day':          day,
+    'id': id,
+    'name': name,
+    'location': location,
+    'teacher': teacher,
+    'credit': credit,
+    'note': note,
+    'day': day,
     'startSection': startSection,
-    'span':         span,
-    'colorIdx':     colorIdx,
-    'customColor':  customColor?.value,
-    'isNonWeek':    isNonWeek,
-    'weeks':        weeks,
-    'startWeek':    startWeek,
-    'endWeek':      endWeek,
-    'extraSlots':   extraSlots.map((s) => s.toJson()).toList(),
+    'span': span,
+    'colorIdx': colorIdx,
+    'customColor': customColor?.value,
+    'isNonWeek': isNonWeek,
+    'weeks': weeks,
+    'startWeek': startWeek,
+    'endWeek': endWeek,
+    'extraSlots': extraSlots.map((s) => s.toJson()).toList(),
   };
 
   factory Course.fromJson(Map<String, dynamic> j) => Course(
-    id:           j['id'] as int,
-    name:         j['name'] as String,
-    location:     j['location'] as String? ?? '',
-    teacher:      j['teacher'] as String? ?? '',
-    credit:       j['credit'] as String? ?? '',
-    note:         j['note'] as String? ?? '',
-    day:          j['day'] as int,
+    id: j['id'] as int,
+    name: j['name'] as String,
+    location: j['location'] as String? ?? '',
+    teacher: j['teacher'] as String? ?? '',
+    credit: j['credit'] as String? ?? '',
+    note: j['note'] as String? ?? '',
+    day: j['day'] as int,
     startSection: j['startSection'] as int,
-    span:         j['span'] as int,
-    colorIdx:     j['colorIdx'] as int? ?? 0,
-    customColor:  j['customColor'] != null ? Color(j['customColor'] as int) : null,
-    isNonWeek:    j['isNonWeek'] as bool? ?? false,
-    weeks:        (j['weeks'] as List).cast<int>(),
-    startWeek:    j['startWeek'] as int? ?? 1,
-    endWeek:      j['endWeek'] as int? ?? 18,
-    extraSlots:   (j['extraSlots'] as List? ?? [])
+    span: j['span'] as int,
+    colorIdx: j['colorIdx'] as int? ?? 0,
+    customColor: j['customColor'] != null
+        ? Color(j['customColor'] as int)
+        : null,
+    isNonWeek: j['isNonWeek'] as bool? ?? false,
+    weeks: (j['weeks'] as List).cast<int>(),
+    startWeek: j['startWeek'] as int? ?? 1,
+    endWeek: j['endWeek'] as int? ?? 18,
+    extraSlots: (j['extraSlots'] as List? ?? [])
         .map((e) => CourseSlot.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
-
 }
 
 // ─────────────────────────────────────────────
@@ -625,15 +704,15 @@ class Course {
 const double kSlotHeight = 68.0;
 
 const List<TimeSlot> kTimeSlots = [
-  TimeSlot(1,  '08:00', '08:45'),
-  TimeSlot(2,  '08:55', '09:40'),
-  TimeSlot(3,  '10:10', '10:55'),
-  TimeSlot(4,  '11:05', '11:50'),
-  TimeSlot(5,  '14:00', '14:45'),
-  TimeSlot(6,  '14:50', '15:35'),
-  TimeSlot(7,  '15:55', '16:40'),
-  TimeSlot(8,  '16:45', '17:30'),
-  TimeSlot(9,  '18:30', '19:15'),
+  TimeSlot(1, '08:00', '08:45'),
+  TimeSlot(2, '08:55', '09:40'),
+  TimeSlot(3, '10:10', '10:55'),
+  TimeSlot(4, '11:05', '11:50'),
+  TimeSlot(5, '14:00', '14:45'),
+  TimeSlot(6, '14:50', '15:35'),
+  TimeSlot(7, '15:55', '16:40'),
+  TimeSlot(8, '16:45', '17:30'),
+  TimeSlot(9, '18:30', '19:15'),
   TimeSlot(10, '19:20', '20:05'),
   TimeSlot(11, '20:15', '21:00'),
   TimeSlot(12, '21:05', '21:50'),
@@ -648,8 +727,9 @@ const List<TimeSlot> kTimeSlots = [
 ];
 
 // 默认20节时间表（供重置使用）
-final List<List<String>> kDefaultTimes =
-    kTimeSlots.map((s) => [s.start, s.end]).toList();
+final List<List<String>> kDefaultTimes = kTimeSlots
+    .map((s) => [s.start, s.end])
+    .toList();
 
 const List<Color> kCourseColors = [
   Color(0xFF7BB8F0),
@@ -668,20 +748,162 @@ final List<int> kAllWeeks = List.generate(20, (i) => i + 1);
 final List<int> kEvenWeeks = [2, 4, 6, 8, 10, 12, 14, 16];
 
 final List<Course> kInitialCourses = [
-  Course(id: 1,  name: '蛋白质组学',       location: '东十二楼 F101', day: 1, startSection: 1, span: 2, colorIdx: 0, weeks: kAllWeeks),
-  Course(id: 2,  name: '大三-腰旗橄榄球 下', location: '东校区操场',   day: 3, startSection: 1, span: 2, colorIdx: 1, weeks: kAllWeeks),
-  Course(id: 3,  name: '基因组学',         location: '东十二楼 212',  day: 5, startSection: 1, span: 2, colorIdx: 1, weeks: kAllWeeks),
-  Course(id: 4,  name: '人工智能微生物组学', location: '东十二楼 313',  day: 2, startSection: 3, span: 2, colorIdx: 0, isNonWeek: true, weeks: kEvenWeeks),
-  Course(id: 5,  name: '基因组学',         location: '东十二楼 212',  day: 3, startSection: 3, span: 2, colorIdx: 1, weeks: kAllWeeks),
-  Course(id: 6,  name: '人工智能微生物组学', location: '东十二楼 313',  day: 4, startSection: 3, span: 2, colorIdx: 0, isNonWeek: true, weeks: kEvenWeeks),
-  Course(id: 7,  name: '生物信息数据挖掘',   location: '东十二楼 212',  day: 5, startSection: 3, span: 2, colorIdx: 2, weeks: kAllWeeks),
-  Course(id: 8,  name: '蛋白质组学',       location: '东十二楼 F101', day: 3, startSection: 5, span: 2, colorIdx: 0, weeks: kAllWeeks),
-  Course(id: 9,  name: '代谢组学',         location: '东十二楼 114',  day: 5, startSection: 5, span: 2, colorIdx: 1, isNonWeek: true, weeks: kEvenWeeks),
-  Course(id: 10, name: '系统生物学实验',     location: '东十二楼 520',  day: 6, startSection: 5, span: 2, colorIdx: 7, isNonWeek: true, weeks: kEvenWeeks),
-  Course(id: 11, name: '系统生物学实验',     location: '东十二楼 520',  day: 7, startSection: 5, span: 2, colorIdx: 7, isNonWeek: true, weeks: kEvenWeeks),
-  Course(id: 12, name: '化学与生物传感器',   location: '',             day: 1, startSection: 7, span: 2, colorIdx: 0, isNonWeek: true, weeks: kEvenWeeks),
-  Course(id: 13, name: '生物信息数据挖掘',   location: '东十二楼 212',  day: 2, startSection: 7, span: 2, colorIdx: 2, weeks: kAllWeeks),
-  Course(id: 14, name: '形势与政策',        location: '东九楼 D306',   day: 4, startSection: 7, span: 2, colorIdx: 3, isNonWeek: true, weeks: kEvenWeeks),
-  Course(id: 15, name: '生物信息数据挖掘',   location: '',             day: 3, startSection: 9, span: 2, colorIdx: 2, isNonWeek: true, weeks: kEvenWeeks),
+  Course(
+    id: 1,
+    name: '蛋白质组学',
+    location: '东十二楼 F101',
+    day: 1,
+    startSection: 1,
+    span: 2,
+    colorIdx: 0,
+    weeks: kAllWeeks,
+  ),
+  Course(
+    id: 2,
+    name: '大三-腰旗橄榄球 下',
+    location: '东校区操场',
+    day: 3,
+    startSection: 1,
+    span: 2,
+    colorIdx: 1,
+    weeks: kAllWeeks,
+  ),
+  Course(
+    id: 3,
+    name: '基因组学',
+    location: '东十二楼 212',
+    day: 5,
+    startSection: 1,
+    span: 2,
+    colorIdx: 1,
+    weeks: kAllWeeks,
+  ),
+  Course(
+    id: 4,
+    name: '人工智能微生物组学',
+    location: '东十二楼 313',
+    day: 2,
+    startSection: 3,
+    span: 2,
+    colorIdx: 0,
+    isNonWeek: true,
+    weeks: kEvenWeeks,
+  ),
+  Course(
+    id: 5,
+    name: '基因组学',
+    location: '东十二楼 212',
+    day: 3,
+    startSection: 3,
+    span: 2,
+    colorIdx: 1,
+    weeks: kAllWeeks,
+  ),
+  Course(
+    id: 6,
+    name: '人工智能微生物组学',
+    location: '东十二楼 313',
+    day: 4,
+    startSection: 3,
+    span: 2,
+    colorIdx: 0,
+    isNonWeek: true,
+    weeks: kEvenWeeks,
+  ),
+  Course(
+    id: 7,
+    name: '生物信息数据挖掘',
+    location: '东十二楼 212',
+    day: 5,
+    startSection: 3,
+    span: 2,
+    colorIdx: 2,
+    weeks: kAllWeeks,
+  ),
+  Course(
+    id: 8,
+    name: '蛋白质组学',
+    location: '东十二楼 F101',
+    day: 3,
+    startSection: 5,
+    span: 2,
+    colorIdx: 0,
+    weeks: kAllWeeks,
+  ),
+  Course(
+    id: 9,
+    name: '代谢组学',
+    location: '东十二楼 114',
+    day: 5,
+    startSection: 5,
+    span: 2,
+    colorIdx: 1,
+    isNonWeek: true,
+    weeks: kEvenWeeks,
+  ),
+  Course(
+    id: 10,
+    name: '系统生物学实验',
+    location: '东十二楼 520',
+    day: 6,
+    startSection: 5,
+    span: 2,
+    colorIdx: 7,
+    isNonWeek: true,
+    weeks: kEvenWeeks,
+  ),
+  Course(
+    id: 11,
+    name: '系统生物学实验',
+    location: '东十二楼 520',
+    day: 7,
+    startSection: 5,
+    span: 2,
+    colorIdx: 7,
+    isNonWeek: true,
+    weeks: kEvenWeeks,
+  ),
+  Course(
+    id: 12,
+    name: '化学与生物传感器',
+    location: '',
+    day: 1,
+    startSection: 7,
+    span: 2,
+    colorIdx: 0,
+    isNonWeek: true,
+    weeks: kEvenWeeks,
+  ),
+  Course(
+    id: 13,
+    name: '生物信息数据挖掘',
+    location: '东十二楼 212',
+    day: 2,
+    startSection: 7,
+    span: 2,
+    colorIdx: 2,
+    weeks: kAllWeeks,
+  ),
+  Course(
+    id: 14,
+    name: '形势与政策',
+    location: '东九楼 D306',
+    day: 4,
+    startSection: 7,
+    span: 2,
+    colorIdx: 3,
+    isNonWeek: true,
+    weeks: kEvenWeeks,
+  ),
+  Course(
+    id: 15,
+    name: '生物信息数据挖掘',
+    location: '',
+    day: 3,
+    startSection: 9,
+    span: 2,
+    colorIdx: 2,
+    isNonWeek: true,
+    weeks: kEvenWeeks,
+  ),
 ];
-

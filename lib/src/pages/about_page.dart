@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common_widgets.dart';
+import '../l10n.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    const version = '0.0.1 (Beta)';
+
     return SubPageScaffold(
-      title: '关于',
+      title: context.l10n.aboutTitle,
       children: [
         // App Logo 区
         Container(
@@ -29,20 +32,26 @@ class AboutPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              const Text('StayUP课程表', style: TextStyle(color: const Color(0xFF1C1C1E), fontSize: 20, fontWeight: FontWeight.w700)),
+              Text(
+                context.l10n.appName,
+                style: const TextStyle(color: Color(0xFF1C1C1E), fontSize: 20, fontWeight: FontWeight.w700),
+              ),
               const SizedBox(height: 4),
-              const Text('版本 0.0.1 (Beta)', style: TextStyle(color: kHint, fontSize: 13)),
+              Text(
+                context.l10n.appVersionLabel(version),
+                style: const TextStyle(color: kHint, fontSize: 13),
+              ),
             ],
           ),
         ),
         settingCard(context, [
-          const SettingRow(
-            label: '版本号',
-            trailing: Text('0.0.1 (Beta)', style: TextStyle(color: kHint, fontSize: 14)),
+          SettingRow(
+            label: context.l10n.versionNumber,
+            trailing: const Text('0.0.1 (Beta)', style: TextStyle(color: kHint, fontSize: 14)),
             showDivider: true,
           ),
           SettingRow(
-            label: '开发者',
+            label: context.l10n.developer,
             trailing: const Row(mainAxisSize: MainAxisSize.min, children: [
               Text('Shiroko114514', style: TextStyle(color: kHint, fontSize: 14)),
               SizedBox(width: 4),
@@ -56,23 +65,23 @@ class AboutPage extends StatelessWidget {
               }
             },
           ),
-          const SettingRow(
-            label: '开源协议',
+          SettingRow(
+            label: context.l10n.openSourceLicense,
             trailing: Text('MIT License', style: TextStyle(color: kHint, fontSize: 14)),
             showDivider: true,
           ),
-          const SettingRow(
-            label: '检查更新',
+          SettingRow(
+            label: context.l10n.checkUpdate,
             showDivider: false,
-            trailing: Text('已是最新', style: TextStyle(color: Color(0xFF4ECDC4), fontSize: 14)),
+            trailing: Text(context.l10n.alreadyLatest, style: const TextStyle(color: Color(0xFF4ECDC4), fontSize: 14)),
           ),
         ]),
         const SizedBox(height: 16),
-        const Center(
+        Center(
           child: Text(
-            '© 2026 Shiroko114514\n因一时兴起而制作的课程表，也希望能陪你走过很多节课',
+            context.l10n.aboutFooter,
             textAlign: TextAlign.center,
-            style: TextStyle(color: kHint, fontSize: 12, height: 1.8),
+            style: const TextStyle(color: kHint, fontSize: 12, height: 1.8),
           ),
         ),
       ],

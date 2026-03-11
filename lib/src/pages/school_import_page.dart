@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../common_widgets.dart';
+import '../l10n.dart';
 
 part 'widgets/school_import_widgets.dart';
+
+class _SchoolEntry {
+  final String id;
+  final String pinyin;
+  const _SchoolEntry({required this.id, required this.pinyin});
+}
 
 class SchoolImportPage extends StatefulWidget {
   const SchoolImportPage({super.key});
@@ -11,22 +18,42 @@ class SchoolImportPage extends StatefulWidget {
 }
 
 class _SchoolImportPageState extends State<SchoolImportPage> {
-  // 支持的学校列表（拼音首字母 → 显示名称）
-  static const List<Map<String, String>> _allSchools = [
-    {'name': '华中科技大学', 'pinyin': 'H'},
-    {'name': '江西师范大学', 'pinyin': 'J'},
-    {'name': '上海交通大学', 'pinyin': 'S'},
-    {'name': '武汉大学',     'pinyin': 'W'},
-    {'name': '香港中文大学（深圳）', 'pinyin': 'X'},
-    {'name': '中国人民大学', 'pinyin': 'Z'},
+  // 支持的学校列表（分组字母由拼音首字母固定）
+  static const List<_SchoolEntry> _allSchools = [
+    _SchoolEntry(id: 'hust', pinyin: 'H'),
+    _SchoolEntry(id: 'jxnu', pinyin: 'J'),
+    _SchoolEntry(id: 'sjtu', pinyin: 'S'),
+    _SchoolEntry(id: 'whu', pinyin: 'W'),
+    _SchoolEntry(id: 'cuhksz', pinyin: 'X'),
+    _SchoolEntry(id: 'ruc', pinyin: 'Z'),
   ];
+
+  String _schoolName(BuildContext context, String id) {
+    final l10n = context.l10n;
+    switch (id) {
+      case 'hust':
+        return l10n.schoolHust;
+      case 'jxnu':
+        return l10n.schoolJxnu;
+      case 'sjtu':
+        return l10n.schoolSjtu;
+      case 'whu':
+        return l10n.schoolWhu;
+      case 'cuhksz':
+        return l10n.schoolCuhksz;
+      case 'ruc':
+        return l10n.schoolRuc;
+      default:
+        return id;
+    }
+  }
 
   // 按首字母分组
   static Map<String, List<String>> get _grouped {
     final map = <String, List<String>>{};
     for (final s in _allSchools) {
-      final letter = s['pinyin']!;
-      map.putIfAbsent(letter, () => []).add(s['name']!);
+      final letter = s.pinyin;
+      map.putIfAbsent(letter, () => []).add(s.id);
     }
     return map;
   }
@@ -51,7 +78,9 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
     for (final l in _letters) {
       _sectionKeys[l] = GlobalKey();
     }
-    _searchCtrl.addListener(() => setState(() => _query = _searchCtrl.text.trim()));
+    _searchCtrl.addListener(
+      () => setState(() => _query = _searchCtrl.text.trim()),
+    );
   }
 
   @override
@@ -62,17 +91,19 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
   }
 
   // 过滤结果
-  List<Map<String, String>> get _filtered {
+  List<_SchoolEntry> get _filtered {
     if (_query.isEmpty) return _allSchools;
-    return _allSchools.where((s) => s['name']!.contains(_query)).toList();
+    return _allSchools
+        .where((s) => _schoolName(context, s.id).contains(_query))
+        .toList();
   }
 
   // 按字母分组（过滤后）
   Map<String, List<String>> get _filteredGrouped {
     final map = <String, List<String>>{};
     for (final s in _filtered) {
-      final letter = s['pinyin']!;
-      map.putIfAbsent(letter, () => []).add(s['name']!);
+      final letter = s.pinyin;
+      map.putIfAbsent(letter, () => []).add(s.id);
     }
     return map;
   }
@@ -108,19 +139,41 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
       builder: (_) => AlertDialog(
         backgroundColor: ac(context).card,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        title: Row(children: [
-          const Icon(Icons.school_outlined, color: Color(0xFF6C6C70), size: 20),
-          const SizedBox(width: 8),
-          Expanded(child: Text(name, style: const TextStyle(color: const Color(0xFF1C1C1E), fontSize: 16, fontWeight: FontWeight.w600))),
-        ]),
-        content: const Text(
-          '该学校的课程导入功能正在开发中，敬请期待。',
-          style: TextStyle(color: Color(0xFF6C6C70), fontSize: 14, height: 1.5),
+        title: Row(
+          children: [
+            const Icon(
+              Icons.school_outlined,
+              color: Color(0xFF6C6C70),
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                name,
+                style: const TextStyle(
+                  color: const Color(0xFF1C1C1E),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          context.l10n.schoolImportWipMessage,
+          style: const TextStyle(
+            color: Color(0xFF6C6C70),
+            fontSize: 14,
+            height: 1.5,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('好的', style: TextStyle(color: Color(0xFFFF3B5C), fontSize: 15)),
+            child: Text(
+              context.l10n.okAction,
+              style: const TextStyle(color: Color(0xFFFF3B5C), fontSize: 15),
+            ),
           ),
         ],
       ),
@@ -145,9 +198,15 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: const Padding(
-                      padding: EdgeInsets.only(right: 12),
-                      child: Text('返回', style: TextStyle(color: Color(0xFFFF3B5C), fontSize: 16)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Text(
+                        context.l10n.backAction,
+                        style: const TextStyle(
+                          color: Color(0xFFFF3B5C),
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -159,13 +218,25 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
                       ),
                       child: TextField(
                         controller: _searchCtrl,
-                        style: const TextStyle(color: const Color(0xFF1C1C1E), fontSize: 15),
-                        decoration: const InputDecoration(
-                          hintText: '搜索学校',
-                          hintStyle: TextStyle(color: Color(0xFF6C6C70), fontSize: 15),
-                          prefixIcon: Icon(Icons.search, color: Color(0xFF6C6C70), size: 20),
+                        style: const TextStyle(
+                          color: const Color(0xFF1C1C1E),
+                          fontSize: 15,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: context.l10n.searchSchoolHint,
+                          hintStyle: const TextStyle(
+                            color: Color(0xFF6C6C70),
+                            fontSize: 15,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: Color(0xFF6C6C70),
+                            size: 20,
+                          ),
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(vertical: 10),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                          ),
                         ),
                       ),
                     ),
@@ -175,11 +246,11 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
             ),
 
             // ── 提示文字 ──
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 4, 20, 12),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
               child: Text(
-                '在搜索框输入学校全称以快速定位',
-                style: TextStyle(color: Color(0xFF6C6C70), fontSize: 13),
+                context.l10n.schoolImportTip,
+                style: const TextStyle(color: Color(0xFF6C6C70), fontSize: 13),
               ),
             ),
 
@@ -191,7 +262,10 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
                   ListView.builder(
                     controller: _scrollCtrl,
                     padding: const EdgeInsets.only(right: 28, bottom: 20),
-                    itemCount: letters.fold<int>(0, (sum, l) => sum + 1 + grouped[l]!.length),
+                    itemCount: letters.fold<int>(
+                      0,
+                      (sum, l) => sum + 1 + grouped[l]!.length,
+                    ),
                     itemBuilder: (context, index) {
                       // 映射 index → section header 或 item
                       int cursor = 0;
@@ -204,7 +278,7 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
                         final items = grouped[letter]!;
                         if (index < cursor + items.length) {
                           final itemIdx = index - cursor;
-                          final name = items[itemIdx];
+                          final name = _schoolName(context, items[itemIdx]);
                           final isLast = itemIdx == items.length - 1;
                           return _SchoolRow(
                             name: name,
