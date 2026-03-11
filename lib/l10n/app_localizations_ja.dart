@@ -99,10 +99,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get languageFollowSystem => 'システム設定に従う';
 
   @override
-  String get languageForceChinese => '中国語に固定';
+  String get languageForceChineseSimplified => '簡体字中国語に固定';
+
+  @override
+  String get languageForceChineseTraditional => '繁体字中国語に固定';
 
   @override
   String get languageForceEnglish => '英語に固定';
+
+  @override
+  String get languageForceJapanese => '日本語に固定';
 
   @override
   String get manageScheduleTitle => '時間割管理';

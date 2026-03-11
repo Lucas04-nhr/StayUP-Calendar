@@ -100,10 +100,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageFollowSystem => 'Follow System';
 
   @override
-  String get languageForceChinese => 'Force Chinese';
+  String get languageForceChineseSimplified => 'Force Simplified Chinese';
+
+  @override
+  String get languageForceChineseTraditional => 'Force Traditional Chinese';
 
   @override
   String get languageForceEnglish => 'Force English';
+
+  @override
+  String get languageForceJapanese => 'Force Japanese';
 
   @override
   String get manageScheduleTitle => 'Manage Schedules';
