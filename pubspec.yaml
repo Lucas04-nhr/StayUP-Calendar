@@ -2,7 +2,7 @@ name: stayup
 description: "A new Flutter project."
 publish_to: "none"
 
-version: 1.0.0+1
+version: 0.1.0-aa0576d+2
 
 environment:
   sdk: ^3.11.1
@@ -16,6 +16,7 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.3.0
   url_launcher: ^6.3.0
+  package_info_plus: ^8.0.2
 
 dev_dependencies:
   flutter_test:

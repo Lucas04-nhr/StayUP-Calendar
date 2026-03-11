@@ -1,21 +1,43 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common_widgets.dart';
 import '../l10n.dart';
 
-class AboutPage extends StatelessWidget {
+class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const version = '0.0.1 (Beta)';
+  State<AboutPage> createState() => _AboutPageState();
+}
 
-    return SubPageScaffold(
-      title: context.l10n.aboutTitle,
-      children: [
+class _AboutPageState extends State<AboutPage> {
+  late final Future<PackageInfo> _packageInfoFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _packageInfoFuture = PackageInfo.fromPlatform();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<PackageInfo>(
+      future: _packageInfoFuture,
+      builder: (context, snapshot) {
+        final info = snapshot.data;
+        final version = info == null
+            ? '--'
+            : info.buildNumber.isEmpty
+            ? info.version
+            : '${info.version}+${info.buildNumber}';
+
+        return SubPageScaffold(
+          title: context.l10n.aboutTitle,
+          children: [
         // App Logo 区
         Container(
           width: double.infinity,
@@ -47,7 +69,7 @@ class AboutPage extends StatelessWidget {
         settingCard(context, [
           SettingRow(
             label: context.l10n.versionNumber,
-            trailing: const Text('0.2.0', style: TextStyle(color: kHint, fontSize: 14)),
+            trailing: Text(version, style: const TextStyle(color: kHint, fontSize: 14)),
             showDivider: true,
           ),
           SettingRow(
@@ -99,7 +121,9 @@ class AboutPage extends StatelessWidget {
             style: const TextStyle(color: kHint, fontSize: 12, height: 1.8),
           ),
         ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
