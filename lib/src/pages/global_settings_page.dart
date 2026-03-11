@@ -147,67 +147,69 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
       children: [
         settingCard(context, [
           SettingRow(
-            label: context.l10n.darkMode,
-            trailing: Switch(
-              value: appState.isDarkMode,
-              onChanged: (v) => appState.updateDarkMode(v),
-              activeColor: const Color(0xFF4ECDC4),
-            ),
+        label: context.l10n.darkMode,
+        trailing: Switch(
+          value: appState.isDarkMode,
+          onChanged: (v) => appState.updateDarkMode(v),
+          activeColor: const Color(0xFF4ECDC4),
+        ),
           ),
           SettingRow(
-            label: context.l10n.languageSettingLabel,
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  _localeModeLabel(context, appState.localeMode),
-                  style: const TextStyle(color: kHint, fontSize: 13),
-                ),
-                const SizedBox(width: 4),
-                const Icon(Icons.chevron_right, color: kHint, size: 18),
-              ],
+        label: context.l10n.languageSettingLabel,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+          _localeModeLabel(context, appState.localeMode),
+          style: const TextStyle(color: kHint, fontSize: 13),
             ),
-            onTap: () => _showLanguagePicker(context, appState),
+            const SizedBox(width: 4),
+            const Icon(Icons.chevron_right, color: kHint, size: 18),
+          ],
+        ),
+        onTap: () => _showLanguagePicker(context, appState),
           ),
           SettingRow(
-            label: context.l10n.courseReminder,
-            trailing: Switch(
-              value: _notification,
-              onChanged: (v) => _showWip(context),
-              activeColor: const Color(0xFF4ECDC4),
-            ),
+        label: context.l10n.courseReminder,
+        trailing: Switch(
+          value: _notification,
+          onChanged: (v) => _showWip(context),
+          activeColor: const Color(0xFF4ECDC4),
+        ),
           ),
           SettingRow(
-            label: context.l10n.widgetSync,
-            showDivider: false,
-            trailing: Switch(
-              value: _widgetSync,
-              onChanged: (v) => _showWip(context),
-              activeColor: const Color(0xFF4ECDC4),
-            ),
+        label: context.l10n.widgetSync,
+        showDivider: false,
+        trailing: Switch(
+          value: _widgetSync,
+          onChanged: (v) => _showWip(context),
+          activeColor: const Color(0xFF4ECDC4),
+        ),
           ),
         ]),
+        const SizedBox(height: 16),
         settingCard(context, [
           SettingRow(
-            label: context.l10n.setBackgroundFormat,
-            showDivider: false,
-            onTap: () => _showWip(context),
-            trailing: const Icon(Icons.chevron_right, color: kHint, size: 18),
+        label: context.l10n.setBackgroundFormat,
+        showDivider: false,
+        onTap: () => _showWip(context),
+        trailing: const Icon(Icons.chevron_right, color: kHint, size: 18),
           ),
         ]),
+        const SizedBox(height: 16),
         settingCard(context, [
           SettingRow(
-            label: context.l10n.helpUsage,
-            showDivider: false,
-            trailing: const Icon(Icons.open_in_new, color: kHint, size: 16),
-            onTap: () async {
-              final uri = Uri.parse(
-                'https://github.com/Shiroko114514/StayUP-Calendar',
-              );
-              if (await canLaunchUrl(uri)) {
-                await launchUrl(uri, mode: LaunchMode.externalApplication);
-              }
-            },
+        label: context.l10n.helpUsage,
+        showDivider: false,
+        trailing: const Icon(Icons.open_in_new, color: kHint, size: 16),
+        onTap: () async {
+          final uri = Uri.parse(
+            'https://blog.lucas04.top/docs/stayup-calendar/',
+          );
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        },
           ),
         ]),
       ],
