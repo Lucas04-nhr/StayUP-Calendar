@@ -8,10 +8,6 @@ void main() async {
   runApp(const WakeUpApp());
 }
 
-// ─────────────────────────────────────────────
-// 根 App
-// ─────────────────────────────────────────────
-
 class WakeUpApp extends StatefulWidget {
   const WakeUpApp({super.key});
   @override
@@ -140,8 +136,3 @@ class _AppWithTheme extends StatelessWidget {
     );
   }
 }
-
-// ─────────────────────────────────────────────
-// 主页面（有状态）
-// ─────────────────────────────────────────────
-
