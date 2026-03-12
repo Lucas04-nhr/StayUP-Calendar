@@ -1570,12 +1570,13 @@ class _ClassTimePageState extends State<ClassTimePage> {
             children: [
               SizedBox(width: 8),
               Icon(Icons.arrow_back_ios, color: _kAccent, size: 17),
+              Text('上课时间', style: TextStyle(color: _kAccent, fontSize: 15)),
             ],
           ),
         ),
-        leadingWidth: 40,
+        leadingWidth: 88,
         title: const Text(
-          '上课时间',
+          '时间表编辑',
           style: TextStyle(
               color: Color(0xFF1C1C1E),
               fontSize: 17,

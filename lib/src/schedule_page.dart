@@ -84,9 +84,12 @@ class _SchedulePageState extends State<SchedulePage> {
     final totalWeeks  = cfg.totalWeeks;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F4F8),
+      backgroundColor: ac(context).card,
       body: SafeArea(
-        child: Column(
+        bottom: false,
+        child: ColoredBox(
+          color: const Color(0xFFF0F4F8),
+          child: Column(
           children: [
             _Header(
               weekMonday: _currentWeekMonday,
@@ -178,10 +181,10 @@ class _SchedulePageState extends State<SchedulePage> {
             ),
           ],
         ),
+        ),
       ),
     );
   }
-
   // ── 详情底部弹窗 ──
   void _showDetailSheet(BuildContext context, Course course) {
     showModalBottomSheet(
@@ -508,7 +511,9 @@ class _ScheduleGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double totalHeight = customTimes.length * kSlotHeight;
+    final double bottomPadding = MediaQuery.of(context).padding.bottom;
     return SingleChildScrollView(
+      padding: EdgeInsets.only(bottom: bottomPadding),
       child: SizedBox(
         height: totalHeight,
         child: Row(
@@ -1259,4 +1264,3 @@ class _ToolCell extends StatelessWidget {
 // ─────────────────────────────────────────────
 // 添加/编辑课程全屏页（仿 WakeUp 深色风格）
 // ─────────────────────────────────────────────
-
