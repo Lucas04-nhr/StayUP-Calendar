@@ -1,4 +1,4 @@
-## v0.2.0 Release Notes
+## v0.2.2 Release Notes
 
 - Add localization support for zh-CN, zh-HK, en-US and ja-JP.
 - Reconstructed the page file to improve readability and maintainability.
@@ -7,7 +7,7 @@
 
 ---
 
-## v0.2.0 版本更新日志
+## v0.2.2 版本更新日志
 
 - 添加了对 zh-CN、zh-HK、en-US 和 ja-JP 的本地化支持。
 - 重构了页面文件，提高了可读性和可维护性。
