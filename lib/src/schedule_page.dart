@@ -311,7 +311,7 @@ class _Header extends StatelessWidget {
                   ),
                   const SizedBox(width: 6),
                   Text(
-                    '第$currentWeek周',
+                    context.l10n.schedulePageCurrentWeek(currentWeek),
                     style: const TextStyle(fontSize: 12, color: Color(0xFF888888)),
                   ),
                   const SizedBox(width: 6),
