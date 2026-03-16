@@ -80,6 +80,55 @@
   "exportFormatCsv": "CSV",
   "searchSchoolHint": "搜尋學校",
   "schoolImportTip": "在搜尋框輸入學校全稱以快速定位",
+  "schoolImportMoreSchools": "更多高校正在適配中",
+  "schoolImportNoticeTitle": "注意事項",
+  "schoolImportParseDoneTitle": "解析完成",
+  "schoolImportParseDoneMessage": "共解析到 {count} 門課程，是否新建課表並導入？",
+  "@schoolImportParseDoneMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "schoolImportAction": "導入",
+  "schoolImportSuccess": "已新建課表並導入 {count} 門課程",
+  "@schoolImportSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "schoolImportErrorTitle": "錯誤",
+  "schoolImportParsing": "解析中...",
+  "schoolImportScheduleAction": "導入課表",
+  "schoolImportScheduleName": "{school}導入 {month}/{day}",
+  "@schoolImportScheduleName": {
+    "placeholders": {
+      "school": {},
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "hustNoticeText": "1. 若未登入會先跳轉到登入頁，登入後點擊右下角導入按鈕\n\n2. 時間地點為\"待定\"的課程不會導入，請後續手動添加",
+  "hustNeedLoginError": "請先在頁面中完成登入，然後再點擊導入按鈕",
+  "hustApiError": "介面返回異常（code={code}），請重新登入後再試",
+  "@hustApiError": {
+    "placeholders": {
+      "code": {}
+    }
+  },
+  "hustReadFailed": "讀取失敗：{error}",
+  "@hustReadFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "schoolImportWipMessage": "該學校的課程導入功能正在開發中，敬請期待。",
   "schoolHust": "華中科技大學",
   "schoolJxnu": "江西師範大學",

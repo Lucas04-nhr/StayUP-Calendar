@@ -80,6 +80,55 @@
   "exportFormatCsv": "CSV",
   "searchSchoolHint": "搜索学校",
   "schoolImportTip": "在搜索框输入学校全称以快速定位",
+  "schoolImportMoreSchools": "更多高校正在适配中",
+  "schoolImportNoticeTitle": "注意事项",
+  "schoolImportParseDoneTitle": "解析完成",
+  "schoolImportParseDoneMessage": "共解析到 {count} 门课程，是否新建课表并导入？",
+  "@schoolImportParseDoneMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "schoolImportAction": "导入",
+  "schoolImportSuccess": "已新建课表并导入 {count} 门课程",
+  "@schoolImportSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "schoolImportErrorTitle": "错误",
+  "schoolImportParsing": "解析中...",
+  "schoolImportScheduleAction": "导入课表",
+  "schoolImportScheduleName": "{school}导入 {month}/{day}",
+  "@schoolImportScheduleName": {
+    "placeholders": {
+      "school": {},
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "hustNoticeText": "1. 若未登录会先跳转到登录页，登录后点击右下角导入按钮\n\n2. 时间地点为\"待定\"的课程不会导入，请后续手动添加",
+  "hustNeedLoginError": "请先在页面中完成登录，然后再点击导入按钮",
+  "hustApiError": "接口返回异常（code={code}），请重新登录后再试",
+  "@hustApiError": {
+    "placeholders": {
+      "code": {}
+    }
+  },
+  "hustReadFailed": "读取失败：{error}",
+  "@hustReadFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "schoolImportWipMessage": "该学校的课程导入功能正在开发中，敬请期待。",
   "schoolHust": "华中科技大学",
   "schoolJxnu": "江西师范大学",

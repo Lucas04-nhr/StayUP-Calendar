@@ -80,6 +80,55 @@
   "exportFormatCsv": "CSV",
   "searchSchoolHint": "学校を検索",
   "schoolImportTip": "検索ボックスに学校名を入力して素早く見つけられます",
+  "schoolImportMoreSchools": "さらに多くの大学に対応中です",
+  "schoolImportNoticeTitle": "注意事項",
+  "schoolImportParseDoneTitle": "解析完了",
+  "schoolImportParseDoneMessage": "{count} 件の授業を解析しました。新しい時間割を作成してインポートしますか？",
+  "@schoolImportParseDoneMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "schoolImportAction": "インポート",
+  "schoolImportSuccess": "新しい時間割を作成し、{count} 件の授業をインポートしました",
+  "@schoolImportSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "schoolImportErrorTitle": "エラー",
+  "schoolImportParsing": "解析中...",
+  "schoolImportScheduleAction": "時間割をインポート",
+  "schoolImportScheduleName": "{school} インポート {month}/{day}",
+  "@schoolImportScheduleName": {
+    "placeholders": {
+      "school": {},
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "hustNoticeText": "1. 未ログインの場合、先にログインページへ移動します。ログイン後、右下のインポートボタンを押してください。\n\n2. 時間・場所が\"未定\"の授業はインポートされません。後で手動追加してください。",
+  "hustNeedLoginError": "先にページ内でログインしてから、インポートを押してください。",
+  "hustApiError": "API が異常を返しました（code={code}）。再ログインして再試行してください。",
+  "@hustApiError": {
+    "placeholders": {
+      "code": {}
+    }
+  },
+  "hustReadFailed": "読み取りに失敗しました: {error}",
+  "@hustReadFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "schoolImportWipMessage": "この学校の授業インポート機能は現在開発中です。",
   "schoolHust": "華中科技大学",
   "schoolJxnu": "江西師範大学",

@@ -41,8 +41,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get alreadyLatest => '最新です';
 
   @override
-  String get aboutFooter =>
-      '© 2026 StayUP Studio \n思いつきで作った時間割アプリですが、たくさんの授業で役立てば嬉しいです。';
+  String get aboutFooter => '© 2026 StayUP Studio \n思いつきで作った時間割アプリですが、たくさんの授業で役立てば嬉しいです。';
 
   @override
   String get backAction => '戻る';
@@ -102,8 +101,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get languageChangedRestartTitle => '言語を変更しました';
 
   @override
-  String get languageChangedRestartMessage =>
-      '新しい言語を適用するため、アプリを自動終了します。再度起動してください。';
+  String get languageChangedRestartMessage => '新しい言語を適用するため、アプリを自動終了します。再度起動してください。';
 
   @override
   String get languageForceChineseSimplified => '中文（简体）';
@@ -210,6 +208,58 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get schoolImportTip => '検索ボックスに学校名を入力して素早く見つけられます';
+
+  @override
+  String get schoolImportMoreSchools => 'さらに多くの大学に対応中です';
+
+  @override
+  String get schoolImportNoticeTitle => '注意事項';
+
+  @override
+  String get schoolImportParseDoneTitle => '解析完了';
+
+  @override
+  String schoolImportParseDoneMessage(int count) {
+    return '$count 件の授業を解析しました。新しい時間割を作成してインポートしますか？';
+  }
+
+  @override
+  String get schoolImportAction => 'インポート';
+
+  @override
+  String schoolImportSuccess(int count) {
+    return '新しい時間割を作成し、$count 件の授業をインポートしました';
+  }
+
+  @override
+  String get schoolImportErrorTitle => 'エラー';
+
+  @override
+  String get schoolImportParsing => '解析中...';
+
+  @override
+  String get schoolImportScheduleAction => '時間割をインポート';
+
+  @override
+  String schoolImportScheduleName(Object school, int month, int day) {
+    return '$school インポート $month/$day';
+  }
+
+  @override
+  String get hustNoticeText => '1. 未ログインの場合、先にログインページへ移動します。ログイン後、右下のインポートボタンを押してください。\n\n2. 時間・場所が\"未定\"の授業はインポートされません。後で手動追加してください。';
+
+  @override
+  String get hustNeedLoginError => '先にページ内でログインしてから、インポートを押してください。';
+
+  @override
+  String hustApiError(Object code) {
+    return 'API が異常を返しました（code=$code）。再ログインして再試行してください。';
+  }
+
+  @override
+  String hustReadFailed(Object error) {
+    return '読み取りに失敗しました: $error';
+  }
 
   @override
   String get schoolImportWipMessage => 'この学校の授業インポート機能は現在開発中です。';

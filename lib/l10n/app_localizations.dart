@@ -63,8 +63,7 @@ import 'app_localizations_zh.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -72,8 +71,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -85,13 +83,12 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -99,7 +96,7 @@ abstract class AppLocalizations {
     Locale('ja'),
     Locale('zh'),
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
-    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant')
   ];
 
   /// No description provided for @appTitle.
@@ -492,6 +489,90 @@ abstract class AppLocalizations {
   /// **'在搜索框输入学校全称以快速定位'**
   String get schoolImportTip;
 
+  /// No description provided for @schoolImportMoreSchools.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'更多高校正在适配中'**
+  String get schoolImportMoreSchools;
+
+  /// No description provided for @schoolImportNoticeTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'注意事项'**
+  String get schoolImportNoticeTitle;
+
+  /// No description provided for @schoolImportParseDoneTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'解析完成'**
+  String get schoolImportParseDoneTitle;
+
+  /// No description provided for @schoolImportParseDoneMessage.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'共解析到 {count} 门课程，是否新建课表并导入？'**
+  String schoolImportParseDoneMessage(int count);
+
+  /// No description provided for @schoolImportAction.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'导入'**
+  String get schoolImportAction;
+
+  /// No description provided for @schoolImportSuccess.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'已新建课表并导入 {count} 门课程'**
+  String schoolImportSuccess(int count);
+
+  /// No description provided for @schoolImportErrorTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'错误'**
+  String get schoolImportErrorTitle;
+
+  /// No description provided for @schoolImportParsing.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'解析中...'**
+  String get schoolImportParsing;
+
+  /// No description provided for @schoolImportScheduleAction.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'导入课表'**
+  String get schoolImportScheduleAction;
+
+  /// No description provided for @schoolImportScheduleName.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'{school}导入 {month}/{day}'**
+  String schoolImportScheduleName(Object school, int month, int day);
+
+  /// No description provided for @hustNoticeText.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'1. 若未登录会先跳转到登录页，登录后点击右下角导入按钮\n\n2. 时间地点为\"待定\"的课程不会导入，请后续手动添加'**
+  String get hustNoticeText;
+
+  /// No description provided for @hustNeedLoginError.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'请先在页面中完成登录，然后再点击导入按钮'**
+  String get hustNeedLoginError;
+
+  /// No description provided for @hustApiError.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'接口返回异常（code={code}），请重新登录后再试'**
+  String hustApiError(Object code);
+
+  /// No description provided for @hustReadFailed.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'读取失败：{error}'**
+  String hustReadFailed(Object error);
+
   /// No description provided for @schoolImportWipMessage.
   ///
   /// In zh_Hans, this message translates to:
@@ -607,8 +688,7 @@ abstract class AppLocalizations {
   String get schedulePageSwitchSchedule;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -617,42 +697,36 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'ja', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'ja', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
   // Lookup logic when language+script codes are specified.
   switch (locale.languageCode) {
-    case 'zh':
-      {
-        switch (locale.scriptCode) {
-          case 'Hans':
-            return AppLocalizationsZhHans();
-          case 'Hant':
-            return AppLocalizationsZhHant();
-        }
-        break;
-      }
+    case 'zh': {
+  switch (locale.scriptCode) {
+    case 'Hans': return AppLocalizationsZhHans();
+case 'Hant': return AppLocalizationsZhHant();
+   }
+  break;
+   }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return AppLocalizationsEn();
-    case 'ja':
-      return AppLocalizationsJa();
-    case 'zh':
-      return AppLocalizationsZh();
+    case 'en': return AppLocalizationsEn();
+    case 'ja': return AppLocalizationsJa();
+    case 'zh': return AppLocalizationsZh();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
+    'that was used.'
   );
 }

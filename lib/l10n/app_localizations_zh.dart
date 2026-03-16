@@ -210,6 +210,58 @@ class AppLocalizationsZh extends AppLocalizations {
   String get schoolImportTip => '在搜索框输入学校全称以快速定位';
 
   @override
+  String get schoolImportMoreSchools => '更多高校正在适配中';
+
+  @override
+  String get schoolImportNoticeTitle => '注意事项';
+
+  @override
+  String get schoolImportParseDoneTitle => '解析完成';
+
+  @override
+  String schoolImportParseDoneMessage(int count) {
+    return '共解析到 $count 门课程，是否新建课表并导入？';
+  }
+
+  @override
+  String get schoolImportAction => '导入';
+
+  @override
+  String schoolImportSuccess(int count) {
+    return '已新建课表并导入 $count 门课程';
+  }
+
+  @override
+  String get schoolImportErrorTitle => '错误';
+
+  @override
+  String get schoolImportParsing => '解析中...';
+
+  @override
+  String get schoolImportScheduleAction => '导入课表';
+
+  @override
+  String schoolImportScheduleName(Object school, int month, int day) {
+    return '$school导入 $month/$day';
+  }
+
+  @override
+  String get hustNoticeText => '1. 若未登录会先跳转到登录页，登录后点击右下角导入按钮\n\n2. 时间地点为\"待定\"的课程不会导入，请后续手动添加';
+
+  @override
+  String get hustNeedLoginError => '请先在页面中完成登录，然后再点击导入按钮';
+
+  @override
+  String hustApiError(Object code) {
+    return '接口返回异常（code=$code），请重新登录后再试';
+  }
+
+  @override
+  String hustReadFailed(Object error) {
+    return '读取失败：$error';
+  }
+
+  @override
   String get schoolImportWipMessage => '该学校的课程导入功能正在开发中，敬请期待。';
 
   @override
@@ -273,7 +325,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
 class AppLocalizationsZhHans extends AppLocalizationsZh {
-  AppLocalizationsZhHans() : super('zh_Hans');
+  AppLocalizationsZhHans(): super('zh_Hans');
 
   @override
   String get appTitle => 'WakeUp 课程表';
@@ -477,6 +529,58 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get schoolImportTip => '在搜索框输入学校全称以快速定位';
 
   @override
+  String get schoolImportMoreSchools => '更多高校正在适配中';
+
+  @override
+  String get schoolImportNoticeTitle => '注意事项';
+
+  @override
+  String get schoolImportParseDoneTitle => '解析完成';
+
+  @override
+  String schoolImportParseDoneMessage(int count) {
+    return '共解析到 $count 门课程，是否新建课表并导入？';
+  }
+
+  @override
+  String get schoolImportAction => '导入';
+
+  @override
+  String schoolImportSuccess(int count) {
+    return '已新建课表并导入 $count 门课程';
+  }
+
+  @override
+  String get schoolImportErrorTitle => '错误';
+
+  @override
+  String get schoolImportParsing => '解析中...';
+
+  @override
+  String get schoolImportScheduleAction => '导入课表';
+
+  @override
+  String schoolImportScheduleName(Object school, int month, int day) {
+    return '$school导入 $month/$day';
+  }
+
+  @override
+  String get hustNoticeText => '1. 若未登录会先跳转到登录页，登录后点击右下角导入按钮\n\n2. 时间地点为\"待定\"的课程不会导入，请后续手动添加';
+
+  @override
+  String get hustNeedLoginError => '请先在页面中完成登录，然后再点击导入按钮';
+
+  @override
+  String hustApiError(Object code) {
+    return '接口返回异常（code=$code），请重新登录后再试';
+  }
+
+  @override
+  String hustReadFailed(Object error) {
+    return '读取失败：$error';
+  }
+
+  @override
   String get schoolImportWipMessage => '该学校的课程导入功能正在开发中，敬请期待。';
 
   @override
@@ -540,7 +644,7 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
 class AppLocalizationsZhHant extends AppLocalizationsZh {
-  AppLocalizationsZhHant() : super('zh_Hant');
+  AppLocalizationsZhHant(): super('zh_Hant');
 
   @override
   String get appTitle => 'WakeUp 課表';
@@ -742,6 +846,58 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get schoolImportTip => '在搜尋框輸入學校全稱以快速定位';
+
+  @override
+  String get schoolImportMoreSchools => '更多高校正在適配中';
+
+  @override
+  String get schoolImportNoticeTitle => '注意事項';
+
+  @override
+  String get schoolImportParseDoneTitle => '解析完成';
+
+  @override
+  String schoolImportParseDoneMessage(int count) {
+    return '共解析到 $count 門課程，是否新建課表並導入？';
+  }
+
+  @override
+  String get schoolImportAction => '導入';
+
+  @override
+  String schoolImportSuccess(int count) {
+    return '已新建課表並導入 $count 門課程';
+  }
+
+  @override
+  String get schoolImportErrorTitle => '錯誤';
+
+  @override
+  String get schoolImportParsing => '解析中...';
+
+  @override
+  String get schoolImportScheduleAction => '導入課表';
+
+  @override
+  String schoolImportScheduleName(Object school, int month, int day) {
+    return '$school導入 $month/$day';
+  }
+
+  @override
+  String get hustNoticeText => '1. 若未登入會先跳轉到登入頁，登入後點擊右下角導入按鈕\n\n2. 時間地點為\"待定\"的課程不會導入，請後續手動添加';
+
+  @override
+  String get hustNeedLoginError => '請先在頁面中完成登入，然後再點擊導入按鈕';
+
+  @override
+  String hustApiError(Object code) {
+    return '介面返回異常（code=$code），請重新登入後再試';
+  }
+
+  @override
+  String hustReadFailed(Object error) {
+    return '讀取失敗：$error';
+  }
 
   @override
   String get schoolImportWipMessage => '該學校的課程導入功能正在開發中，敬請期待。';
