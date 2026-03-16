@@ -1,4 +1,4 @@
-## v0.3.0 Release Notes
+## v0.3.4 Release Notes
 
 - Add support to crawl the course schedule for Huazhong University of Science and Technology.
 - Update minSDK Version on Android to 34 and targetSDK Version to 36.
@@ -9,7 +9,7 @@
 
 ---
 
-## v0.3.0 版本更新日志
+## v0.3.4 版本更新日志
 
 - 添加了对华中科技大学课程表爬取的支持。
 - 更新了 Android 上的 minSDK 版本为 34 和 targetSDK 版本为 36。
@@ -19,7 +19,7 @@
 
 ---
 
-## v0.3.0 版本更新記錄
+## v0.3.4 版本更新記錄
 
 - 新增了對華中科技大学課程表爬取的支持。
 - 將 Android 上的 minSDK 版本更新為 34，targetSDK 版本更新為 36。
@@ -29,7 +29,7 @@
 
 ---
 
-## v0.3.0 リリースノート
+## v0.3.4 リリースノート
 
 - 華中科技大学のコーススケジュールをクロールするサポートを追加しました。
 - アンドロイド の みんSDK バージョン を 34 に、たーげっとSDK バージョンを 36 に更新しました。
