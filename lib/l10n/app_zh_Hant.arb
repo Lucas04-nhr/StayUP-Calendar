@@ -342,5 +342,99 @@
   "courseEditorTimeSlotsLabel": "時間段",
   "courseEditorAddSlotAction": "添加",
   "courseEditorChooseColorTitle": "選擇顏色",
-  "courseEditorAutoPickNoConflict": "自動選色（不與已有課程衝突）"
+  "courseEditorAutoPickNoConflict": "自動選色（不與已有課程衝突）",
+  "scheduleSettingsTitle": "課表設置",
+  "scheduleSettingsDataTitle": "課表資料",
+  "scheduleSettingsAppearanceTitle": "課表外觀",
+  "scheduleSettingsAdjustToolTitle": "調課工具",
+  "scheduleSettingsScheduleNameLabel": "課表名稱",
+  "scheduleSettingsRenameTitle": "修改課表名稱",
+  "scheduleSettingsRenameHint": "請輸入課表名稱",
+  "scheduleSettingsWeekDisplay": "第 {week} 週",
+  "@scheduleSettingsWeekDisplay": {
+    "placeholders": {
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsMoveCourseToast": "已將 {fromDate} 的課程移動到 {toDate}",
+  "@scheduleSettingsMoveCourseToast": {
+    "placeholders": {
+      "fromDate": {},
+      "toDate": {}
+    }
+  },
+  "scheduleSettingsAdjustDescription": "本功能用於節假日調休等場景，可以將某天的課程移動到另一天，請謹慎操作",
+  "scheduleSettingsScheduleToAdjustLabel": "要調整的課表",
+  "scheduleSettingsMoveFrom": "將",
+  "scheduleSettingsMoveCoursesSuffix": "的課程",
+  "scheduleSettingsMoveTo": "移動到",
+  "scheduleSettingsAdjustWarning": "點擊「確定」後操作不可撤銷，請確認日期選擇無誤後再執行。",
+  "scheduleSettingsDeleteCoursesTitle": "刪除課程",
+  "scheduleSettingsDeleteSelectedMessage": "確定刪除已選的 {count} 門課程？",
+  "@scheduleSettingsDeleteSelectedMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsClearScheduleTitle": "清空課表",
+  "scheduleSettingsClearAllMessage": "確定刪除當前課表全部 {count} 門課程？此操作不可恢復。",
+  "@scheduleSettingsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsMoreTitle": "更多",
+  "scheduleSettingsSelectCoursesTitle": "選擇課程",
+  "scheduleSettingsSelectedCount": "已選 {count} 門",
+  "@scheduleSettingsSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsCoursesCount": "共 {count} 門課程",
+  "@scheduleSettingsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsUnselectAll": "取消全選",
+  "scheduleSettingsSelectAll": "全選",
+  "scheduleSettingsNoCourses": "還沒有課程",
+  "scheduleSettingsCourseTimeItem": "週{weekday}  第{start}–{end}節",
+  "@scheduleSettingsCourseTimeItem": {
+    "placeholders": {
+      "weekday": {},
+      "start": {
+        "type": "int"
+      },
+      "end": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsDeleteNamedCourseMessage": "確定刪除「{name}」？",
+  "@scheduleSettingsDeleteNamedCourseMessage": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "scheduleSettingsClearCurrentSchedule": "清空當前課表",
+  "scheduleSettingsDeleteSelectedAction": "刪除 ({count})",
+  "@scheduleSettingsDeleteSelectedAction": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

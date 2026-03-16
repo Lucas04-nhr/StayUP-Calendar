@@ -610,4 +610,114 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get courseEditorAutoPickNoConflict => 'Auto pick (avoid conflicts)';
+
+  @override
+  String get scheduleSettingsTitle => 'Schedule Settings';
+
+  @override
+  String get scheduleSettingsDataTitle => 'Schedule Data';
+
+  @override
+  String get scheduleSettingsAppearanceTitle => 'Schedule Appearance';
+
+  @override
+  String get scheduleSettingsAdjustToolTitle => 'Adjust Tool';
+
+  @override
+  String get scheduleSettingsScheduleNameLabel => 'Schedule Name';
+
+  @override
+  String get scheduleSettingsRenameTitle => 'Rename Schedule';
+
+  @override
+  String get scheduleSettingsRenameHint => 'Enter schedule name';
+
+  @override
+  String scheduleSettingsWeekDisplay(int week) {
+    return 'Week $week';
+  }
+
+  @override
+  String scheduleSettingsMoveCourseToast(Object fromDate, Object toDate) {
+    return 'Moved courses from $fromDate to $toDate';
+  }
+
+  @override
+  String get scheduleSettingsAdjustDescription =>
+      'Move courses from one date to another for schedule adjustment. Please use carefully.';
+
+  @override
+  String get scheduleSettingsScheduleToAdjustLabel => 'Schedule to adjust';
+
+  @override
+  String get scheduleSettingsMoveFrom => 'Move';
+
+  @override
+  String get scheduleSettingsMoveCoursesSuffix => 'courses';
+
+  @override
+  String get scheduleSettingsMoveTo => 'to';
+
+  @override
+  String get scheduleSettingsAdjustWarning =>
+      'This action cannot be undone. Please confirm the selected dates before continuing.';
+
+  @override
+  String get scheduleSettingsDeleteCoursesTitle => 'Delete Courses';
+
+  @override
+  String scheduleSettingsDeleteSelectedMessage(int count) {
+    return 'Delete $count selected courses?';
+  }
+
+  @override
+  String get scheduleSettingsClearScheduleTitle => 'Clear Schedule';
+
+  @override
+  String scheduleSettingsClearAllMessage(int count) {
+    return 'Delete all $count courses in this schedule? This cannot be undone.';
+  }
+
+  @override
+  String get scheduleSettingsMoreTitle => 'More';
+
+  @override
+  String get scheduleSettingsSelectCoursesTitle => 'Select Courses';
+
+  @override
+  String scheduleSettingsSelectedCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String scheduleSettingsCoursesCount(int count) {
+    return '$count courses';
+  }
+
+  @override
+  String get scheduleSettingsUnselectAll => 'Unselect All';
+
+  @override
+  String get scheduleSettingsSelectAll => 'Select All';
+
+  @override
+  String get scheduleSettingsNoCourses => 'No courses yet';
+
+  @override
+  String scheduleSettingsCourseTimeItem(Object weekday, int start, int end) {
+    return '$weekday  $start-$end';
+  }
+
+  @override
+  String scheduleSettingsDeleteNamedCourseMessage(Object name) {
+    return 'Delete \"$name\"?';
+  }
+
+  @override
+  String get scheduleSettingsClearCurrentSchedule => 'Clear Current Schedule';
+
+  @override
+  String scheduleSettingsDeleteSelectedAction(int count) {
+    return 'Delete ($count)';
+  }
 }

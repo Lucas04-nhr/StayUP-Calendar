@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'l10n.dart';
 import 'models.dart';
 import 'common_widgets.dart';
 import 'course_editor.dart';
-
-String _t(BuildContext context, String zh, String en, {String? ja}) {
-  final code = Localizations.localeOf(context).languageCode;
-  if (code == 'zh') return zh;
-  if (code == 'ja') return ja ?? en;
-  return en;
-}
 
 String _weekdayShort(BuildContext context, int weekday) {
   final locale = Localizations.localeOf(context).toLanguageTag();
@@ -23,21 +17,21 @@ class ScheduleSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SubPageScaffold(
-      title: _t(context, '返回', 'Back', ja: '戻る'),
-      centerTitle: _t(context, '课表设置', 'Schedule Settings', ja: '時間割設定'),
+      title: context.l10n.backAction,
+      centerTitle: context.l10n.scheduleSettingsTitle,
       children: [
         settingCard(context, [
           SettingRow(
-            label: _t(context, '课表数据', 'Schedule Data', ja: '時間割データ'),
+            label: context.l10n.scheduleSettingsDataTitle,
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (_) => const ScheduleDataPage())),
           ),
           SettingRow(
-            label: _t(context, '课表外观', 'Schedule Appearance', ja: '時間割の外観'),
+            label: context.l10n.scheduleSettingsAppearanceTitle,
             onTap: () => _showComingSoon(context),
           ),
           SettingRow(
-            label: _t(context, '调课工具', 'Adjust Tool', ja: '振替ツール'),
+            label: context.l10n.scheduleSettingsAdjustToolTitle,
             showDivider: false,
             onTap: () => _showComingSoon(context),
           ),
@@ -55,16 +49,16 @@ class ScheduleSettingsPage extends StatelessWidget {
         title: Row(children: [
           Icon(Icons.lock_outline, color: ac(context).hint, size: 20),
           SizedBox(width: 8),
-          Text(_t(context, '暂未开放', 'Coming Soon', ja: '近日公開'), style: TextStyle(color: ac(context).primaryText, fontSize: 16, fontWeight: FontWeight.w600)),
+          Text(context.l10n.featureInDevelopmentTitle, style: TextStyle(color: ac(context).primaryText, fontSize: 16, fontWeight: FontWeight.w600)),
         ]),
         content: Text(
-          _t(context, '「课表外观」功能正在开发中，敬请期待。', 'This feature is currently under development.', ja: 'この機能は現在開発中です。'),
+          context.l10n.featureInDevelopmentMessage,
           style: TextStyle(color: ac(context).hint, fontSize: 14, height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(_t(context, '好的', 'OK', ja: 'OK'), style: const TextStyle(color: Color(0xFFFF3B5C), fontSize: 15)),
+            child: Text(context.l10n.okAction, style: const TextStyle(color: Color(0xFFFF3B5C), fontSize: 15)),
           ),
         ],
       ),
@@ -99,12 +93,12 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 TextButton(onPressed: () => Navigator.pop(ctx),
-                  child: Text(_t(context, '取消', 'Cancel', ja: 'キャンセル'), style: const TextStyle(color: kAccent))),
+                  child: Text(context.l10n.cancelAction, style: const TextStyle(color: kAccent))),
                 Text(title, style: TextStyle(
                     color: ac(context).primaryText, fontWeight: FontWeight.w600, fontSize: 16)),
                 TextButton(
                     onPressed: () { onPick(tmp); Navigator.pop(ctx); },
-                  child: Text(_t(context, '确定', 'Confirm', ja: '確認'), style: const TextStyle(color: kAccent))),
+                  child: Text(context.l10n.confirmAction, style: const TextStyle(color: kAccent))),
               ]),
             ),
             SizedBox(
@@ -192,11 +186,11 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             const SizedBox(width: 8),
             const Icon(Icons.arrow_back_ios, color: kAccent, size: 17),
-            Text(_t(context, '课表设置', 'Settings', ja: '設定'), style: const TextStyle(color: kAccent, fontSize: 15)),
+            Text(context.l10n.scheduleSettingsTitle, style: const TextStyle(color: kAccent, fontSize: 15)),
           ]),
         ),
         leadingWidth: 100,
-        title: Text(_t(context, '课表数据', 'Schedule Data', ja: '時間割データ'),
+        title: Text(context.l10n.scheduleSettingsDataTitle,
             style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
         centerTitle: true,
       ),
@@ -206,7 +200,7 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
           // ── 基本信息卡 ──
           settingCard(context, [
             SettingRow(
-              label: _t(context, '课表名称', 'Schedule Name', ja: '時間割名'),
+              label: context.l10n.scheduleSettingsScheduleNameLabel,
               trailing: Text(cfg.name, style: TextStyle(color: kHint, fontSize: 15)),
               onTap: () {
                 final ctrl = TextEditingController(text: cfg.name);
@@ -215,14 +209,14 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
                   builder: (ctx) => AlertDialog(
                     backgroundColor: ac(ctx).card,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    title: Text(_t(context, '修改课表名称', 'Rename Schedule', ja: '時間割名を変更'),
+                    title: Text(context.l10n.scheduleSettingsRenameTitle,
                       style: const TextStyle(fontSize: 16)),
                     content: TextField(
                       controller: ctrl,
                       autofocus: true,
                       style: TextStyle(color: ac(context).primaryText),
                       decoration: InputDecoration(
-                        hintText: _t(context, '请输入课表名称', 'Enter schedule name', ja: '時間割名を入力してください'),
+                        hintText: context.l10n.scheduleSettingsRenameHint,
                         hintStyle: TextStyle(color: kHint),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: kAccent)),
@@ -233,24 +227,59 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
                     actions: [
                       TextButton(
                           onPressed: () => Navigator.pop(ctx),
-                          child: Text(_t(context, '取消', 'Cancel', ja: 'キャンセル'), style: TextStyle(color: kHint))),
+                          child: Text(context.l10n.cancelAction, style: TextStyle(color: kHint))),
                       TextButton(
                           onPressed: () {
-                            final name = ctrl.text.trim();
-                            if (name.isNotEmpty) {
-                              AppStateScope.of(context).renameSchedule(
-                                  AppStateScope.of(context).activeScheduleIndex, name);
-                            }
+                            final rawName = ctrl.text.trim();
+                            final name = AppState.normalizeScheduleName(rawName);
+                            final exceeded = AppState.isScheduleNameExceeded(rawName);
                             Navigator.pop(ctx);
+                            if (name.isEmpty) return;
+                            if (exceeded) {
+                              showDialog(
+                                context: context,
+                                builder: (warnCtx) => AlertDialog(
+                                  backgroundColor: ac(warnCtx).card,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  content: const Text(
+                                    '超出限制字符，已经截断',
+                                    style: TextStyle(fontSize: 14, height: 1.5),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        AppStateScope.of(context).renameSchedule(
+                                          AppStateScope.of(context)
+                                              .activeScheduleIndex,
+                                          name,
+                                        );
+                                        Navigator.pop(warnCtx);
+                                      },
+                                      child: const Text(
+                                        '确定',
+                                        style: TextStyle(color: kAccent),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                              return;
+                            }
+                            AppStateScope.of(context).renameSchedule(
+                              AppStateScope.of(context).activeScheduleIndex,
+                              name,
+                            );
                           },
-                          child: Text(_t(context, '确定', 'Confirm', ja: '確認'), style: const TextStyle(color: kAccent))),
+                          child: Text(context.l10n.confirmAction, style: const TextStyle(color: kAccent))),
                     ],
                   ),
                 );
               },
             ),
             SettingRow(
-              label: _t(context, '上课时间', 'Class Time', ja: '授業時間'),
+              label: context.l10n.schedulePageToolClassTime,
               showDivider: false,
               onTap: () {
                 Navigator.pop(context); // 关闭当前页
@@ -265,7 +294,7 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
           // ── 周次信息卡 ──
           settingCard(context, [
             SettingRow(
-              label: _t(context, '第一周的第一天', 'First day of week 1', ja: '第1週の初日'),
+              label: context.l10n.firstDayOfWeekOne,
               onTap: () => _pickDate(cfg.firstWeekDay,
                   (d) => s.updateActiveConfig(firstWeekDay: d)),
               trailing: Container(
@@ -279,15 +308,15 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
               ),
             ),
             SettingRow(
-              label: _t(context, '一周起始天', 'Week starts on', ja: '週の開始曜日'),
-              trailing: Text(_t(context, '周一', 'Monday', ja: '月曜日'), style: TextStyle(color: kHint, fontSize: 14)),
+              label: context.l10n.weekStartDay,
+              trailing: Text(context.l10n.mondayLabel, style: TextStyle(color: kHint, fontSize: 14)),
             ),
             SettingRow(
-              label: _t(context, '当前周', 'Current week', ja: '現在の週'),
+              label: context.l10n.currentWeek,
               showDivider: false,
-              onTap: () => _pickNumber(_t(context, '当前周', 'Current week', ja: '現在の週'), displayWeek, 1, cfg.totalWeeks, (v) {}),
+              onTap: () => _pickNumber(context.l10n.currentWeek, displayWeek, 1, cfg.totalWeeks, (v) {}),
               trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                Text(_t(context, '第 $displayWeek 周', 'Week $displayWeek', ja: '第$displayWeek週'),
+                Text(context.l10n.scheduleSettingsWeekDisplay(displayWeek),
                     style: TextStyle(color: kHint, fontSize: 14)),
                 const SizedBox(width: 6),
                 Icon(Icons.unfold_more, color: kHint, size: 18),
@@ -300,16 +329,16 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
           // ── 数量卡 ──
           settingCard(context, [
             SettingRow(
-                label: _t(context, '一天课程节数', 'Sections per day', ja: '1日の授業数'),
-                onTap: () => _pickNumber(_t(context, '一天课程节数', 'Sections per day', ja: '1日の授業数'), cfg.sectionsPerDay, 1, 20,
+                label: context.l10n.sectionsPerDay,
+                onTap: () => _pickNumber(context.l10n.sectionsPerDay, cfg.sectionsPerDay, 1, 20,
                   (v) => s.updateActiveConfig(sectionsPerDay: v)),
               trailing: Text('${cfg.sectionsPerDay}',
                   style: TextStyle(color: kHint, fontSize: 15)),
             ),
             SettingRow(
-                label: _t(context, '学期周数', 'Total weeks', ja: '学期週数'),
+                label: context.l10n.totalWeeks,
               showDivider: false,
-                onTap: () => _pickNumber(_t(context, '学期周数', 'Total weeks', ja: '学期週数'), cfg.totalWeeks, 1, 20,
+                onTap: () => _pickNumber(context.l10n.totalWeeks, cfg.totalWeeks, 1, 20,
                   (v) => s.updateActiveConfig(totalWeeks: v)),
               trailing: Text('${cfg.totalWeeks}',
                   style: TextStyle(color: kHint, fontSize: 15)),
@@ -403,7 +432,10 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
     Navigator.pop(context);
     showAppToast(
       context,
-      _t(context, '已将 ${_fmtDate(context, _fromDate)} 的课程移动到 ${_fmtDate(context, _toDate)}', 'Moved courses from ${_fmtDate(context, _fromDate)} to ${_fmtDate(context, _toDate)}', ja: '${_fmtDate(context, _fromDate)} から ${_fmtDate(context, _toDate)} に授業を移動しました'),
+      context.l10n.scheduleSettingsMoveCourseToast(
+        _fmtDate(context, _fromDate),
+        _fmtDate(context, _toDate),
+      ),
     );
   }
 
@@ -419,17 +451,17 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             const SizedBox(width: 8),
             const Icon(Icons.arrow_back_ios, color: kAccent, size: 17),
-            Text(_t(context, '全局设置', 'Global Settings', ja: '全体設定'), style: const TextStyle(color: kAccent, fontSize: 15)),
+            Text(context.l10n.globalSettingsTitle, style: const TextStyle(color: kAccent, fontSize: 15)),
           ]),
         ),
         leadingWidth: 100,
-        title: Text(_t(context, '调课工具', 'Adjust Tool', ja: '振替ツール'),
+        title: Text(context.l10n.scheduleSettingsAdjustToolTitle,
             style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
         centerTitle: true,
         actions: [
           TextButton(
             onPressed: _confirm,
-            child: Text(_t(context, '确定', 'Confirm', ja: '確認'),
+            child: Text(context.l10n.confirmAction,
                 style: const TextStyle(color: kAccent, fontSize: 15, fontWeight: FontWeight.w500)),
           ),
         ],
@@ -441,7 +473,7 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
           Padding(
             padding: EdgeInsets.only(left: 2, bottom: 14),
             child: Text(
-              _t(context, '本功能用于节假日调休等场景，可以将某天的课程移动到另一天，请谨慎操作', 'Move courses from one date to another for schedule adjustment. Please use carefully.', ja: '振替休日などの調整用に、ある日の授業を別の日に移動できます。慎重に操作してください。'),
+              context.l10n.scheduleSettingsAdjustDescription,
               style: TextStyle(color: kHint, fontSize: 13, height: 1.6),
             ),
           ),
@@ -449,7 +481,7 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
           // ── 选择课表卡 ──
           settingCard(context, [
             SettingRow(
-              label: _t(context, '要调整的课表', 'Schedule to adjust', ja: '調整対象の時間割'),
+              label: context.l10n.scheduleSettingsScheduleToAdjustLabel,
               showDivider: false,
               trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                 Text('1', style: TextStyle(color: kHint, fontSize: 15)),
@@ -467,7 +499,7 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Row(children: [
-                Text(_t(context, '将', 'From', ja: '移動元'), style: TextStyle(color: ac(context).primaryText, fontSize: 15)),
+                Text(context.l10n.scheduleSettingsMoveFrom, style: TextStyle(color: ac(context).primaryText, fontSize: 15)),
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () => _pickDate(_fromDate, (d) => setState(() => _fromDate = d)),
@@ -482,7 +514,7 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Text(_t(context, '的课程', 'courses', ja: 'の授業'), style: TextStyle(color: ac(context).primaryText, fontSize: 15)),
+                Text(context.l10n.scheduleSettingsMoveCoursesSuffix, style: TextStyle(color: ac(context).primaryText, fontSize: 15)),
               ]),
             ),
             // 分隔线
@@ -491,7 +523,7 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Row(children: [
-                Text(_t(context, '移动到', 'Move to', ja: '移動先'), style: TextStyle(color: ac(context).primaryText, fontSize: 15)),
+                Text(context.l10n.scheduleSettingsMoveTo, style: TextStyle(color: ac(context).primaryText, fontSize: 15)),
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () => _pickDate(_toDate, (d) => setState(() => _toDate = d)),
@@ -526,7 +558,7 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
               SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  _t(context, '点击「确定」后操作不可撤销，请确认日期选择无误后再执行。', 'This action cannot be undone. Please confirm the selected dates before continuing.', ja: 'この操作は取り消せません。実行前に日付を確認してください。'),
+                  context.l10n.scheduleSettingsAdjustWarning,
                   style: const TextStyle(color: Color(0xFFFFD60A), fontSize: 13, height: 1.5),
                 ),
               ),
@@ -575,13 +607,13 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
       builder: (_) => AlertDialog(
         backgroundColor: ac(context).card,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        title: Text(_t(context, '删除课程', 'Delete Courses', ja: '授業を削除')),
-        content: Text(_t(context, '确定删除已选的 ${_selected.length} 门课程？', 'Delete ${_selected.length} selected courses?', ja: '選択した${_selected.length}件の授業を削除しますか？'),
+        title: Text(context.l10n.scheduleSettingsDeleteCoursesTitle),
+        content: Text(context.l10n.scheduleSettingsDeleteSelectedMessage(_selected.length),
           style: TextStyle(color: kHint, fontSize: 14)),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context),
-            child: Text(_t(context, '取消', 'Cancel', ja: 'キャンセル'), style: TextStyle(color: kHint))),
+            child: Text(context.l10n.cancelAction, style: TextStyle(color: kHint))),
           TextButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -590,7 +622,7 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                 }
                 setState(() { _selected.clear(); _editing = false; });
               },
-              child: Text(_t(context, '删除', 'Delete', ja: '削除'), style: const TextStyle(color: Color(0xFFFF3B5C)))),
+              child: Text(context.l10n.deleteAction, style: const TextStyle(color: Color(0xFFFF3B5C)))),
         ],
       ),
     );
@@ -603,20 +635,20 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
       builder: (_) => AlertDialog(
         backgroundColor: ac(context).card,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        title: Text(_t(context, '清空课表', 'Clear Schedule', ja: '時間割をクリア')),
-        content: Text(_t(context, '确定删除当前课表全部 ${s.courses.length} 门课程？此操作不可恢复。', 'Delete all ${s.courses.length} courses in this schedule? This cannot be undone.', ja: 'この時間割の${s.courses.length}件の授業をすべて削除しますか？この操作は取り消せません。'),
+        title: Text(context.l10n.scheduleSettingsClearScheduleTitle),
+        content: Text(context.l10n.scheduleSettingsClearAllMessage(s.courses.length),
             style: TextStyle(color: kHint, fontSize: 14, height: 1.5)),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text(_t(context, '取消', 'Cancel', ja: 'キャンセル'), style: TextStyle(color: kHint))),
+              child: Text(context.l10n.cancelAction, style: TextStyle(color: kHint))),
           TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 s.replaceCourses([]);
                 setState(() { _selected.clear(); _editing = false; });
               },
-              child: Text(_t(context, '清空', 'Clear', ja: 'クリア'), style: const TextStyle(color: Color(0xFFFF3B5C)))),
+              child: Text(context.l10n.scheduleSettingsClearScheduleTitle, style: const TextStyle(color: Color(0xFFFF3B5C)))),
         ],
       ),
     );
@@ -648,14 +680,14 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             const SizedBox(width: 8),
             const Icon(Icons.arrow_back_ios, color: kAccent, size: 17),
-            Text(_t(context, '更多', 'More', ja: 'その他'), style: const TextStyle(color: kAccent, fontSize: 15)),
+            Text(context.l10n.scheduleSettingsMoreTitle, style: const TextStyle(color: kAccent, fontSize: 15)),
           ]),
         ),
         leadingWidth: 72,
         title: Text(
           _editing
-              ? (_selected.isEmpty ? _t(context, '选择课程', 'Select Courses', ja: '授業を選択') : _t(context, '已选 ${_selected.length} 门', '${_selected.length} selected', ja: '${_selected.length}件選択中'))
-              : _t(context, '已添课程', 'Added Courses', ja: '追加済み授業'),
+              ? (_selected.isEmpty ? context.l10n.scheduleSettingsSelectCoursesTitle : context.l10n.scheduleSettingsSelectedCount(_selected.length))
+              : context.l10n.schedulePageToolAddedCourses,
           style: TextStyle(color: ac(context).primaryText, fontSize: 17, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
@@ -663,7 +695,7 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
           TextButton(
             onPressed: _toggleEdit,
             child: Text(
-              _editing ? _t(context, '完成', 'Done', ja: '完了') : _t(context, '编辑', 'Edit', ja: '編集'),
+              _editing ? context.l10n.doneAction : context.l10n.editAction,
               style: const TextStyle(color: kAccent, fontSize: 15, fontWeight: FontWeight.w500),
             ),
           ),
@@ -680,7 +712,7 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                 padding: const EdgeInsets.only(left: 2, bottom: 10),
                 child: Row(children: [
                   Text(
-                    _t(context, '共 ${courses.length} 门课程', '${courses.length} courses', ja: '${courses.length}件の授業'),
+                    context.l10n.scheduleSettingsCoursesCount(courses.length),
                     style: TextStyle(color: kHint, fontSize: 13),
                   ),
                   if (_editing && courses.isNotEmpty) ...[
@@ -696,12 +728,12 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                         });
                       },
                       child: Text(
-                        allSelected ? _t(context, '取消全选', 'Unselect All', ja: '全選択解除') : _t(context, '全选', 'Select All', ja: 'すべて選択'),
+                        allSelected ? context.l10n.scheduleSettingsUnselectAll : context.l10n.scheduleSettingsSelectAll,
                         style: const TextStyle(color: kAccent, fontSize: 13),
                       ),
                     ),
                   ] else if (!_editing)
-                    Text(_t(context, '  左滑可删除', '  Swipe left to delete', ja: '  左スワイプで削除'), style: TextStyle(color: kHint, fontSize: 13)),
+                    Text('  ${context.l10n.classTimeSwipeHint}', style: TextStyle(color: kHint, fontSize: 13)),
                 ]),
               ),
 
@@ -712,7 +744,7 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                     child: Column(children: [
                       Icon(Icons.library_books_outlined, color: kHint, size: 48),
                       const SizedBox(height: 12),
-                      Text(_t(context, '还没有课程', 'No courses yet', ja: '授業がありません'), style: TextStyle(color: kHint, fontSize: 15)),
+                      Text(context.l10n.scheduleSettingsNoCourses, style: TextStyle(color: kHint, fontSize: 15)),
                     ]),
                   ),
                 )
@@ -782,7 +814,11 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                             ),
                             // 时间信息
                             Text(
-                              _t(context, '周${_weekdayShort(context, c.day)}  第${c.startSection}–${c.startSection + c.span - 1}节', '${_weekdayShort(context, c.day)}  ${c.startSection}-${c.startSection + c.span - 1}', ja: '${_weekdayShort(context, c.day)}  ${c.startSection}-${c.startSection + c.span - 1}限'),
+                              context.l10n.scheduleSettingsCourseTimeItem(
+                                _weekdayShort(context, c.day),
+                                c.startSection,
+                                c.startSection + c.span - 1,
+                              ),
                               style: TextStyle(color: kHint, fontSize: 13),
                             ),
                             if (!_editing) ...[
@@ -819,16 +855,16 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                                 builder: (_) => AlertDialog(
                                   backgroundColor: ac(context).card,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                                  title: Text('删除课程'),
-                                  content: Text('确定删除「${c.name}」？',
+                                  title: Text(context.l10n.schedulePageDeleteCourse),
+                                  content: Text(context.l10n.scheduleSettingsDeleteNamedCourseMessage(c.name),
                                       style: TextStyle(color: kHint)),
                                   actions: [
                                     TextButton(
                                         onPressed: () => Navigator.pop(context, false),
-                                        child: Text('取消', style: TextStyle(color: kHint))),
+                                        child: Text(context.l10n.cancelAction, style: TextStyle(color: kHint))),
                                     TextButton(
                                         onPressed: () => Navigator.pop(context, true),
-                                        child: const Text('删除',
+                                        child: Text(context.l10n.deleteAction,
                                             style: TextStyle(color: Color(0xFFFF3B5C)))),
                                   ],
                                 ),
@@ -862,15 +898,15 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                       onPressed: () => _clearAll(s),
                       icon: const Icon(Icons.delete_sweep_outlined,
                           color: Color(0xFFFF3B5C), size: 18),
-                      label: const Text('清空当前课表',
-                          style: TextStyle(color: Color(0xFFFF3B5C), fontSize: 14)),
+                      label: Text(context.l10n.scheduleSettingsClearCurrentSchedule,
+                          style: const TextStyle(color: Color(0xFFFF3B5C), fontSize: 14)),
                     ),
                     // 中：删除已选（仅有选中时显示）
                     if (_selected.isNotEmpty)
                       TextButton(
                         onPressed: () => _deleteSelected(s),
                         child: Text(
-                          '删除 (${_selected.length})',
+                          context.l10n.scheduleSettingsDeleteSelectedAction(_selected.length),
                           style: const TextStyle(color: Color(0xFFFF3B5C), fontSize: 14),
                         ),
                       ),
@@ -879,8 +915,8 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                       onPressed: () => _addCourse(context, s),
                       icon: const Icon(Icons.add_circle_outline,
                           color: kAccent, size: 18),
-                      label: const Text('添加课程',
-                          style: TextStyle(color: kAccent, fontSize: 14)),
+                      label: Text(context.l10n.courseEditorAddTitle,
+                          style: const TextStyle(color: kAccent, fontSize: 14)),
                     ),
                   ],
                 ),

@@ -36,10 +36,10 @@ abstract class SchoolImporter {
 /*
 class XxxImporter extends SchoolImporter {
   @override String get schoolId    => 'xxx';
-  @override String get displayName => 'XXX大学';
+  @override String displayName(BuildContext context) => context.l10n.schoolXxx;
   @override String get pinyin      => 'X';
   @override String get webUrl      => 'https://xxx.edu.cn/api/courses';
-  @override String get noticeText  => '1. 登录后点击导入\n\n2. 待定课程不导入';
+  @override String noticeText(BuildContext context) => context.l10n.schoolXxxNoticeText;
 
   @override
   Future<List<Course>?> onPageLoaded(controller, appState, onError) async {

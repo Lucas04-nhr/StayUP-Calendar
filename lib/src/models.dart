@@ -170,6 +170,7 @@ const String kDateFormatMdySlash = 'MM/dd/yyyy';
 const String kDateFormatDmySlash = 'dd/MM/yyyy';
 const String kDateFormatMonDY = 'MMM d, yyyy';
 const int kScheduleNameMaxLength = 20;
+const int kScheduleNameChineseMaxLength = 5;
 
 class AppState extends ChangeNotifier {
   List<TimeTableConfig> allTimeTables;
@@ -217,12 +218,28 @@ class AppState extends ChangeNotifier {
   List<String> get scheduleNames => allConfigs.map((c) => c.name).toList();
 
   static final _defaultFirstWeekDay = DateTime(DateTime.now().year, 9, 1);
+  static final RegExp _chineseCharRegex = RegExp(
+    r'[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]',
+  );
 
-  static String _normalizeScheduleName(String name) {
+  static int scheduleNameMaxLengthFor(String name) {
+    return _chineseCharRegex.hasMatch(name)
+        ? kScheduleNameChineseMaxLength
+        : kScheduleNameMaxLength;
+  }
+
+  static bool isScheduleNameExceeded(String name) {
+    final trimmed = name.trim();
+    if (trimmed.isEmpty) return false;
+    return trimmed.length > scheduleNameMaxLengthFor(trimmed);
+  }
+
+  static String normalizeScheduleName(String name) {
     final trimmed = name.trim();
     if (trimmed.isEmpty) return trimmed;
-    return trimmed.length > kScheduleNameMaxLength
-        ? trimmed.substring(0, kScheduleNameMaxLength)
+    final maxLength = scheduleNameMaxLengthFor(trimmed);
+    return trimmed.length > maxLength
+        ? trimmed.substring(0, maxLength)
         : trimmed;
   }
 
@@ -310,7 +327,10 @@ class AppState extends ChangeNotifier {
 
   // ── 课表列表管理 ──
   void addSchedule(ScheduleConfig cfg) {
-    allConfigs = [...allConfigs, cfg.copyWith(name: _normalizeScheduleName(cfg.name))];
+    allConfigs = [
+      ...allConfigs,
+      cfg.copyWith(name: normalizeScheduleName(cfg.name)),
+    ];
     allCourses = [...allCourses, <Course>[]];
     notifyListeners();
   }
@@ -343,7 +363,7 @@ class AppState extends ChangeNotifier {
   }
 
   void renameSchedule(int index, String name) {
-    final normalizedName = _normalizeScheduleName(name);
+    final normalizedName = normalizeScheduleName(name);
     if (normalizedName.isEmpty) return;
     allConfigs = List.from(allConfigs)
       ..[index] = allConfigs[index].copyWith(name: normalizedName);

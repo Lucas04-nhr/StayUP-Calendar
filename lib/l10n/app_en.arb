@@ -342,5 +342,99 @@
   "courseEditorTimeSlotsLabel": "Time Slots",
   "courseEditorAddSlotAction": "Add",
   "courseEditorChooseColorTitle": "Choose Color",
-  "courseEditorAutoPickNoConflict": "Auto pick (avoid conflicts)"
+  "courseEditorAutoPickNoConflict": "Auto pick (avoid conflicts)",
+  "scheduleSettingsTitle": "Schedule Settings",
+  "scheduleSettingsDataTitle": "Schedule Data",
+  "scheduleSettingsAppearanceTitle": "Schedule Appearance",
+  "scheduleSettingsAdjustToolTitle": "Adjust Tool",
+  "scheduleSettingsScheduleNameLabel": "Schedule Name",
+  "scheduleSettingsRenameTitle": "Rename Schedule",
+  "scheduleSettingsRenameHint": "Enter schedule name",
+  "scheduleSettingsWeekDisplay": "Week {week}",
+  "@scheduleSettingsWeekDisplay": {
+    "placeholders": {
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsMoveCourseToast": "Moved courses from {fromDate} to {toDate}",
+  "@scheduleSettingsMoveCourseToast": {
+    "placeholders": {
+      "fromDate": {},
+      "toDate": {}
+    }
+  },
+  "scheduleSettingsAdjustDescription": "Move courses from one date to another for schedule adjustment. Please use carefully.",
+  "scheduleSettingsScheduleToAdjustLabel": "Schedule to adjust",
+  "scheduleSettingsMoveFrom": "Move",
+  "scheduleSettingsMoveCoursesSuffix": "courses",
+  "scheduleSettingsMoveTo": "to",
+  "scheduleSettingsAdjustWarning": "This action cannot be undone. Please confirm the selected dates before continuing.",
+  "scheduleSettingsDeleteCoursesTitle": "Delete Courses",
+  "scheduleSettingsDeleteSelectedMessage": "Delete {count} selected courses?",
+  "@scheduleSettingsDeleteSelectedMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsClearScheduleTitle": "Clear Schedule",
+  "scheduleSettingsClearAllMessage": "Delete all {count} courses in this schedule? This cannot be undone.",
+  "@scheduleSettingsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsMoreTitle": "More",
+  "scheduleSettingsSelectCoursesTitle": "Select Courses",
+  "scheduleSettingsSelectedCount": "{count} selected",
+  "@scheduleSettingsSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsCoursesCount": "{count} courses",
+  "@scheduleSettingsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsUnselectAll": "Unselect All",
+  "scheduleSettingsSelectAll": "Select All",
+  "scheduleSettingsNoCourses": "No courses yet",
+  "scheduleSettingsCourseTimeItem": "{weekday}  {start}-{end}",
+  "@scheduleSettingsCourseTimeItem": {
+    "placeholders": {
+      "weekday": {},
+      "start": {
+        "type": "int"
+      },
+      "end": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsDeleteNamedCourseMessage": "Delete \"{name}\"?",
+  "@scheduleSettingsDeleteNamedCourseMessage": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "scheduleSettingsClearCurrentSchedule": "Clear Current Schedule",
+  "scheduleSettingsDeleteSelectedAction": "Delete ({count})",
+  "@scheduleSettingsDeleteSelectedAction": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

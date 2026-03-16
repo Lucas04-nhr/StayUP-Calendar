@@ -342,5 +342,99 @@
   "courseEditorTimeSlotsLabel": "时间段",
   "courseEditorAddSlotAction": "添加",
   "courseEditorChooseColorTitle": "选择颜色",
-  "courseEditorAutoPickNoConflict": "自动选色（不与已有课程冲突）"
+  "courseEditorAutoPickNoConflict": "自动选色（不与已有课程冲突）",
+  "scheduleSettingsTitle": "课表设置",
+  "scheduleSettingsDataTitle": "课表数据",
+  "scheduleSettingsAppearanceTitle": "课表外观",
+  "scheduleSettingsAdjustToolTitle": "调课工具",
+  "scheduleSettingsScheduleNameLabel": "课表名称",
+  "scheduleSettingsRenameTitle": "修改课表名称",
+  "scheduleSettingsRenameHint": "请输入课表名称",
+  "scheduleSettingsWeekDisplay": "第 {week} 周",
+  "@scheduleSettingsWeekDisplay": {
+    "placeholders": {
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsMoveCourseToast": "已将 {fromDate} 的课程移动到 {toDate}",
+  "@scheduleSettingsMoveCourseToast": {
+    "placeholders": {
+      "fromDate": {},
+      "toDate": {}
+    }
+  },
+  "scheduleSettingsAdjustDescription": "本功能用于节假日调休等场景，可以将某天的课程移动到另一天，请谨慎操作",
+  "scheduleSettingsScheduleToAdjustLabel": "要调整的课表",
+  "scheduleSettingsMoveFrom": "将",
+  "scheduleSettingsMoveCoursesSuffix": "的课程",
+  "scheduleSettingsMoveTo": "移动到",
+  "scheduleSettingsAdjustWarning": "点击「确定」后操作不可撤销，请确认日期选择无误后再执行。",
+  "scheduleSettingsDeleteCoursesTitle": "删除课程",
+  "scheduleSettingsDeleteSelectedMessage": "确定删除已选的 {count} 门课程？",
+  "@scheduleSettingsDeleteSelectedMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsClearScheduleTitle": "清空课表",
+  "scheduleSettingsClearAllMessage": "确定删除当前课表全部 {count} 门课程？此操作不可恢复。",
+  "@scheduleSettingsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsMoreTitle": "更多",
+  "scheduleSettingsSelectCoursesTitle": "选择课程",
+  "scheduleSettingsSelectedCount": "已选 {count} 门",
+  "@scheduleSettingsSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsCoursesCount": "共 {count} 门课程",
+  "@scheduleSettingsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsUnselectAll": "取消全选",
+  "scheduleSettingsSelectAll": "全选",
+  "scheduleSettingsNoCourses": "还没有课程",
+  "scheduleSettingsCourseTimeItem": "周{weekday}  第{start}–{end}节",
+  "@scheduleSettingsCourseTimeItem": {
+    "placeholders": {
+      "weekday": {},
+      "start": {
+        "type": "int"
+      },
+      "end": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsDeleteNamedCourseMessage": "确定删除「{name}」？",
+  "@scheduleSettingsDeleteNamedCourseMessage": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "scheduleSettingsClearCurrentSchedule": "清空当前课表",
+  "scheduleSettingsDeleteSelectedAction": "删除 ({count})",
+  "@scheduleSettingsDeleteSelectedAction": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

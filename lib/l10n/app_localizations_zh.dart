@@ -600,6 +600,115 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get courseEditorAutoPickNoConflict => '自动选色（不与已有课程冲突）';
+
+  @override
+  String get scheduleSettingsTitle => '课表设置';
+
+  @override
+  String get scheduleSettingsDataTitle => '课表数据';
+
+  @override
+  String get scheduleSettingsAppearanceTitle => '课表外观';
+
+  @override
+  String get scheduleSettingsAdjustToolTitle => '调课工具';
+
+  @override
+  String get scheduleSettingsScheduleNameLabel => '课表名称';
+
+  @override
+  String get scheduleSettingsRenameTitle => '修改课表名称';
+
+  @override
+  String get scheduleSettingsRenameHint => '请输入课表名称';
+
+  @override
+  String scheduleSettingsWeekDisplay(int week) {
+    return '第 $week 周';
+  }
+
+  @override
+  String scheduleSettingsMoveCourseToast(Object fromDate, Object toDate) {
+    return '已将 $fromDate 的课程移动到 $toDate';
+  }
+
+  @override
+  String get scheduleSettingsAdjustDescription =>
+      '本功能用于节假日调休等场景，可以将某天的课程移动到另一天，请谨慎操作';
+
+  @override
+  String get scheduleSettingsScheduleToAdjustLabel => '要调整的课表';
+
+  @override
+  String get scheduleSettingsMoveFrom => '将';
+
+  @override
+  String get scheduleSettingsMoveCoursesSuffix => '的课程';
+
+  @override
+  String get scheduleSettingsMoveTo => '移动到';
+
+  @override
+  String get scheduleSettingsAdjustWarning => '点击「确定」后操作不可撤销，请确认日期选择无误后再执行。';
+
+  @override
+  String get scheduleSettingsDeleteCoursesTitle => '删除课程';
+
+  @override
+  String scheduleSettingsDeleteSelectedMessage(int count) {
+    return '确定删除已选的 $count 门课程？';
+  }
+
+  @override
+  String get scheduleSettingsClearScheduleTitle => '清空课表';
+
+  @override
+  String scheduleSettingsClearAllMessage(int count) {
+    return '确定删除当前课表全部 $count 门课程？此操作不可恢复。';
+  }
+
+  @override
+  String get scheduleSettingsMoreTitle => '更多';
+
+  @override
+  String get scheduleSettingsSelectCoursesTitle => '选择课程';
+
+  @override
+  String scheduleSettingsSelectedCount(int count) {
+    return '已选 $count 门';
+  }
+
+  @override
+  String scheduleSettingsCoursesCount(int count) {
+    return '共 $count 门课程';
+  }
+
+  @override
+  String get scheduleSettingsUnselectAll => '取消全选';
+
+  @override
+  String get scheduleSettingsSelectAll => '全选';
+
+  @override
+  String get scheduleSettingsNoCourses => '还没有课程';
+
+  @override
+  String scheduleSettingsCourseTimeItem(Object weekday, int start, int end) {
+    return '周$weekday  第$start–$end节';
+  }
+
+  @override
+  String scheduleSettingsDeleteNamedCourseMessage(Object name) {
+    return '确定删除「$name」？';
+  }
+
+  @override
+  String get scheduleSettingsClearCurrentSchedule => '清空当前课表';
+
+  @override
+  String scheduleSettingsDeleteSelectedAction(int count) {
+    return '删除 ($count)';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -1198,6 +1307,115 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get courseEditorAutoPickNoConflict => '自动选色（不与已有课程冲突）';
+
+  @override
+  String get scheduleSettingsTitle => '课表设置';
+
+  @override
+  String get scheduleSettingsDataTitle => '课表数据';
+
+  @override
+  String get scheduleSettingsAppearanceTitle => '课表外观';
+
+  @override
+  String get scheduleSettingsAdjustToolTitle => '调课工具';
+
+  @override
+  String get scheduleSettingsScheduleNameLabel => '课表名称';
+
+  @override
+  String get scheduleSettingsRenameTitle => '修改课表名称';
+
+  @override
+  String get scheduleSettingsRenameHint => '请输入课表名称';
+
+  @override
+  String scheduleSettingsWeekDisplay(int week) {
+    return '第 $week 周';
+  }
+
+  @override
+  String scheduleSettingsMoveCourseToast(Object fromDate, Object toDate) {
+    return '已将 $fromDate 的课程移动到 $toDate';
+  }
+
+  @override
+  String get scheduleSettingsAdjustDescription =>
+      '本功能用于节假日调休等场景，可以将某天的课程移动到另一天，请谨慎操作';
+
+  @override
+  String get scheduleSettingsScheduleToAdjustLabel => '要调整的课表';
+
+  @override
+  String get scheduleSettingsMoveFrom => '将';
+
+  @override
+  String get scheduleSettingsMoveCoursesSuffix => '的课程';
+
+  @override
+  String get scheduleSettingsMoveTo => '移动到';
+
+  @override
+  String get scheduleSettingsAdjustWarning => '点击「确定」后操作不可撤销，请确认日期选择无误后再执行。';
+
+  @override
+  String get scheduleSettingsDeleteCoursesTitle => '删除课程';
+
+  @override
+  String scheduleSettingsDeleteSelectedMessage(int count) {
+    return '确定删除已选的 $count 门课程？';
+  }
+
+  @override
+  String get scheduleSettingsClearScheduleTitle => '清空课表';
+
+  @override
+  String scheduleSettingsClearAllMessage(int count) {
+    return '确定删除当前课表全部 $count 门课程？此操作不可恢复。';
+  }
+
+  @override
+  String get scheduleSettingsMoreTitle => '更多';
+
+  @override
+  String get scheduleSettingsSelectCoursesTitle => '选择课程';
+
+  @override
+  String scheduleSettingsSelectedCount(int count) {
+    return '已选 $count 门';
+  }
+
+  @override
+  String scheduleSettingsCoursesCount(int count) {
+    return '共 $count 门课程';
+  }
+
+  @override
+  String get scheduleSettingsUnselectAll => '取消全选';
+
+  @override
+  String get scheduleSettingsSelectAll => '全选';
+
+  @override
+  String get scheduleSettingsNoCourses => '还没有课程';
+
+  @override
+  String scheduleSettingsCourseTimeItem(Object weekday, int start, int end) {
+    return '周$weekday  第$start–$end节';
+  }
+
+  @override
+  String scheduleSettingsDeleteNamedCourseMessage(Object name) {
+    return '确定删除「$name」？';
+  }
+
+  @override
+  String get scheduleSettingsClearCurrentSchedule => '清空当前课表';
+
+  @override
+  String scheduleSettingsDeleteSelectedAction(int count) {
+    return '删除 ($count)';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1796,4 +2014,113 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get courseEditorAutoPickNoConflict => '自動選色（不與已有課程衝突）';
+
+  @override
+  String get scheduleSettingsTitle => '課表設置';
+
+  @override
+  String get scheduleSettingsDataTitle => '課表資料';
+
+  @override
+  String get scheduleSettingsAppearanceTitle => '課表外觀';
+
+  @override
+  String get scheduleSettingsAdjustToolTitle => '調課工具';
+
+  @override
+  String get scheduleSettingsScheduleNameLabel => '課表名稱';
+
+  @override
+  String get scheduleSettingsRenameTitle => '修改課表名稱';
+
+  @override
+  String get scheduleSettingsRenameHint => '請輸入課表名稱';
+
+  @override
+  String scheduleSettingsWeekDisplay(int week) {
+    return '第 $week 週';
+  }
+
+  @override
+  String scheduleSettingsMoveCourseToast(Object fromDate, Object toDate) {
+    return '已將 $fromDate 的課程移動到 $toDate';
+  }
+
+  @override
+  String get scheduleSettingsAdjustDescription =>
+      '本功能用於節假日調休等場景，可以將某天的課程移動到另一天，請謹慎操作';
+
+  @override
+  String get scheduleSettingsScheduleToAdjustLabel => '要調整的課表';
+
+  @override
+  String get scheduleSettingsMoveFrom => '將';
+
+  @override
+  String get scheduleSettingsMoveCoursesSuffix => '的課程';
+
+  @override
+  String get scheduleSettingsMoveTo => '移動到';
+
+  @override
+  String get scheduleSettingsAdjustWarning => '點擊「確定」後操作不可撤銷，請確認日期選擇無誤後再執行。';
+
+  @override
+  String get scheduleSettingsDeleteCoursesTitle => '刪除課程';
+
+  @override
+  String scheduleSettingsDeleteSelectedMessage(int count) {
+    return '確定刪除已選的 $count 門課程？';
+  }
+
+  @override
+  String get scheduleSettingsClearScheduleTitle => '清空課表';
+
+  @override
+  String scheduleSettingsClearAllMessage(int count) {
+    return '確定刪除當前課表全部 $count 門課程？此操作不可恢復。';
+  }
+
+  @override
+  String get scheduleSettingsMoreTitle => '更多';
+
+  @override
+  String get scheduleSettingsSelectCoursesTitle => '選擇課程';
+
+  @override
+  String scheduleSettingsSelectedCount(int count) {
+    return '已選 $count 門';
+  }
+
+  @override
+  String scheduleSettingsCoursesCount(int count) {
+    return '共 $count 門課程';
+  }
+
+  @override
+  String get scheduleSettingsUnselectAll => '取消全選';
+
+  @override
+  String get scheduleSettingsSelectAll => '全選';
+
+  @override
+  String get scheduleSettingsNoCourses => '還沒有課程';
+
+  @override
+  String scheduleSettingsCourseTimeItem(Object weekday, int start, int end) {
+    return '週$weekday  第$start–$end節';
+  }
+
+  @override
+  String scheduleSettingsDeleteNamedCourseMessage(Object name) {
+    return '確定刪除「$name」？';
+  }
+
+  @override
+  String get scheduleSettingsClearCurrentSchedule => '清空當前課表';
+
+  @override
+  String scheduleSettingsDeleteSelectedAction(int count) {
+    return '刪除 ($count)';
+  }
 }

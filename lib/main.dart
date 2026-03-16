@@ -110,40 +110,100 @@ class _AppWithTheme extends StatelessWidget {
   ThemeData _buildTheme({
     required ColorScheme colorScheme,
     required bool isDark,
+    required bool useDynamicColor,
   }) {
+    if (!useDynamicColor) {
+      return ThemeData(
+        colorScheme: colorScheme,
+        scaffoldBackgroundColor:
+            isDark ? const Color(0xFF1C1C1E) : const Color(0xFFF2F2F7),
+        cardColor: isDark ? const Color(0xFF2C2C2E) : const Color(0xFFFFFFFF),
+        dividerColor:
+            isDark ? const Color(0xFF3A3A3C) : const Color(0xFFE5E5EA),
+        useMaterial3: true,
+        appBarTheme: AppBarTheme(
+          backgroundColor:
+              isDark ? const Color(0xFF2C2C2E) : const Color(0xFFFFFFFF),
+          foregroundColor: isDark ? Colors.white : const Color(0xFF1C1C1E),
+          elevation: 0,
+          titleTextStyle: TextStyle(
+            color: isDark ? Colors.white : const Color(0xFF1C1C1E),
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+          ),
+          iconTheme: IconThemeData(
+            color: isDark ? Colors.white : const Color(0xFF1C1C1E),
+          ),
+        ),
+        dialogTheme: DialogThemeData(
+          titleTextStyle: TextStyle(
+            color: isDark ? Colors.white : const Color(0xFF1C1C1E),
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          contentTextStyle: TextStyle(
+            color: isDark ? const Color(0xFF8E8E93) : const Color(0xFF6C6C70),
+            fontSize: 14,
+            height: 1.5,
+          ),
+        ),
+        extensions: [isDark ? AppColors.dark : AppColors.light],
+      );
+    }
+
+    final appColors = AppColors(
+      bg: Color.alphaBlend(
+        colorScheme.primary.withValues(alpha: isDark ? 0.10 : 0.04),
+        colorScheme.surface,
+      ),
+      card: Color.alphaBlend(
+        colorScheme.surfaceTint.withValues(alpha: isDark ? 0.12 : 0.06),
+        colorScheme.surface,
+      ),
+      divider: colorScheme.outline.withValues(alpha: 0.35),
+      hint: colorScheme.onSurface.withValues(alpha: 0.65),
+      primaryText: colorScheme.onSurface,
+      secondaryText: colorScheme.onSurface.withValues(alpha: 0.82),
+      inputBg: Color.alphaBlend(
+        colorScheme.primary.withValues(alpha: isDark ? 0.18 : 0.08),
+        colorScheme.surface,
+      ),
+      iconBg: Color.alphaBlend(
+        colorScheme.primary.withValues(alpha: isDark ? 0.20 : 0.10),
+        colorScheme.surface,
+      ),
+    );
+
     return ThemeData(
       colorScheme: colorScheme,
-      scaffoldBackgroundColor:
-          isDark ? const Color(0xFF1C1C1E) : const Color(0xFFF2F2F7),
-      cardColor: isDark ? const Color(0xFF2C2C2E) : const Color(0xFFFFFFFF),
-      dividerColor: isDark ? const Color(0xFF3A3A3C) : const Color(0xFFE5E5EA),
+      scaffoldBackgroundColor: appColors.bg,
+      cardColor: appColors.card,
+      dividerColor: appColors.divider,
       useMaterial3: true,
       appBarTheme: AppBarTheme(
-        backgroundColor:
-            isDark ? const Color(0xFF2C2C2E) : const Color(0xFFFFFFFF),
-        foregroundColor: isDark ? Colors.white : const Color(0xFF1C1C1E),
+        backgroundColor: appColors.card,
+        foregroundColor: appColors.primaryText,
         elevation: 0,
         titleTextStyle: TextStyle(
-          color: isDark ? Colors.white : const Color(0xFF1C1C1E),
+          color: appColors.primaryText,
           fontSize: 17,
           fontWeight: FontWeight.w600,
         ),
-        iconTheme:
-            IconThemeData(color: isDark ? Colors.white : const Color(0xFF1C1C1E)),
+        iconTheme: IconThemeData(color: appColors.primaryText),
       ),
       dialogTheme: DialogThemeData(
         titleTextStyle: TextStyle(
-          color: isDark ? Colors.white : const Color(0xFF1C1C1E),
+          color: appColors.primaryText,
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
         contentTextStyle: TextStyle(
-          color: isDark ? const Color(0xFF8E8E93) : const Color(0xFF6C6C70),
+          color: appColors.hint,
           fontSize: 14,
           height: 1.5,
         ),
       ),
-      extensions: [isDark ? AppColors.dark : AppColors.light],
+      extensions: [appColors],
     );
   }
 
@@ -170,8 +230,16 @@ class _AppWithTheme extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
-          theme: _buildTheme(colorScheme: lightScheme, isDark: false),
-          darkTheme: _buildTheme(colorScheme: darkScheme, isDark: true),
+          theme: _buildTheme(
+            colorScheme: lightScheme,
+            isDark: false,
+            useDynamicColor: appState.useMaterialDynamicColor,
+          ),
+          darkTheme: _buildTheme(
+            colorScheme: darkScheme,
+            isDark: true,
+            useDynamicColor: appState.useMaterialDynamicColor,
+          ),
           themeMode: _toThemeMode(themeMode),
           builder: (context, child) =>
               AppStateScope(notifier: appState, child: child!),

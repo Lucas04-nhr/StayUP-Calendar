@@ -1187,6 +1187,186 @@ abstract class AppLocalizations {
   /// In zh_Hans, this message translates to:
   /// **'自动选色（不与已有课程冲突）'**
   String get courseEditorAutoPickNoConflict;
+
+  /// No description provided for @scheduleSettingsTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'课表设置'**
+  String get scheduleSettingsTitle;
+
+  /// No description provided for @scheduleSettingsDataTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'课表数据'**
+  String get scheduleSettingsDataTitle;
+
+  /// No description provided for @scheduleSettingsAppearanceTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'课表外观'**
+  String get scheduleSettingsAppearanceTitle;
+
+  /// No description provided for @scheduleSettingsAdjustToolTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'调课工具'**
+  String get scheduleSettingsAdjustToolTitle;
+
+  /// No description provided for @scheduleSettingsScheduleNameLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'课表名称'**
+  String get scheduleSettingsScheduleNameLabel;
+
+  /// No description provided for @scheduleSettingsRenameTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'修改课表名称'**
+  String get scheduleSettingsRenameTitle;
+
+  /// No description provided for @scheduleSettingsRenameHint.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'请输入课表名称'**
+  String get scheduleSettingsRenameHint;
+
+  /// No description provided for @scheduleSettingsWeekDisplay.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'第 {week} 周'**
+  String scheduleSettingsWeekDisplay(int week);
+
+  /// No description provided for @scheduleSettingsMoveCourseToast.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'已将 {fromDate} 的课程移动到 {toDate}'**
+  String scheduleSettingsMoveCourseToast(Object fromDate, Object toDate);
+
+  /// No description provided for @scheduleSettingsAdjustDescription.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'本功能用于节假日调休等场景，可以将某天的课程移动到另一天，请谨慎操作'**
+  String get scheduleSettingsAdjustDescription;
+
+  /// No description provided for @scheduleSettingsScheduleToAdjustLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'要调整的课表'**
+  String get scheduleSettingsScheduleToAdjustLabel;
+
+  /// No description provided for @scheduleSettingsMoveFrom.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'将'**
+  String get scheduleSettingsMoveFrom;
+
+  /// No description provided for @scheduleSettingsMoveCoursesSuffix.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'的课程'**
+  String get scheduleSettingsMoveCoursesSuffix;
+
+  /// No description provided for @scheduleSettingsMoveTo.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'移动到'**
+  String get scheduleSettingsMoveTo;
+
+  /// No description provided for @scheduleSettingsAdjustWarning.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'点击「确定」后操作不可撤销，请确认日期选择无误后再执行。'**
+  String get scheduleSettingsAdjustWarning;
+
+  /// No description provided for @scheduleSettingsDeleteCoursesTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'删除课程'**
+  String get scheduleSettingsDeleteCoursesTitle;
+
+  /// No description provided for @scheduleSettingsDeleteSelectedMessage.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'确定删除已选的 {count} 门课程？'**
+  String scheduleSettingsDeleteSelectedMessage(int count);
+
+  /// No description provided for @scheduleSettingsClearScheduleTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'清空课表'**
+  String get scheduleSettingsClearScheduleTitle;
+
+  /// No description provided for @scheduleSettingsClearAllMessage.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'确定删除当前课表全部 {count} 门课程？此操作不可恢复。'**
+  String scheduleSettingsClearAllMessage(int count);
+
+  /// No description provided for @scheduleSettingsMoreTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'更多'**
+  String get scheduleSettingsMoreTitle;
+
+  /// No description provided for @scheduleSettingsSelectCoursesTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'选择课程'**
+  String get scheduleSettingsSelectCoursesTitle;
+
+  /// No description provided for @scheduleSettingsSelectedCount.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'已选 {count} 门'**
+  String scheduleSettingsSelectedCount(int count);
+
+  /// No description provided for @scheduleSettingsCoursesCount.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'共 {count} 门课程'**
+  String scheduleSettingsCoursesCount(int count);
+
+  /// No description provided for @scheduleSettingsUnselectAll.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'取消全选'**
+  String get scheduleSettingsUnselectAll;
+
+  /// No description provided for @scheduleSettingsSelectAll.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'全选'**
+  String get scheduleSettingsSelectAll;
+
+  /// No description provided for @scheduleSettingsNoCourses.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'还没有课程'**
+  String get scheduleSettingsNoCourses;
+
+  /// No description provided for @scheduleSettingsCourseTimeItem.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'周{weekday}  第{start}–{end}节'**
+  String scheduleSettingsCourseTimeItem(Object weekday, int start, int end);
+
+  /// No description provided for @scheduleSettingsDeleteNamedCourseMessage.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'确定删除「{name}」？'**
+  String scheduleSettingsDeleteNamedCourseMessage(Object name);
+
+  /// No description provided for @scheduleSettingsClearCurrentSchedule.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'清空当前课表'**
+  String get scheduleSettingsClearCurrentSchedule;
+
+  /// No description provided for @scheduleSettingsDeleteSelectedAction.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'删除 ({count})'**
+  String scheduleSettingsDeleteSelectedAction(int count);
 }
 
 class _AppLocalizationsDelegate

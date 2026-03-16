@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../common_widgets.dart';
@@ -146,11 +145,54 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
   }
 
   void _save() {
-    final name = _nameCtrl.text.trim();
+    final originalName = _nameCtrl.text.trim();
+    final name = AppState.normalizeScheduleName(originalName);
     if (name.isEmpty) {
-      showAppToast(context, context.l10n.scheduleNameRequired);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.scheduleNameRequired),
+          backgroundColor: const Color(0xFFE5E5EA),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
       return;
     }
+
+    if (AppState.isScheduleNameExceeded(originalName)) {
+      _nameCtrl.text = name;
+      _nameCtrl.selection = TextSelection.collapsed(offset: name.length);
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          backgroundColor: ac(context).card,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          content: const Text(
+            '超出限制字符，已经截断',
+            style: TextStyle(fontSize: 14, height: 1.5),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                _saveWithName(name);
+              },
+              child: const Text(
+                '确定',
+                style: TextStyle(color: kAccent),
+              ),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    _saveWithName(name);
+  }
+
+  void _saveWithName(String name) {
     final s = AppStateScope.of(context);
     s.addSchedule(
       ScheduleConfig(
@@ -217,9 +259,6 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
                 controller: _nameCtrl,
                 onChanged: (_) => setState(() {}),
                 autofocus: true,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(kScheduleNameMaxLength),
-                ],
                 style: TextStyle(color: ac(context).primaryText, fontSize: 15),
                 decoration: InputDecoration(
                   hintText: context.l10n.scheduleNameRequiredHint,

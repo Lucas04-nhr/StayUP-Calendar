@@ -602,4 +602,113 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get courseEditorAutoPickNoConflict => '自動選択（既存授業と衝突回避）';
+
+  @override
+  String get scheduleSettingsTitle => '時間割設定';
+
+  @override
+  String get scheduleSettingsDataTitle => '時間割データ';
+
+  @override
+  String get scheduleSettingsAppearanceTitle => '時間割の外観';
+
+  @override
+  String get scheduleSettingsAdjustToolTitle => '振替ツール';
+
+  @override
+  String get scheduleSettingsScheduleNameLabel => '時間割名';
+
+  @override
+  String get scheduleSettingsRenameTitle => '時間割名を変更';
+
+  @override
+  String get scheduleSettingsRenameHint => '時間割名を入力してください';
+
+  @override
+  String scheduleSettingsWeekDisplay(int week) {
+    return '第$week週';
+  }
+
+  @override
+  String scheduleSettingsMoveCourseToast(Object fromDate, Object toDate) {
+    return '$fromDate から $toDate に授業を移動しました';
+  }
+
+  @override
+  String get scheduleSettingsAdjustDescription =>
+      '振替休日などの調整用に、ある日の授業を別の日に移動できます。慎重に操作してください。';
+
+  @override
+  String get scheduleSettingsScheduleToAdjustLabel => '調整対象の時間割';
+
+  @override
+  String get scheduleSettingsMoveFrom => '移動元';
+
+  @override
+  String get scheduleSettingsMoveCoursesSuffix => 'の授業';
+
+  @override
+  String get scheduleSettingsMoveTo => '移動先';
+
+  @override
+  String get scheduleSettingsAdjustWarning => 'この操作は取り消せません。実行前に日付を確認してください。';
+
+  @override
+  String get scheduleSettingsDeleteCoursesTitle => '授業を削除';
+
+  @override
+  String scheduleSettingsDeleteSelectedMessage(int count) {
+    return '選択した$count件の授業を削除しますか？';
+  }
+
+  @override
+  String get scheduleSettingsClearScheduleTitle => '時間割をクリア';
+
+  @override
+  String scheduleSettingsClearAllMessage(int count) {
+    return 'この時間割の$count件の授業をすべて削除しますか？この操作は取り消せません。';
+  }
+
+  @override
+  String get scheduleSettingsMoreTitle => 'その他';
+
+  @override
+  String get scheduleSettingsSelectCoursesTitle => '授業を選択';
+
+  @override
+  String scheduleSettingsSelectedCount(int count) {
+    return '$count件選択中';
+  }
+
+  @override
+  String scheduleSettingsCoursesCount(int count) {
+    return '$count件の授業';
+  }
+
+  @override
+  String get scheduleSettingsUnselectAll => '全選択解除';
+
+  @override
+  String get scheduleSettingsSelectAll => 'すべて選択';
+
+  @override
+  String get scheduleSettingsNoCourses => '授業がありません';
+
+  @override
+  String scheduleSettingsCourseTimeItem(Object weekday, int start, int end) {
+    return '$weekday  $start-$end限';
+  }
+
+  @override
+  String scheduleSettingsDeleteNamedCourseMessage(Object name) {
+    return '「$name」を削除しますか？';
+  }
+
+  @override
+  String get scheduleSettingsClearCurrentSchedule => '現在の時間割をクリア';
+
+  @override
+  String scheduleSettingsDeleteSelectedAction(int count) {
+    return '削除 ($count)';
+  }
 }

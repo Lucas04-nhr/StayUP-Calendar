@@ -342,5 +342,99 @@
   "courseEditorTimeSlotsLabel": "時間枠",
   "courseEditorAddSlotAction": "追加",
   "courseEditorChooseColorTitle": "色を選択",
-  "courseEditorAutoPickNoConflict": "自動選択（既存授業と衝突回避）"
+  "courseEditorAutoPickNoConflict": "自動選択（既存授業と衝突回避）",
+  "scheduleSettingsTitle": "時間割設定",
+  "scheduleSettingsDataTitle": "時間割データ",
+  "scheduleSettingsAppearanceTitle": "時間割の外観",
+  "scheduleSettingsAdjustToolTitle": "振替ツール",
+  "scheduleSettingsScheduleNameLabel": "時間割名",
+  "scheduleSettingsRenameTitle": "時間割名を変更",
+  "scheduleSettingsRenameHint": "時間割名を入力してください",
+  "scheduleSettingsWeekDisplay": "第{week}週",
+  "@scheduleSettingsWeekDisplay": {
+    "placeholders": {
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsMoveCourseToast": "{fromDate} から {toDate} に授業を移動しました",
+  "@scheduleSettingsMoveCourseToast": {
+    "placeholders": {
+      "fromDate": {},
+      "toDate": {}
+    }
+  },
+  "scheduleSettingsAdjustDescription": "振替休日などの調整用に、ある日の授業を別の日に移動できます。慎重に操作してください。",
+  "scheduleSettingsScheduleToAdjustLabel": "調整対象の時間割",
+  "scheduleSettingsMoveFrom": "移動元",
+  "scheduleSettingsMoveCoursesSuffix": "の授業",
+  "scheduleSettingsMoveTo": "移動先",
+  "scheduleSettingsAdjustWarning": "この操作は取り消せません。実行前に日付を確認してください。",
+  "scheduleSettingsDeleteCoursesTitle": "授業を削除",
+  "scheduleSettingsDeleteSelectedMessage": "選択した{count}件の授業を削除しますか？",
+  "@scheduleSettingsDeleteSelectedMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsClearScheduleTitle": "時間割をクリア",
+  "scheduleSettingsClearAllMessage": "この時間割の{count}件の授業をすべて削除しますか？この操作は取り消せません。",
+  "@scheduleSettingsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsMoreTitle": "その他",
+  "scheduleSettingsSelectCoursesTitle": "授業を選択",
+  "scheduleSettingsSelectedCount": "{count}件選択中",
+  "@scheduleSettingsSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsCoursesCount": "{count}件の授業",
+  "@scheduleSettingsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsUnselectAll": "全選択解除",
+  "scheduleSettingsSelectAll": "すべて選択",
+  "scheduleSettingsNoCourses": "授業がありません",
+  "scheduleSettingsCourseTimeItem": "{weekday}  {start}-{end}限",
+  "@scheduleSettingsCourseTimeItem": {
+    "placeholders": {
+      "weekday": {},
+      "start": {
+        "type": "int"
+      },
+      "end": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSettingsDeleteNamedCourseMessage": "「{name}」を削除しますか？",
+  "@scheduleSettingsDeleteNamedCourseMessage": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "scheduleSettingsClearCurrentSchedule": "現在の時間割をクリア",
+  "scheduleSettingsDeleteSelectedAction": "削除 ({count})",
+  "@scheduleSettingsDeleteSelectedAction": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }
