@@ -6,6 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../common_widgets.dart';
 import '../l10n.dart';
 import '../models.dart';
+import 'crawler/hust.dart';
 import 'widgets/school_importers.dart';
 
 part 'widgets/school_import_widgets.dart';
@@ -15,6 +16,10 @@ class _SchoolEntry {
   final String pinyin;
   const _SchoolEntry({required this.id, required this.pinyin});
 }
+
+final Map<String, SchoolImporter> kSchoolImporters = {
+  'hust': HustImporter(),
+};
 
 // ══════════════════════════════════════════════════════════
 // 学校列表页
@@ -31,10 +36,8 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
       .toList();
 
   String _schoolName(BuildContext context, String id) {
-    switch (id) {
-      case 'hust': return context.l10n.schoolHust;
-      default: return id.toUpperCase();
-    }
+    final importer = kSchoolImporters[id];
+    return importer?.displayName(context) ?? id.toUpperCase();
   }
 
   static Map<String, List<_SchoolEntry>> get _grouped {
@@ -150,7 +153,7 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
                   if (index == total) {
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
-                      child: Text('更多高校正在适配中',
+                      child: Text(context.l10n.schoolImportMoreSchools,
                           style: TextStyle(color: ac(context).hint, fontSize: 13),
                           textAlign: TextAlign.center),
                     );
@@ -247,18 +250,18 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
       builder: (ctx) => AlertDialog(
         backgroundColor: ac(context).card,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        title: Text('注意事项',
+        title: Text(context.l10n.schoolImportNoticeTitle,
             style: TextStyle(
                 color: ac(context).primaryText,
                 fontSize: 16,
                 fontWeight: FontWeight.w600)),
-        content: Text(widget.importer.noticeText,
+        content: Text(widget.importer.noticeText(context),
             style: TextStyle(
                 color: ac(context).hint, fontSize: 14, height: 1.6)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('好',
+          child: Text(context.l10n.okAction,
                 style: TextStyle(
                     color: Color(0xFFFF3B5C),
                     fontSize: 15,
@@ -273,6 +276,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
     setState(() => _crawling = true);
     final appState = AppStateScope.of(context);
     final courses = await widget.importer.onPageLoaded(
+      context,
       _controller,
       appState,
       (e) {
@@ -292,7 +296,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
       builder: (ctx) => AlertDialog(
         backgroundColor: ac(context).card,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        title: Text('解析完成',
+        title: Text(context.l10n.schoolImportParseDoneTitle,
             style: TextStyle(
                 color: ac(context).primaryText,
                 fontSize: 16,
@@ -300,7 +304,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
         content: SizedBox(
           width: double.maxFinite,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
-            Text('共解析到 ${courses.length} 门课程，是否新建课表并导入？',
+          Text(context.l10n.schoolImportParseDoneMessage(courses.length),
                 style: TextStyle(
                     color: ac(context).hint, fontSize: 14, height: 1.5)),
             const SizedBox(height: 12),
@@ -336,7 +340,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('取消',
+            child: Text(context.l10n.cancelAction,
                 style: TextStyle(color: ac(context).hint, fontSize: 15)),
           ),
           TextButton(
@@ -344,7 +348,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
               Navigator.pop(ctx);
               _importCourses(courses);
             },
-            child: const Text('导入',
+            child: Text(context.l10n.schoolImportAction,
                 style: TextStyle(
                     color: Color(0xFFFF3B5C),
                     fontSize: 15,
@@ -358,7 +362,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
   void _importCourses(List<Course> courses) {
     final appState = AppStateScope.of(context);
     final cfg = ScheduleConfig(
-      name: widget.importer.newScheduleName,
+      name: widget.importer.newScheduleName(context),
       firstWeekDay: appState.config.firstWeekDay,
       sectionsPerDay: appState.config.sectionsPerDay,
       totalWeeks: appState.config.totalWeeks,
@@ -368,7 +372,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
     appState.replaceCourses(courses);
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('已新建课表并导入 ${courses.length} 门课程'),
+      content: Text(context.l10n.schoolImportSuccess(courses.length)),
       backgroundColor: ac(context).card,
       behavior: SnackBarBehavior.floating,
     ));
@@ -383,14 +387,14 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
       builder: (ctx) => AlertDialog(
         backgroundColor: ac(context).card,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        title: Text('错误',
+        title: Text(context.l10n.schoolImportErrorTitle,
             style: TextStyle(color: ac(context).primaryText, fontSize: 16)),
         content: Text(msg,
             style: TextStyle(color: ac(context).hint, fontSize: 14)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('确定',
+          child: Text(context.l10n.confirmAction,
                 style: TextStyle(color: Color(0xFFFF3B5C))),
           ),
         ],
@@ -408,10 +412,11 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
         scrolledUnderElevation: 0,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
-          child: const Row(mainAxisSize: MainAxisSize.min, children: [
-            SizedBox(width: 8),
-            Icon(Icons.arrow_back_ios, color: Color(0xFFFF3B5C), size: 17),
-            Text('返回', style: TextStyle(color: Color(0xFFFF3B5C), fontSize: 15)),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            const SizedBox(width: 8),
+            const Icon(Icons.arrow_back_ios, color: Color(0xFFFF3B5C), size: 17),
+            Text(context.l10n.backAction,
+                style: const TextStyle(color: Color(0xFFFF3B5C), fontSize: 15)),
           ]),
         ),
         leadingWidth: 64,
@@ -462,7 +467,9 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
                     color: Colors.white, strokeWidth: 2))
             : const Icon(Icons.download_rounded, color: Colors.white),
         label: Text(
-          _crawling ? '解析中...' : '导入课表',
+          _crawling
+              ? context.l10n.schoolImportParsing
+              : context.l10n.schoolImportScheduleAction,
           style: const TextStyle(
               color: Colors.white, fontWeight: FontWeight.w600),
         ),
