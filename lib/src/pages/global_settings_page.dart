@@ -410,7 +410,6 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
               onChanged: (v) => _showWip(context),
               activeThumbColor: const Color(0xFF4ECDC4),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              visualDensity: VisualDensity.compact,
             ),
           ),
           _WideSettingRow(
@@ -421,7 +420,6 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
               onChanged: (v) => _showWip(context),
               activeThumbColor: const Color(0xFF4ECDC4),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              visualDensity: VisualDensity.compact,
             ),
           ),
         ]),
@@ -467,21 +465,19 @@ class _WideSettingRow extends StatelessWidget {
   final Widget? trailing;
   final VoidCallback? onTap;
   final bool showDivider;
-  final double height;
 
   const _WideSettingRow({
     required this.label,
     this.trailing,
     this.onTap,
     this.showDivider = true,
-    this.height = 60,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = ac(context);
     final content = SizedBox(
-      height: height,
+      height: 60,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
