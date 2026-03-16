@@ -185,6 +185,7 @@ class AppState extends ChangeNotifier {
   String themeMode;
   String localeMode;
   String dateFormatPattern;
+  bool useMaterialDynamicColor;
 
   // 全局主题色（null = 使用 kCourseColors[0] 默认值）
   int? themeColorValue;
@@ -235,6 +236,7 @@ class AppState extends ChangeNotifier {
     this.themeMode = kThemeModeSystem,
     this.localeMode = kLocaleModeSystem,
     this.dateFormatPattern = kDateFormatYmdSlash,
+    this.useMaterialDynamicColor = false,
     this.themeColorValue,
     this.activeScheduleIndex = 0,
     List<ScheduleConfig>? allConfigs,
@@ -416,6 +418,11 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateUseMaterialDynamicColor(bool value) {
+    useMaterialDynamicColor = value;
+    notifyListeners();
+  }
+
   void updateThemeColor(Color color) {
     themeColorValue = color.toARGB32();
     notifyListeners();
@@ -455,6 +462,7 @@ class AppState extends ChangeNotifier {
         'themeMode': themeMode,
         'localeMode': localeMode,
         'dateFormatPattern': dateFormatPattern,
+        'useMaterialDynamicColor': useMaterialDynamicColor,
         'themeColorValue': themeColorValue,
         'allTimeTables': allTimeTables.map((t) => t.toJson()).toList(),
         'allConfigs': allConfigs.map((c) => c.toJson()).toList(),
@@ -528,6 +536,8 @@ class AppState extends ChangeNotifier {
           localeMode: j['localeMode'] as String? ?? kLocaleModeSystem,
             dateFormatPattern:
               j['dateFormatPattern'] as String? ?? kDateFormatYmdSlash,
+          useMaterialDynamicColor:
+              j['useMaterialDynamicColor'] as bool? ?? false,
           themeColorValue: j['themeColorValue'] as int?,
         ).._loadedCourses(allCourses);
       }

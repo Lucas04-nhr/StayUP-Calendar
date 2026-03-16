@@ -93,6 +93,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setBackgroundFormat => 'Background Format';
 
   @override
+  String get materialDynamicColor => 'Material Dynamic Color';
+
+  @override
   String get helpUsage => 'Help';
 
   @override
@@ -496,4 +499,115 @@ class AppLocalizationsEn extends AppLocalizations {
   String classTimeOrderOverlap(int n, int m, Object end, Object start) {
     return 'Section $n and $m overlap\n  Section $n ends $end > Section $m starts $start';
   }
+
+  @override
+  String get courseEditorNameRequired => 'Please enter course name';
+
+  @override
+  String get courseEditorWeekdayMon => 'Mon';
+
+  @override
+  String get courseEditorWeekdayTue => 'Tue';
+
+  @override
+  String get courseEditorWeekdayWed => 'Wed';
+
+  @override
+  String get courseEditorWeekdayThu => 'Thu';
+
+  @override
+  String get courseEditorWeekdayFri => 'Fri';
+
+  @override
+  String get courseEditorWeekdaySat => 'Sat';
+
+  @override
+  String get courseEditorWeekdaySun => 'Sun';
+
+  @override
+  String courseEditorWeekNthLabel(int week) {
+    return 'Week $week';
+  }
+
+  @override
+  String courseEditorSectionNthLabel(int section) {
+    return 'Sec $section';
+  }
+
+  @override
+  String get courseEditorWeekRangeTitle => 'Week Range';
+
+  @override
+  String get courseEditorStartLabel => 'Start';
+
+  @override
+  String get courseEditorEndLabel => 'End';
+
+  @override
+  String get courseEditorSelectSectionsTitle => 'Select Sections';
+
+  @override
+  String get courseEditorStartSectionLabel => 'Start Section';
+
+  @override
+  String get courseEditorEndSectionLabel => 'End Section';
+
+  @override
+  String courseEditorTimeSlotTitle(int index) {
+    return 'Time Slot $index';
+  }
+
+  @override
+  String get courseEditorWeeksLabel => 'Weeks';
+
+  @override
+  String get courseEditorDayLabel => 'Day';
+
+  @override
+  String get courseEditorWeekdayTitle => 'Weekday';
+
+  @override
+  String get courseEditorSectionsLabel => 'Sections';
+
+  @override
+  String get courseEditorTeacherLabel => 'Teacher';
+
+  @override
+  String get courseEditorLocationLabel => 'Location';
+
+  @override
+  String get courseEditorEditTitle => 'Edit Course';
+
+  @override
+  String get courseEditorAddTitle => 'Add Course';
+
+  @override
+  String get courseEditorCourseLabel => 'Course';
+
+  @override
+  String get courseEditorRequiredHint => 'Required';
+
+  @override
+  String get courseEditorOptionalHint => 'Optional';
+
+  @override
+  String get courseEditorColorLabel => 'Color';
+
+  @override
+  String get courseEditorCreditsLabel => 'Credits';
+
+  @override
+  String get courseEditorNotesLabel => 'Notes';
+
+  @override
+  String get courseEditorTimeSlotsLabel => 'Time Slots';
+
+  @override
+  String get courseEditorAddSlotAction => 'Add';
+
+  @override
+  String get courseEditorChooseColorTitle => 'Choose Color';
+
+  @override
+  String get courseEditorAutoPickNoConflict => 'Auto pick (avoid conflicts)';
 }

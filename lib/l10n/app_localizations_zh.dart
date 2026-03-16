@@ -92,6 +92,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get setBackgroundFormat => '设置背景格式';
 
   @override
+  String get materialDynamicColor => 'Material 动态取色';
+
+  @override
   String get helpUsage => '使用帮助';
 
   @override
@@ -486,6 +489,117 @@ class AppLocalizationsZh extends AppLocalizations {
   String classTimeOrderOverlap(int n, int m, Object end, Object start) {
     return '第 $n 节与第 $m 节时间重叠\n  第$n节结束 $end > 第$m节开始 $start';
   }
+
+  @override
+  String get courseEditorNameRequired => '请填写课程名称';
+
+  @override
+  String get courseEditorWeekdayMon => '周一';
+
+  @override
+  String get courseEditorWeekdayTue => '周二';
+
+  @override
+  String get courseEditorWeekdayWed => '周三';
+
+  @override
+  String get courseEditorWeekdayThu => '周四';
+
+  @override
+  String get courseEditorWeekdayFri => '周五';
+
+  @override
+  String get courseEditorWeekdaySat => '周六';
+
+  @override
+  String get courseEditorWeekdaySun => '周日';
+
+  @override
+  String courseEditorWeekNthLabel(int week) {
+    return '第$week周';
+  }
+
+  @override
+  String courseEditorSectionNthLabel(int section) {
+    return '第$section节';
+  }
+
+  @override
+  String get courseEditorWeekRangeTitle => '周数';
+
+  @override
+  String get courseEditorStartLabel => '开始';
+
+  @override
+  String get courseEditorEndLabel => '结束';
+
+  @override
+  String get courseEditorSelectSectionsTitle => '选择节次';
+
+  @override
+  String get courseEditorStartSectionLabel => '开始节';
+
+  @override
+  String get courseEditorEndSectionLabel => '结束节';
+
+  @override
+  String courseEditorTimeSlotTitle(int index) {
+    return '时间段 $index';
+  }
+
+  @override
+  String get courseEditorWeeksLabel => '周数';
+
+  @override
+  String get courseEditorDayLabel => '时间';
+
+  @override
+  String get courseEditorWeekdayTitle => '星期';
+
+  @override
+  String get courseEditorSectionsLabel => '节次';
+
+  @override
+  String get courseEditorTeacherLabel => '老师';
+
+  @override
+  String get courseEditorLocationLabel => '地点';
+
+  @override
+  String get courseEditorEditTitle => '编辑课程';
+
+  @override
+  String get courseEditorAddTitle => '添加课程';
+
+  @override
+  String get courseEditorCourseLabel => '课程';
+
+  @override
+  String get courseEditorRequiredHint => '必填';
+
+  @override
+  String get courseEditorOptionalHint => '选填';
+
+  @override
+  String get courseEditorColorLabel => '颜色';
+
+  @override
+  String get courseEditorCreditsLabel => '学分';
+
+  @override
+  String get courseEditorNotesLabel => '备注';
+
+  @override
+  String get courseEditorTimeSlotsLabel => '时间段';
+
+  @override
+  String get courseEditorAddSlotAction => '添加';
+
+  @override
+  String get courseEditorChooseColorTitle => '选择颜色';
+
+  @override
+  String get courseEditorAutoPickNoConflict => '自动选色（不与已有课程冲突）';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -576,6 +690,9 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get setBackgroundFormat => '设置背景格式';
 
   @override
+  String get materialDynamicColor => 'Material 动态取色';
+
+  @override
   String get helpUsage => '使用帮助';
 
   @override
@@ -970,6 +1087,117 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String classTimeOrderOverlap(int n, int m, Object end, Object start) {
     return '第 $n 节与第 $m 节时间重叠\n  第$n节结束 $end > 第$m节开始 $start';
   }
+
+  @override
+  String get courseEditorNameRequired => '请填写课程名称';
+
+  @override
+  String get courseEditorWeekdayMon => '周一';
+
+  @override
+  String get courseEditorWeekdayTue => '周二';
+
+  @override
+  String get courseEditorWeekdayWed => '周三';
+
+  @override
+  String get courseEditorWeekdayThu => '周四';
+
+  @override
+  String get courseEditorWeekdayFri => '周五';
+
+  @override
+  String get courseEditorWeekdaySat => '周六';
+
+  @override
+  String get courseEditorWeekdaySun => '周日';
+
+  @override
+  String courseEditorWeekNthLabel(int week) {
+    return '第$week周';
+  }
+
+  @override
+  String courseEditorSectionNthLabel(int section) {
+    return '第$section节';
+  }
+
+  @override
+  String get courseEditorWeekRangeTitle => '周数';
+
+  @override
+  String get courseEditorStartLabel => '开始';
+
+  @override
+  String get courseEditorEndLabel => '结束';
+
+  @override
+  String get courseEditorSelectSectionsTitle => '选择节次';
+
+  @override
+  String get courseEditorStartSectionLabel => '开始节';
+
+  @override
+  String get courseEditorEndSectionLabel => '结束节';
+
+  @override
+  String courseEditorTimeSlotTitle(int index) {
+    return '时间段 $index';
+  }
+
+  @override
+  String get courseEditorWeeksLabel => '周数';
+
+  @override
+  String get courseEditorDayLabel => '时间';
+
+  @override
+  String get courseEditorWeekdayTitle => '星期';
+
+  @override
+  String get courseEditorSectionsLabel => '节次';
+
+  @override
+  String get courseEditorTeacherLabel => '老师';
+
+  @override
+  String get courseEditorLocationLabel => '地点';
+
+  @override
+  String get courseEditorEditTitle => '编辑课程';
+
+  @override
+  String get courseEditorAddTitle => '添加课程';
+
+  @override
+  String get courseEditorCourseLabel => '课程';
+
+  @override
+  String get courseEditorRequiredHint => '必填';
+
+  @override
+  String get courseEditorOptionalHint => '选填';
+
+  @override
+  String get courseEditorColorLabel => '颜色';
+
+  @override
+  String get courseEditorCreditsLabel => '学分';
+
+  @override
+  String get courseEditorNotesLabel => '备注';
+
+  @override
+  String get courseEditorTimeSlotsLabel => '时间段';
+
+  @override
+  String get courseEditorAddSlotAction => '添加';
+
+  @override
+  String get courseEditorChooseColorTitle => '选择颜色';
+
+  @override
+  String get courseEditorAutoPickNoConflict => '自动选色（不与已有课程冲突）';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1058,6 +1286,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get setBackgroundFormat => '設定背景格式';
+
+  @override
+  String get materialDynamicColor => 'Material 動態取色';
 
   @override
   String get helpUsage => '使用說明';
@@ -1454,4 +1685,115 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String classTimeOrderOverlap(int n, int m, Object end, Object start) {
     return '第 $n 節與第 $m 節時間重疊\n  第$n節結束 $end > 第$m節開始 $start';
   }
+
+  @override
+  String get courseEditorNameRequired => '請填寫課程名稱';
+
+  @override
+  String get courseEditorWeekdayMon => '週一';
+
+  @override
+  String get courseEditorWeekdayTue => '週二';
+
+  @override
+  String get courseEditorWeekdayWed => '週三';
+
+  @override
+  String get courseEditorWeekdayThu => '週四';
+
+  @override
+  String get courseEditorWeekdayFri => '週五';
+
+  @override
+  String get courseEditorWeekdaySat => '週六';
+
+  @override
+  String get courseEditorWeekdaySun => '週日';
+
+  @override
+  String courseEditorWeekNthLabel(int week) {
+    return '第$week週';
+  }
+
+  @override
+  String courseEditorSectionNthLabel(int section) {
+    return '第$section節';
+  }
+
+  @override
+  String get courseEditorWeekRangeTitle => '週數';
+
+  @override
+  String get courseEditorStartLabel => '開始';
+
+  @override
+  String get courseEditorEndLabel => '結束';
+
+  @override
+  String get courseEditorSelectSectionsTitle => '選擇節次';
+
+  @override
+  String get courseEditorStartSectionLabel => '開始節';
+
+  @override
+  String get courseEditorEndSectionLabel => '結束節';
+
+  @override
+  String courseEditorTimeSlotTitle(int index) {
+    return '時間段 $index';
+  }
+
+  @override
+  String get courseEditorWeeksLabel => '週數';
+
+  @override
+  String get courseEditorDayLabel => '時間';
+
+  @override
+  String get courseEditorWeekdayTitle => '星期';
+
+  @override
+  String get courseEditorSectionsLabel => '節次';
+
+  @override
+  String get courseEditorTeacherLabel => '老師';
+
+  @override
+  String get courseEditorLocationLabel => '地點';
+
+  @override
+  String get courseEditorEditTitle => '編輯課程';
+
+  @override
+  String get courseEditorAddTitle => '添加課程';
+
+  @override
+  String get courseEditorCourseLabel => '課程';
+
+  @override
+  String get courseEditorRequiredHint => '必填';
+
+  @override
+  String get courseEditorOptionalHint => '選填';
+
+  @override
+  String get courseEditorColorLabel => '顏色';
+
+  @override
+  String get courseEditorCreditsLabel => '學分';
+
+  @override
+  String get courseEditorNotesLabel => '備註';
+
+  @override
+  String get courseEditorTimeSlotsLabel => '時間段';
+
+  @override
+  String get courseEditorAddSlotAction => '添加';
+
+  @override
+  String get courseEditorChooseColorTitle => '選擇顏色';
+
+  @override
+  String get courseEditorAutoPickNoConflict => '自動選色（不與已有課程衝突）';
 }

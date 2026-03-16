@@ -264,6 +264,12 @@ abstract class AppLocalizations {
   /// **'设置背景格式'**
   String get setBackgroundFormat;
 
+  /// No description provided for @materialDynamicColor.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'Material 动态取色'**
+  String get materialDynamicColor;
+
   /// No description provided for @helpUsage.
   ///
   /// In zh_Hans, this message translates to:
@@ -971,6 +977,216 @@ abstract class AppLocalizations {
   /// In zh_Hans, this message translates to:
   /// **'第 {n} 节与第 {m} 节时间重叠\n  第{n}节结束 {end} > 第{m}节开始 {start}'**
   String classTimeOrderOverlap(int n, int m, Object end, Object start);
+
+  /// No description provided for @courseEditorNameRequired.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'请填写课程名称'**
+  String get courseEditorNameRequired;
+
+  /// No description provided for @courseEditorWeekdayMon.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'周一'**
+  String get courseEditorWeekdayMon;
+
+  /// No description provided for @courseEditorWeekdayTue.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'周二'**
+  String get courseEditorWeekdayTue;
+
+  /// No description provided for @courseEditorWeekdayWed.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'周三'**
+  String get courseEditorWeekdayWed;
+
+  /// No description provided for @courseEditorWeekdayThu.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'周四'**
+  String get courseEditorWeekdayThu;
+
+  /// No description provided for @courseEditorWeekdayFri.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'周五'**
+  String get courseEditorWeekdayFri;
+
+  /// No description provided for @courseEditorWeekdaySat.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'周六'**
+  String get courseEditorWeekdaySat;
+
+  /// No description provided for @courseEditorWeekdaySun.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'周日'**
+  String get courseEditorWeekdaySun;
+
+  /// No description provided for @courseEditorWeekNthLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'第{week}周'**
+  String courseEditorWeekNthLabel(int week);
+
+  /// No description provided for @courseEditorSectionNthLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'第{section}节'**
+  String courseEditorSectionNthLabel(int section);
+
+  /// No description provided for @courseEditorWeekRangeTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'周数'**
+  String get courseEditorWeekRangeTitle;
+
+  /// No description provided for @courseEditorStartLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'开始'**
+  String get courseEditorStartLabel;
+
+  /// No description provided for @courseEditorEndLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'结束'**
+  String get courseEditorEndLabel;
+
+  /// No description provided for @courseEditorSelectSectionsTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'选择节次'**
+  String get courseEditorSelectSectionsTitle;
+
+  /// No description provided for @courseEditorStartSectionLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'开始节'**
+  String get courseEditorStartSectionLabel;
+
+  /// No description provided for @courseEditorEndSectionLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'结束节'**
+  String get courseEditorEndSectionLabel;
+
+  /// No description provided for @courseEditorTimeSlotTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'时间段 {index}'**
+  String courseEditorTimeSlotTitle(int index);
+
+  /// No description provided for @courseEditorWeeksLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'周数'**
+  String get courseEditorWeeksLabel;
+
+  /// No description provided for @courseEditorDayLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'时间'**
+  String get courseEditorDayLabel;
+
+  /// No description provided for @courseEditorWeekdayTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'星期'**
+  String get courseEditorWeekdayTitle;
+
+  /// No description provided for @courseEditorSectionsLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'节次'**
+  String get courseEditorSectionsLabel;
+
+  /// No description provided for @courseEditorTeacherLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'老师'**
+  String get courseEditorTeacherLabel;
+
+  /// No description provided for @courseEditorLocationLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'地点'**
+  String get courseEditorLocationLabel;
+
+  /// No description provided for @courseEditorEditTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'编辑课程'**
+  String get courseEditorEditTitle;
+
+  /// No description provided for @courseEditorAddTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'添加课程'**
+  String get courseEditorAddTitle;
+
+  /// No description provided for @courseEditorCourseLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'课程'**
+  String get courseEditorCourseLabel;
+
+  /// No description provided for @courseEditorRequiredHint.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'必填'**
+  String get courseEditorRequiredHint;
+
+  /// No description provided for @courseEditorOptionalHint.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'选填'**
+  String get courseEditorOptionalHint;
+
+  /// No description provided for @courseEditorColorLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'颜色'**
+  String get courseEditorColorLabel;
+
+  /// No description provided for @courseEditorCreditsLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'学分'**
+  String get courseEditorCreditsLabel;
+
+  /// No description provided for @courseEditorNotesLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'备注'**
+  String get courseEditorNotesLabel;
+
+  /// No description provided for @courseEditorTimeSlotsLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'时间段'**
+  String get courseEditorTimeSlotsLabel;
+
+  /// No description provided for @courseEditorAddSlotAction.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'添加'**
+  String get courseEditorAddSlotAction;
+
+  /// No description provided for @courseEditorChooseColorTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'选择颜色'**
+  String get courseEditorChooseColorTitle;
+
+  /// No description provided for @courseEditorAutoPickNoConflict.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'自动选色（不与已有课程冲突）'**
+  String get courseEditorAutoPickNoConflict;
 }
 
 class _AppLocalizationsDelegate

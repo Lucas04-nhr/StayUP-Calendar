@@ -405,21 +405,27 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
         settingCard(context, [
           _WideSettingRow(
             label: context.l10n.courseReminder,
-            trailing: Switch(
-              value: _notification,
-              onChanged: (v) => _showWip(context),
-              activeThumbColor: const Color(0xFF4ECDC4),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            trailing: Transform.scale(
+              scale: 0.92,
+              child: Switch(
+                value: _notification,
+                onChanged: (v) => _showWip(context),
+                activeThumbColor: const Color(0xFF4ECDC4),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
             ),
           ),
           _WideSettingRow(
             label: context.l10n.widgetSync,
             showDivider: false,
-            trailing: Switch(
-              value: _widgetSync,
-              onChanged: (v) => _showWip(context),
-              activeThumbColor: const Color(0xFF4ECDC4),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            trailing: Transform.scale(
+              scale: 0.92,
+              child: Switch(
+                value: _widgetSync,
+                onChanged: (v) => _showWip(context),
+                activeThumbColor: const Color(0xFF4ECDC4),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
             ),
           ),
         ]),
@@ -430,9 +436,21 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
         settingCard(context, [
           _WideSettingRow(
             label: context.l10n.setBackgroundFormat,
-            showDivider: false,
             onTap: () => _showWip(context),
             trailing: const Icon(Icons.chevron_right, color: kHint, size: 18),
+          ),
+          _WideSettingRow(
+            label: context.l10n.materialDynamicColor,
+            showDivider: false,
+            trailing: Transform.scale(
+              scale: 0.92,
+              child: Switch(
+                value: appState.useMaterialDynamicColor,
+                onChanged: appState.updateUseMaterialDynamicColor,
+                activeThumbColor: const Color(0xFF4ECDC4),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+            ),
           ),
         ]),
 
@@ -477,7 +495,7 @@ class _WideSettingRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = ac(context);
     final content = SizedBox(
-      height: 60,
+      height: 56,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(

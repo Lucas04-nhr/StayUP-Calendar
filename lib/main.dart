@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 
 import 'l10n/app_localizations.dart';
 import 'src/l10n.dart';
@@ -106,99 +107,77 @@ class _AppWithTheme extends StatelessWidget {
     }
   }
 
+  ThemeData _buildTheme({
+    required ColorScheme colorScheme,
+    required bool isDark,
+  }) {
+    return ThemeData(
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor:
+          isDark ? const Color(0xFF1C1C1E) : const Color(0xFFF2F2F7),
+      cardColor: isDark ? const Color(0xFF2C2C2E) : const Color(0xFFFFFFFF),
+      dividerColor: isDark ? const Color(0xFF3A3A3C) : const Color(0xFFE5E5EA),
+      useMaterial3: true,
+      appBarTheme: AppBarTheme(
+        backgroundColor:
+            isDark ? const Color(0xFF2C2C2E) : const Color(0xFFFFFFFF),
+        foregroundColor: isDark ? Colors.white : const Color(0xFF1C1C1E),
+        elevation: 0,
+        titleTextStyle: TextStyle(
+          color: isDark ? Colors.white : const Color(0xFF1C1C1E),
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+        ),
+        iconTheme:
+            IconThemeData(color: isDark ? Colors.white : const Color(0xFF1C1C1E)),
+      ),
+      dialogTheme: DialogThemeData(
+        titleTextStyle: TextStyle(
+          color: isDark ? Colors.white : const Color(0xFF1C1C1E),
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+        contentTextStyle: TextStyle(
+          color: isDark ? const Color(0xFF8E8E93) : const Color(0xFF6C6C70),
+          fontSize: 14,
+          height: 1.5,
+        ),
+      ),
+      extensions: [isDark ? AppColors.dark : AppColors.light],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateTitle: (context) => context.l10n.appTitle,
-      locale: appState.appLocale,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF4ECDC4),
-          brightness: Brightness.light,
-        ),
-        scaffoldBackgroundColor: const Color(0xFFF2F2F7),
-        cardColor: const Color(0xFFFFFFFF),
-        dividerColor: const Color(0xFFE5E5EA),
-        fontFamily: 'PingFang SC',
-        useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFFFFFFFF),
-          foregroundColor: Color(0xFF1C1C1E),
-          elevation: 0,
-          titleTextStyle: TextStyle(
-            color: Color(0xFF1C1C1E),
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'PingFang SC',
-          ),
-          iconTheme: IconThemeData(color: Color(0xFF1C1C1E)),
-        ),
-        dialogTheme: const DialogThemeData(
-          titleTextStyle: TextStyle(
-            color: Color(0xFF1C1C1E),
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'PingFang SC',
-          ),
-          contentTextStyle: TextStyle(
-            color: Color(0xFF6C6C70),
-            fontSize: 14,
-            height: 1.5,
-            fontFamily: 'PingFang SC',
-          ),
-        ),
-        extensions: const [AppColors.light],
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF4ECDC4),
-          brightness: Brightness.dark,
-        ),
-        scaffoldBackgroundColor: const Color(0xFF1C1C1E),
-        cardColor: const Color(0xFF2C2C2E),
-        dividerColor: const Color(0xFF3A3A3C),
-        fontFamily: 'PingFang SC',
-        useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF2C2C2E),
-          foregroundColor: Colors.white,
-          elevation: 0,
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'PingFang SC',
-          ),
-          iconTheme: IconThemeData(color: Colors.white),
-        ),
-        dialogTheme: const DialogThemeData(
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'PingFang SC',
-          ),
-          contentTextStyle: TextStyle(
-            color: Color(0xFF8E8E93),
-            fontSize: 14,
-            height: 1.5,
-            fontFamily: 'PingFang SC',
-          ),
-        ),
-        extensions: const [AppColors.dark],
-      ),
-        themeMode: _toThemeMode(themeMode),
-      builder: (context, child) =>
-          AppStateScope(notifier: appState, child: child!),
-      home: const SchedulePage(),
+    const originalSeedColor = Color(0xFF4ECDC4);
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) {
+        final lightScheme = appState.useMaterialDynamicColor && lightDynamic != null
+            ? lightDynamic.harmonized()
+            : ColorScheme.fromSeed(seedColor: originalSeedColor, brightness: Brightness.light);
+        final darkScheme = appState.useMaterialDynamicColor && darkDynamic != null
+            ? darkDynamic.harmonized()
+            : ColorScheme.fromSeed(seedColor: originalSeedColor, brightness: Brightness.dark);
+
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          onGenerateTitle: (context) => context.l10n.appTitle,
+          locale: appState.appLocale,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          theme: _buildTheme(colorScheme: lightScheme, isDark: false),
+          darkTheme: _buildTheme(colorScheme: darkScheme, isDark: true),
+          themeMode: _toThemeMode(themeMode),
+          builder: (context, child) =>
+              AppStateScope(notifier: appState, child: child!),
+          home: const SchedulePage(),
+        );
+      },
     );
   }
 }

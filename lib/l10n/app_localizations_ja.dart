@@ -93,6 +93,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get setBackgroundFormat => '背景フォーマット設定';
 
   @override
+  String get materialDynamicColor => 'Material 動的カラー';
+
+  @override
   String get helpUsage => 'ヘルプ';
 
   @override
@@ -488,4 +491,115 @@ class AppLocalizationsJa extends AppLocalizations {
   String classTimeOrderOverlap(int n, int m, Object end, Object start) {
     return '第 $n コマと第 $m コマが重複\n  第$nコマ終了 $end > 第$mコマ開始 $start';
   }
+
+  @override
+  String get courseEditorNameRequired => '授業名を入力してください';
+
+  @override
+  String get courseEditorWeekdayMon => '月曜';
+
+  @override
+  String get courseEditorWeekdayTue => '火曜';
+
+  @override
+  String get courseEditorWeekdayWed => '水曜';
+
+  @override
+  String get courseEditorWeekdayThu => '木曜';
+
+  @override
+  String get courseEditorWeekdayFri => '金曜';
+
+  @override
+  String get courseEditorWeekdaySat => '土曜';
+
+  @override
+  String get courseEditorWeekdaySun => '日曜';
+
+  @override
+  String courseEditorWeekNthLabel(int week) {
+    return '第$week週';
+  }
+
+  @override
+  String courseEditorSectionNthLabel(int section) {
+    return '第$section限';
+  }
+
+  @override
+  String get courseEditorWeekRangeTitle => '週範囲';
+
+  @override
+  String get courseEditorStartLabel => '開始';
+
+  @override
+  String get courseEditorEndLabel => '終了';
+
+  @override
+  String get courseEditorSelectSectionsTitle => 'コマを選択';
+
+  @override
+  String get courseEditorStartSectionLabel => '開始コマ';
+
+  @override
+  String get courseEditorEndSectionLabel => '終了コマ';
+
+  @override
+  String courseEditorTimeSlotTitle(int index) {
+    return '時間枠 $index';
+  }
+
+  @override
+  String get courseEditorWeeksLabel => '週数';
+
+  @override
+  String get courseEditorDayLabel => '曜日';
+
+  @override
+  String get courseEditorWeekdayTitle => '曜日';
+
+  @override
+  String get courseEditorSectionsLabel => 'コマ';
+
+  @override
+  String get courseEditorTeacherLabel => '教員';
+
+  @override
+  String get courseEditorLocationLabel => '場所';
+
+  @override
+  String get courseEditorEditTitle => '授業を編集';
+
+  @override
+  String get courseEditorAddTitle => '授業を追加';
+
+  @override
+  String get courseEditorCourseLabel => '授業';
+
+  @override
+  String get courseEditorRequiredHint => '必須';
+
+  @override
+  String get courseEditorOptionalHint => '任意';
+
+  @override
+  String get courseEditorColorLabel => '色';
+
+  @override
+  String get courseEditorCreditsLabel => '単位';
+
+  @override
+  String get courseEditorNotesLabel => 'メモ';
+
+  @override
+  String get courseEditorTimeSlotsLabel => '時間枠';
+
+  @override
+  String get courseEditorAddSlotAction => '追加';
+
+  @override
+  String get courseEditorChooseColorTitle => '色を選択';
+
+  @override
+  String get courseEditorAutoPickNoConflict => '自動選択（既存授業と衝突回避）';
 }
