@@ -157,6 +157,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get scheduleNameRequiredHint => '课表名称（必填）';
 
   @override
+  String get scheduleNameTruncatedMessage => '超出限制字符，已经截断';
+
+  @override
   String get firstDayOfWeekOne => '第一周的第一天';
 
   @override
@@ -897,6 +900,9 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get scheduleNameRequiredHint => '课表名称（必填）';
 
   @override
+  String get scheduleNameTruncatedMessage => '超出限制字符，已经截断';
+
+  @override
   String get firstDayOfWeekOne => '第一周的第一天';
 
   @override
@@ -1635,6 +1641,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get scheduleNameRequiredHint => '課表名稱（必填）';
+
+  @override
+  String get scheduleNameTruncatedMessage => '超出限制字符，已经截断';
 
   @override
   String get firstDayOfWeekOne => '第一週的第一天';

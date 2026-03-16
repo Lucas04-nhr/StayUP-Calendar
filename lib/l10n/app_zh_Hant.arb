@@ -58,6 +58,7 @@
   "newScheduleTitle": "新建課表",
   "scheduleNameRequired": "請填寫課表名稱",
   "scheduleNameRequiredHint": "課表名稱（必填）",
+  "scheduleNameTruncatedMessage": "超出限制字符，已经截断",
   "firstDayOfWeekOne": "第一週的第一天",
   "weekStartDay": "一週起始天",
   "mondayLabel": "週一",

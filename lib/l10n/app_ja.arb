@@ -58,6 +58,7 @@
   "newScheduleTitle": "新規時間割",
   "scheduleNameRequired": "時間割名を入力してください",
   "scheduleNameRequiredHint": "時間割名（必須）",
+  "scheduleNameTruncatedMessage": "文字数制限を超えたため、切り詰めました",
   "firstDayOfWeekOne": "第1週の初日",
   "weekStartDay": "週の開始曜日",
   "mondayLabel": "月曜日",

@@ -390,6 +390,12 @@ abstract class AppLocalizations {
   /// **'课表名称（必填）'**
   String get scheduleNameRequiredHint;
 
+  /// No description provided for @scheduleNameTruncatedMessage.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'超出限制字符，已经截断'**
+  String get scheduleNameTruncatedMessage;
+
   /// No description provided for @firstDayOfWeekOne.
   ///
   /// In zh_Hans, this message translates to:

@@ -159,6 +159,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scheduleNameRequiredHint => '時間割名（必須）';
 
   @override
+  String get scheduleNameTruncatedMessage => '文字数制限を超えたため、切り詰めました';
+
+  @override
   String get firstDayOfWeekOne => '第1週の初日';
 
   @override

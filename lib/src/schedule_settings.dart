@@ -244,7 +244,7 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
                                     borderRadius: BorderRadius.circular(14),
                                   ),
                                   content: const Text(
-                                    '超出限制字符，已经截断',
+                                    context.l10n.scheduleNameTruncatedMessage,
                                     style: TextStyle(fontSize: 14, height: 1.5),
                                   ),
                                   actions: [

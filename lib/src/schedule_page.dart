@@ -283,7 +283,7 @@ class _Header extends StatelessWidget {
       fontWeight: FontWeight.w600,
     );
     // Fixed cap based on the tested width of English "New Schedule".
-    const scheduleTagMaxWidth = 96.0;
+    const scheduleTagMaxWidth = 80.0;
 
     return Container(
       decoration: BoxDecoration(

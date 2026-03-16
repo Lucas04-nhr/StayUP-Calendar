@@ -58,6 +58,7 @@
   "newScheduleTitle": "New Schedule",
   "scheduleNameRequired": "Please enter a schedule name",
   "scheduleNameRequiredHint": "Schedule name (required)",
+  "scheduleNameTruncatedMessage": "Exceeded the character limit and has been truncated",
   "firstDayOfWeekOne": "First day of week 1",
   "weekStartDay": "Week starts on",
   "mondayLabel": "Monday",

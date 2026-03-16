@@ -161,6 +161,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleNameRequiredHint => 'Schedule name (required)';
 
   @override
+  String get scheduleNameTruncatedMessage =>
+      'Exceeded the character limit and has been truncated';
+
+  @override
   String get firstDayOfWeekOne => 'First day of week 1';
 
   @override
