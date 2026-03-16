@@ -675,7 +675,7 @@ abstract class AppLocalizations {
   /// No description provided for @hustNoticeText.
   ///
   /// In zh_Hans, this message translates to:
-  /// **'1. 若未登录会先跳转到登录页，登录后点击右下角导入按钮\n\n2. 时间地点为\"待定\"的课程不会导入，请后续手动添加'**
+  /// **'1. 若未登录会先跳转到登录页\n\n2. 登录后若想切换学期，请点击右上角刷新按钮\n\n3. 时间地点为\"待定\"的课程不会导入，请后续手动添加'**
   String get hustNoticeText;
 
   /// No description provided for @hustNeedLoginError.

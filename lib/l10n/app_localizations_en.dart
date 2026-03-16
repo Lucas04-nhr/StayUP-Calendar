@@ -321,7 +321,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hustNoticeText =>
-      '1. If you are not logged in, you will be redirected to the login page. After login, tap the import button in the bottom-right.\n\n2. Courses with \"TBD\" time/location will not be imported. Please add them manually later.';
+      '1. If you are not logged in, you will be redirected to the login page.\n\n2. After login, if you want to switch terms, tap the refresh button in the top-right.\n\n3. Courses with \"TBD\" time/location will not be imported. Please add them manually later.';
 
   @override
   String get hustNeedLoginError =>

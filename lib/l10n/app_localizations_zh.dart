@@ -313,7 +313,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get hustNoticeText =>
-      '1. 若未登录会先跳转到登录页，登录后点击右下角导入按钮\n\n2. 时间地点为\"待定\"的课程不会导入，请后续手动添加';
+      '1. 若未登录会先跳转到登录页\n\n2. 登录后若想切换学期，请点击右上角刷新按钮\n\n3. 时间地点为\"待定\"的课程不会导入，请后续手动添加';
 
   @override
   String get hustNeedLoginError => '请先在页面中完成登录，然后再点击导入按钮';
@@ -1075,7 +1075,7 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get hustNoticeText =>
-      '1. 若未登录会先跳转到登录页，登录后点击右下角导入按钮\n\n2. 时间地点为\"待定\"的课程不会导入，请后续手动添加';
+      '1. 若未登录会先跳转到登录页\n\n2. 登录后若想切换学期，请点击右上角刷新按钮\n\n3. 时间地点为\"待定\"的课程不会导入，请后续手动添加';
 
   @override
   String get hustNeedLoginError => '请先在页面中完成登录，然后再点击导入按钮';
@@ -1837,7 +1837,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hustNoticeText =>
-      '1. 若未登入會先跳轉到登入頁，登入後點擊右下角導入按鈕\n\n2. 時間地點為\"待定\"的課程不會導入，請後續手動添加';
+      '1. 若未登入會先跳轉到登入頁\n\n2. 登入後若想切換學期，請點擊右上角刷新按鈕\n\n3. 時間地點為\"待定\"的課程不會導入，請後續手動添加';
 
   @override
   String get hustNeedLoginError => '請先在頁面中完成登入，然後再點擊導入按鈕';

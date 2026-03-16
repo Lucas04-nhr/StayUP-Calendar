@@ -5,7 +5,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../common_widgets.dart';
 import '../l10n.dart';
 import '../models.dart';
-import 'crawler/hust.dart';
+import 'crawler/crawler.dart';
 import 'widgets/school_importers.dart';
 
 part 'widgets/school_import_widgets.dart';
@@ -405,6 +405,11 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
 
   Future<void> _refreshCurrentPage() async {
     if (!mounted) return;
+    if (widget.importer is HustImporter) {
+      await _prepareHustTermAfterNotice(widget.importer as HustImporter);
+      return;
+    }
+
     setState(() => _loading = true);
     await _controller.reload();
   }

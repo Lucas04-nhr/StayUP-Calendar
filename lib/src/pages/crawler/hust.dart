@@ -63,9 +63,11 @@ class HustImporter extends SchoolImporter {
     final l10n = context.l10n;
     try {
       final selection = await _showTermDialog(context);
-      // Cancelled → fall back to the date-derived default term.
-      _selectedAcademicYear = selection?.academicYear ?? _defaultAcademicYear(DateTime.now());
-      _selectedSemester    = selection?.semester    ?? _defaultSemester(DateTime.now());
+      if (selection == null) {
+        return false;
+      }
+      _selectedAcademicYear = selection.academicYear;
+      _selectedSemester = selection.semester;
 
       await controller.loadRequest(
         Uri.parse(_buildUrl(_selectedAcademicYear, _selectedSemester)),

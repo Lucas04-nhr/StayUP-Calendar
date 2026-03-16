@@ -315,7 +315,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get hustNoticeText =>
-      '1. 未ログインの場合、先にログインページへ移動します。ログイン後、右下のインポートボタンを押してください。\n\n2. 時間・場所が\"未定\"の授業はインポートされません。後で手動追加してください。';
+      '1. 未ログインの場合、先にログインページへ移動します。\n\n2. ログイン後に学期を切り替えたい場合は、右上の更新ボタンを押してください。\n\n3. 時間・場所が\"未定\"の授業はインポートされません。後で手動追加してください。';
 
   @override
   String get hustNeedLoginError => '先にページ内でログインしてから、インポートを押してください。';
