@@ -168,8 +168,7 @@ const String kDateFormatYmdSlash = 'yyyy/MM/dd';
 const String kDateFormatYmdDash = 'yyyy-MM-dd';
 const String kDateFormatMdySlash = 'MM/dd/yyyy';
 const String kDateFormatDmySlash = 'dd/MM/yyyy';
-const String kDateFormatDMonY = 'dd MMM. yyyy';
-const String kDateFormatMonDY = 'MMM. dd yyyy';
+const String kDateFormatMonDY = 'MMM d, yyyy';
 
 class AppState extends ChangeNotifier {
   List<TimeTableConfig> allTimeTables;
