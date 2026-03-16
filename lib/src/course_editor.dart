@@ -34,9 +34,11 @@ class _AddCoursePageState extends State<AddCoursePage> {
 
   // 自动选一个与已有课程不冲突的颜色
   Color _pickAutoColor(List<Course> existing) {
-    final usedColors = existing.map((c) => c.effectiveColor.value).toSet();
+    final usedColors = existing
+        .map((c) => c.effectiveColor.toARGB32())
+        .toSet();
     for (final c in kCourseColors) {
-      if (!usedColors.contains(c.value)) return c;
+      if (!usedColors.contains(c.toARGB32())) return c;
     }
     final hue = (existing.length * 47.0) % 360;
     return HSVColor.fromAHSV(1, hue, 0.7, 0.9).toColor();
@@ -100,8 +102,12 @@ class _AddCoursePageState extends State<AddCoursePage> {
     _nameCtrl.dispose();
     _creditCtrl.dispose();
     _noteCtrl.dispose();
-    for (final c in _teacherCtrls) c.dispose();
-    for (final c in _locCtrls) c.dispose();
+    for (final c in _teacherCtrls) {
+      c.dispose();
+    }
+    for (final c in _locCtrls) {
+      c.dispose();
+    }
     super.dispose();
   }
 
@@ -550,7 +556,6 @@ class _AddCoursePageState extends State<AddCoursePage> {
     String label,
     TextEditingController ctrl,
     String hint, {
-    bool multiline = false,
     int? maxLength,
   }) {
     final colors = ac(context);
@@ -633,7 +638,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFF3B5C).withOpacity(0.12),
+                        color: const Color(0xFFFF3B5C).withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: const Row(
@@ -806,7 +811,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: _accent.withOpacity(0.12),
+                        color: _accent.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: const Row(
@@ -943,13 +948,13 @@ class _AddCoursePageState extends State<AddCoursePage> {
                     margin: const EdgeInsets.only(bottom: 14),
                     decoration: BoxDecoration(
                       color: _customColor == null
-                          ? const Color(0xFF4ECDC4).withOpacity(0.15)
+                        ? const Color(0xFF4ECDC4).withValues(alpha: 0.15)
                           : const Color(0xFFE5E5EA),
                       borderRadius: BorderRadius.circular(8),
                       border: _customColor == null
                           ? Border.all(
                               color: const Color(0xFF4ECDC4)
-                                  .withOpacity(0.4))
+                            .withValues(alpha: 0.4))
                           : null,
                     ),
                     child: Row(children: [
@@ -997,7 +1002,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                   itemCount: palette.length,
                   itemBuilder: (_, i) {
                     final c = palette[i];
-                    final isSelected = tmpColor?.value == c.value;
+                    final isSelected = tmpColor?.toARGB32() == c.toARGB32();
                     return GestureDetector(
                       onTap: () => setS(() => tmpColor = c),
                       child: Container(
@@ -1012,7 +1017,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                           boxShadow: isSelected
                               ? [
                                   BoxShadow(
-                                      color: c.withOpacity(0.6),
+                                  color: c.withValues(alpha: 0.6),
                                       blurRadius: 6)
                                 ]
                               : null,
@@ -1040,41 +1045,6 @@ class _AddCoursePageState extends State<AddCoursePage> {
 // ═══════════════════════════════════════════════════════════════
 const Color _kAccent  = Color(0xFFFF3B5C);
 const Color _kHint    = Color(0xFF8E8E93);
-const Color _kDivider = Color(0xFFE5E5EA);
-
-// 通用子页面脚手架
-class _SubPageScaffold extends StatelessWidget {
-  final String title;
-  final List<Widget> children;
-  const _SubPageScaffold({required this.title, required this.children});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = ac(context);
-    return Scaffold(
-      backgroundColor: colors.bg,
-      appBar: AppBar(
-        backgroundColor: colors.card,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: _kAccent, size: 18),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(title,
-            style: TextStyle(
-                color: colors.primaryText,
-                fontSize: 17,
-                fontWeight: FontWeight.w600)),
-        centerTitle: true,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: children,
-      ),
-    );
-  }
-}
-
 // 通用卡片行
 class _SettingRow extends StatelessWidget {
   final String label;
@@ -1484,7 +1454,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
                 child: ListView.separated(
                   shrinkWrap: true,
                   itemCount: errors.length,
-                  separatorBuilder: (_, __) => const Divider(
+                  separatorBuilder: (_, _) => const Divider(
                       color: Color(0xFFE5E5EA), height: 16),
                   itemBuilder: (_, i) => Text(
                     errors[i],
@@ -1620,7 +1590,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
               trailing: Switch(
                 value: _sameLength,
                 onChanged: (v) => setState(() => _sameLength = v),
-                activeColor: const Color(0xFFFF3B5C),
+                activeThumbColor: const Color(0xFFFF3B5C),
               ),
             ),
             if (_sameLength) ...[

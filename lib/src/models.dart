@@ -86,10 +86,6 @@ class AppColors extends ThemeExtension<AppColors> {
   }
 }
 
-// 便捷访问
-AppColors _ac(BuildContext context) =>
-    Theme.of(context).extension<AppColors>() ?? AppColors.light;
-
 // ─────────────────────────────────────────────
 // 时间表配置（名称 + 20节时间）
 // ─────────────────────────────────────────────
@@ -393,7 +389,7 @@ class AppState extends ChangeNotifier {
   }
 
   void updateThemeColor(Color color) {
-    themeColorValue = color.value;
+    themeColorValue = color.toARGB32();
     notifyListeners();
   }
 
@@ -665,7 +661,7 @@ class Course {
     'startSection': startSection,
     'span': span,
     'colorIdx': colorIdx,
-    'customColor': customColor?.value,
+    'customColor': customColor?.toARGB32(),
     'isNonWeek': isNonWeek,
     'weeks': weeks,
     'startWeek': startWeek,

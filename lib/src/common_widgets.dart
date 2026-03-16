@@ -120,7 +120,7 @@ class SettingRow extends StatelessWidget {
               style: TextStyle(color: ac(context).primaryText, fontSize: 15),
             ),
           ),
-          if (trailing != null) trailing!,
+          ?trailing,
           if (onTap != null && trailing == null)
             Icon(Icons.chevron_right, color: ac(context).hint, size: 18),
         ],

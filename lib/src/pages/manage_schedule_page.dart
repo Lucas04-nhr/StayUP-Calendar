@@ -66,7 +66,7 @@ class _ManageSchedulePageState extends State<ManageSchedulePage> {
                     idxList.insert(newIndex, item);
                     s.reorderSchedules(idxList);
                   }
-                : (_, __) {},
+                : (_, _) {},
             header: Padding(
               padding: const EdgeInsets.only(left: 2, bottom: 10),
               child: Text(

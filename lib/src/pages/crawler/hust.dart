@@ -29,7 +29,7 @@ class HustImporter extends SchoolImporter {
   static int _defaultSemester(DateTime now) => now.month >= 8 ? 1 : 2;
 
   String _buildUrl(int academicYear, int semester) =>
-      '$_baseUrl?kcbxqh=${academicYear}$semester';
+      '$_baseUrl?kcbxqh=$academicYear$semester';
 
   @override
   String get webUrl => _buildUrl(_selectedAcademicYear, _selectedSemester);
@@ -50,6 +50,7 @@ class HustImporter extends SchoolImporter {
     AppState appState,
     void Function(String error) onError,
   ) async {
+    final l10n = context.l10n;
     try {
       final selection = await _showTermDialog(context);
       if (selection == null) {
@@ -76,20 +77,20 @@ class HustImporter extends SchoolImporter {
       }
 
       if (raw.trim().startsWith('<') || raw.trim().isEmpty) {
-        onError(context.l10n.hustNeedLoginError);
+        onError(l10n.hustNeedLoginError);
         return null;
       }
 
       final json = jsonDecode(raw) as Map<String, dynamic>;
 
       if (json['code'] != '200' || json['data'] == null) {
-        onError(context.l10n.hustApiError(json['code']));
+        onError(l10n.hustApiError(json['code']));
         return null;
       }
 
       return _parse(json, appState);
     } catch (e) {
-      onError(context.l10n.hustReadFailed(e));
+      onError(l10n.hustReadFailed(e));
       return null;
     }
   }

@@ -14,7 +14,6 @@ class SchedulePage extends StatefulWidget {
 
 class _SchedulePageState extends State<SchedulePage> {
   int _currentWeek = 1;
-  static const int _initialWeek = 1;
   late final PageController _pageController;
   final DateTime _today = DateTime.now();
   int _lastActiveIndex = -1; // 追踪课表切换
@@ -44,7 +43,6 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   int get _todayCol => _today.weekday;
-  DateTime get _thisWeekMonday => _today.subtract(Duration(days: _today.weekday - 1));
   // week1Monday 由当前课表的 firstWeekDay 决定
   DateTime _week1MondayFor(DateTime firstWeekDay) {
     // 找到 firstWeekDay 所在周的周一
@@ -69,7 +67,6 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   void _deleteCourse(int id) => AppStateScope.of(context).deleteCourse(id);
-  void _addCourse(Course course) => AppStateScope.of(context).addCourse(course);
 
   @override
   Widget build(BuildContext context) {
@@ -278,7 +275,7 @@ class _Header extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.92),
+        color: Colors.white.withValues(alpha: 0.92),
       ),
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
       child: Row(
@@ -303,7 +300,7 @@ class _Header extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF4ECDC4).withOpacity(0.12),
+                      color: const Color(0xFF4ECDC4).withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
@@ -326,7 +323,7 @@ class _Header extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF07B8A).withOpacity(0.15),
+                        color: const Color(0xFFF07B8A).withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: const Text(
@@ -404,7 +401,7 @@ class _DayHeader extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
+        color: Colors.white.withValues(alpha: 0.9),
         border: const Border(bottom: BorderSide(color: Color(0x0F000000))),
       ),
       child: Row(
@@ -526,7 +523,7 @@ class _ScheduleGrid extends StatelessWidget {
                     height: kSlotHeight,
                     decoration: BoxDecoration(
                       color: isCurrent
-                          ? const Color(0xFF4ECDC4).withOpacity(0.1)
+                          ? const Color(0xFF4ECDC4).withValues(alpha: 0.1)
                           : Colors.transparent,
                       border: const Border(
                         bottom: BorderSide(color: Color(0x08000000)),
@@ -621,7 +618,7 @@ class _DayColumn extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: isToday
-            ? const Color(0xFF4ECDC4).withOpacity(0.03)
+            ? const Color(0xFF4ECDC4).withValues(alpha: 0.03)
             : Colors.transparent,
         border: const Border(left: BorderSide(color: Color(0x08000000))),
       ),
@@ -707,7 +704,7 @@ class _CourseCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: color.withOpacity(0.35),
+                color: color.withValues(alpha: 0.35),
                 blurRadius: 6,
                 offset: const Offset(0, 2),
               ),
@@ -722,7 +719,7 @@ class _CourseCard extends StatelessWidget {
                   '[非本周]',
                   style: TextStyle(
                     fontSize: 7,
-                    color: const Color(0xFF3C3C43),
+                    color: Color(0xFF3C3C43),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -731,7 +728,7 @@ class _CourseCard extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
-                  color: const Color(0xFF1C1C1E),
+                  color: Color(0xFF1C1C1E),
                   height: 1.3,
                 ),
                 textAlign: TextAlign.center,
@@ -744,7 +741,7 @@ class _CourseCard extends StatelessWidget {
                   '@${course.location}',
                   style: const TextStyle(
                     fontSize: 8,
-                    color: const Color(0xFF3C3C43),
+                    color: Color(0xFF3C3C43),
                     height: 1.2,
                   ),
                   textAlign: TextAlign.center,
@@ -789,7 +786,7 @@ class _CourseDetailSheet extends StatelessWidget {
 
     return Container(
       decoration: const BoxDecoration(
-        color: const Color(0xFF1C1C1E),
+        color: Color(0xFF1C1C1E),
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       padding: EdgeInsets.fromLTRB(
@@ -826,7 +823,7 @@ class _CourseDetailSheet extends StatelessWidget {
                       child: Text(
                         '周${kWeekDays[course.day - 1]}  ·  第${course.startSection}–${course.startSection + course.span - 1}节',
                         style: const TextStyle(
-                            fontSize: 12, color: const Color(0xFF1C1C1E), fontWeight: FontWeight.w500),
+                            fontSize: 12, color: Color(0xFF1C1C1E), fontWeight: FontWeight.w500),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -1149,7 +1146,9 @@ class _ScheduleThumb extends StatelessWidget {
           Container(
             width: 72, height: 64,
             decoration: BoxDecoration(
-              color: isSelected ? const Color(0xFF4ECDC4).withOpacity(0.25) : colors.divider,
+              color: isSelected
+                  ? const Color(0xFF4ECDC4).withValues(alpha: 0.25)
+                  : colors.divider,
               borderRadius: BorderRadius.circular(10),
               border: isSelected ? Border.all(color: const Color(0xFF4ECDC4), width: 1.5) : null,
             ),
@@ -1181,8 +1180,6 @@ class _ToolCell extends StatelessWidget {
   final _MenuTool tool;
   const _ToolCell({required this.tool});
 
-  static const Map<String, Widget> _pages = {};
-
   void _navigate(BuildContext context) {
     Widget page;
     switch (tool.route) {
@@ -1210,7 +1207,7 @@ class _ToolCell extends StatelessWidget {
                 Icon(Icons.ios_share_outlined, color: Color(0xFF6C6C70), size: 20),
                 SizedBox(width: 8),
                 Text('导出课表', style: TextStyle(
-                    color: const Color(0xFF1C1C1E), fontSize: 16, fontWeight: FontWeight.w600)),
+                    color: Color(0xFF1C1C1E), fontSize: 16, fontWeight: FontWeight.w600)),
               ]),
               content: const Text(
                 '「导出课表」功能正在开发中，敬请期待。',

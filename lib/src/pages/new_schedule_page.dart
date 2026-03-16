@@ -31,8 +31,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
           colorScheme: const ColorScheme.dark(
             primary: Color(0xFFFF3B5C),
             surface: Color(0xFFFFFFFF),
-          ),
-          dialogBackgroundColor: const Color(0xFFF2F2F7),
+          ), dialogTheme: DialogThemeData(backgroundColor: const Color(0xFFF2F2F7)),
         ),
         child: child!,
       ),

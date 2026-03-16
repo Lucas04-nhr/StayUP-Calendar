@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -42,7 +41,9 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
 
   static Map<String, List<_SchoolEntry>> get _grouped {
     final map = <String, List<_SchoolEntry>>{};
-    for (final s in _allSchools) map.putIfAbsent(s.pinyin, () => []).add(s);
+    for (final s in _allSchools) {
+      map.putIfAbsent(s.pinyin, () => []).add(s);
+    }
     return map;
   }
 
@@ -72,7 +73,9 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
 
   Map<String, List<_SchoolEntry>> get _filteredGrouped {
     final map = <String, List<_SchoolEntry>>{};
-    for (final s in _filtered) map.putIfAbsent(s.pinyin, () => []).add(s);
+    for (final s in _filtered) {
+      map.putIfAbsent(s.pinyin, () => []).add(s);
+    }
     return map;
   }
 
@@ -313,7 +316,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
               child: ListView.separated(
                 shrinkWrap: true,
                 itemCount: courses.length,
-                separatorBuilder: (_, __) =>
+                separatorBuilder: (_, _) =>
                     Divider(height: 1, color: ac(context).divider),
                 itemBuilder: (_, i) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),

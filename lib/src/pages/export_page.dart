@@ -61,7 +61,7 @@ class _ExportPageState extends State<ExportPage> {
             trailing: Switch(
               value: _includeNonWeek,
               onChanged: (v) => setState(() => _includeNonWeek = v),
-              activeColor: const Color(0xFF4ECDC4),
+              activeThumbColor: const Color(0xFF4ECDC4),
             ),
           ),
           SettingRow(
@@ -69,7 +69,7 @@ class _ExportPageState extends State<ExportPage> {
             trailing: Switch(
               value: _includeSaturday,
               onChanged: (v) => setState(() => _includeSaturday = v),
-              activeColor: const Color(0xFF4ECDC4),
+              activeThumbColor: const Color(0xFF4ECDC4),
             ),
           ),
           SettingRow(
@@ -78,7 +78,7 @@ class _ExportPageState extends State<ExportPage> {
             trailing: Switch(
               value: _includeSunday,
               onChanged: (v) => setState(() => _includeSunday = v),
-              activeColor: const Color(0xFF4ECDC4),
+              activeThumbColor: const Color(0xFF4ECDC4),
             ),
           ),
         ]),

@@ -13,8 +13,8 @@ class GlobalSettingsPage extends StatefulWidget {
 }
 
 class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
-  bool _notification = false;
-  bool _widgetSync = false;
+  final bool _notification = false;
+  final bool _widgetSync = false;
   bool _isExitingForLocaleChange = false;
 
   void _showRestartAndExitNotice(BuildContext context) {
@@ -188,7 +188,7 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
             trailing: Switch(
               value: appState.isDarkMode,
               onChanged: (v) => appState.updateDarkMode(v),
-              activeColor: const Color(0xFF4ECDC4),
+              activeThumbColor: const Color(0xFF4ECDC4),
             ),
           ),
           _WideSettingRow(
@@ -211,7 +211,7 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
             trailing: Switch(
               value: _notification,
               onChanged: (v) => _showWip(context),
-              activeColor: const Color(0xFF4ECDC4),
+              activeThumbColor: const Color(0xFF4ECDC4),
             ),
           ),
           _WideSettingRow(
@@ -220,7 +220,7 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
             trailing: Switch(
               value: _widgetSync,
               onChanged: (v) => _showWip(context),
-              activeColor: const Color(0xFF4ECDC4),
+              activeThumbColor: const Color(0xFF4ECDC4),
             ),
           ),
         ]),

@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'models.dart';
 import 'common_widgets.dart';
@@ -161,7 +159,6 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
                   surfaceContainerHigh: bgColor,
                   onSurface: const Color(0xFF1C1C1E),
                 ),
-          dialogBackgroundColor: bgColor,
           dialogTheme: DialogThemeData(backgroundColor: bgColor),
         ),
         child: child!,
@@ -364,7 +361,6 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
                   surfaceContainerHigh: bgColor,
                   onSurface: const Color(0xFF1C1C1E),
                 ),
-          dialogBackgroundColor: bgColor,
           dialogTheme: DialogThemeData(backgroundColor: bgColor),
         ),
         child: child!,
@@ -520,9 +516,11 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFD60A).withOpacity(0.08),
+              color: const Color(0xFFFFD60A).withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFFFD60A).withOpacity(0.25)),
+              border: Border.all(
+                color: const Color(0xFFFFD60A).withValues(alpha: 0.25),
+              ),
             ),
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Icon(Icons.warning_amber_rounded, color: Color(0xFFFFD60A), size: 18),
@@ -588,7 +586,9 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
           TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                for (final id in _selected) s.deleteCourse(id);
+                for (final id in _selected) {
+                  s.deleteCourse(id);
+                }
                 setState(() { _selected.clear(); _editing = false; });
               },
               child: Text(_t(context, '删除', 'Delete', ja: '削除'), style: const TextStyle(color: Color(0xFFFF3B5C)))),
@@ -811,7 +811,7 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                           background: Container(
                             alignment: Alignment.centerRight,
                             padding: const EdgeInsets.only(right: 20),
-                            color: const Color(0xFFFF3B5C).withOpacity(0.15),
+                            color: const Color(0xFFFF3B5C).withValues(alpha: 0.15),
                             child: const Icon(Icons.delete_outline, color: Color(0xFFFF3B5C), size: 22),
                           ),
                           confirmDismiss: (_) async =>
