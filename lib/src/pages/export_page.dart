@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:file_selector/file_selector.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -21,6 +22,23 @@ class _ExportPageState extends State<ExportPage> {
     mimeTypes: <String>['application/json', 'text/json'],
   );
 
+  Future<String?> _pickExportPath(String suggestedName) async {
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+      final directoryPath = await getDirectoryPath();
+      if (directoryPath == null || directoryPath.isEmpty) {
+        return null;
+      }
+      final separator = directoryPath.endsWith('/') ? '' : '/';
+      return '$directoryPath$separator$suggestedName';
+    }
+
+    final location = await getSaveLocation(
+      suggestedName: suggestedName,
+      acceptedTypeGroups: const <XTypeGroup>[_jsonTypeGroup],
+    );
+    return location?.path;
+  }
+
   Future<void> _exportCurrentSchedule() async {
     final appState = AppStateScope.of(context);
     final scheduleName = appState.config.name.trim();
@@ -29,11 +47,8 @@ class _ExportPageState extends State<ExportPage> {
         : '${scheduleName.replaceAll(RegExp(r'[\\/:*?"<>|]'), '_')}.json';
 
     try {
-      final location = await getSaveLocation(
-        suggestedName: suggested,
-        acceptedTypeGroups: const <XTypeGroup>[_jsonTypeGroup],
-      );
-      if (location == null || !mounted) return;
+      final exportPath = await _pickExportPath(suggested);
+      if (exportPath == null || !mounted) return;
 
       final payload = appState.exportActiveScheduleJson();
       final pretty = const JsonEncoder.withIndent('  ').convert(payload);
@@ -42,7 +57,7 @@ class _ExportPageState extends State<ExportPage> {
         mimeType: 'application/json',
         name: suggested,
       );
-      await file.saveTo(location.path);
+      await file.saveTo(exportPath);
       if (!mounted) return;
       showAppToast(context, context.l10n.exportJsonSuccess);
     } catch (_) {
