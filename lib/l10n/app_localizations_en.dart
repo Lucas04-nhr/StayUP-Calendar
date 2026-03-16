@@ -41,7 +41,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alreadyLatest => 'Up to date';
 
   @override
-  String get aboutFooter => '© 2026 StayUP Studio \nA timetable app made on a whim, hoping it can accompany you through many classes.';
+  String get aboutFooter =>
+      '© 2026 StayUP Studio \nA timetable app made on a whim, hoping it can accompany you through many classes.';
 
   @override
   String get backAction => 'Back';
@@ -89,7 +90,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get featureInDevelopmentTitle => 'In Development';
 
   @override
-  String get featureInDevelopmentMessage => 'This feature is currently under development.';
+  String get featureInDevelopmentMessage =>
+      'This feature is currently under development.';
 
   @override
   String get languageSettingLabel => 'Language';
@@ -101,7 +103,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageChangedRestartTitle => 'Language changed';
 
   @override
-  String get languageChangedRestartMessage => 'The app will close to apply the new language. Please reopen it.';
+  String get languageChangedRestartMessage =>
+      'The app will close to apply the new language. Please reopen it.';
 
   @override
   String get languageForceChineseSimplified => '中文（简体）';
@@ -119,7 +122,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manageScheduleTitle => 'Manage Schedules';
 
   @override
-  String get manageScheduleHint => 'Tap Edit in the top-right corner to reorder or delete.';
+  String get manageScheduleHint =>
+      'Tap Edit in the top-right corner to reorder or delete.';
 
   @override
   String get newScheduleButton => 'New Schedule';
@@ -207,7 +211,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchSchoolHint => 'Search school';
 
   @override
-  String get schoolImportTip => 'Type the full school name in the search box for quick access';
+  String get schoolImportTip =>
+      'Type the full school name in the search box for quick access';
 
   @override
   String get schoolImportMoreSchools => 'More universities are being adapted';
@@ -246,10 +251,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get hustNoticeText => '1. If you are not logged in, you will be redirected to the login page. After login, tap the import button in the bottom-right.\n\n2. Courses with \"TBD\" time/location will not be imported. Please add them manually later.';
+  String get hustNoticeText =>
+      '1. If you are not logged in, you will be redirected to the login page. After login, tap the import button in the bottom-right.\n\n2. Courses with \"TBD\" time/location will not be imported. Please add them manually later.';
 
   @override
-  String get hustNeedLoginError => 'Please finish login in the page first, then tap import.';
+  String get hustNeedLoginError =>
+      'Please finish login in the page first, then tap import.';
 
   @override
   String hustApiError(Object code) {
@@ -265,7 +272,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hustTermDialogTitle => 'Select term';
 
   @override
-  String get hustTermDialogMessage => 'Please select the academic year and semester to import';
+  String get hustTermDialogMessage =>
+      'Please select the academic year and semester to import';
 
   @override
   String get hustAcademicYearLabel => 'Academic year';
@@ -285,7 +293,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hustSemesterSpring => 'Spring semester';
 
   @override
-  String get schoolImportWipMessage => 'Course import for this school is under development.';
+  String get schoolImportWipMessage =>
+      'Course import for this school is under development.';
 
   @override
   String get schoolHust => 'Huazhong University of Science and Technology';

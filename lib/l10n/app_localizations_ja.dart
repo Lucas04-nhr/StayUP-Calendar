@@ -41,7 +41,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get alreadyLatest => '最新です';
 
   @override
-  String get aboutFooter => '© 2026 StayUP Studio \n思いつきで作った時間割アプリですが、たくさんの授業で役立てば嬉しいです。';
+  String get aboutFooter =>
+      '© 2026 StayUP Studio \n思いつきで作った時間割アプリですが、たくさんの授業で役立てば嬉しいです。';
 
   @override
   String get backAction => '戻る';
@@ -101,7 +102,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get languageChangedRestartTitle => '言語を変更しました';
 
   @override
-  String get languageChangedRestartMessage => '新しい言語を適用するため、アプリを自動終了します。再度起動してください。';
+  String get languageChangedRestartMessage =>
+      '新しい言語を適用するため、アプリを自動終了します。再度起動してください。';
 
   @override
   String get languageForceChineseSimplified => '中文（简体）';
@@ -246,7 +248,8 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get hustNoticeText => '1. 未ログインの場合、先にログインページへ移動します。ログイン後、右下のインポートボタンを押してください。\n\n2. 時間・場所が\"未定\"の授業はインポートされません。後で手動追加してください。';
+  String get hustNoticeText =>
+      '1. 未ログインの場合、先にログインページへ移動します。ログイン後、右下のインポートボタンを押してください。\n\n2. 時間・場所が\"未定\"の授業はインポートされません。後で手動追加してください。';
 
   @override
   String get hustNeedLoginError => '先にページ内でログインしてから、インポートを押してください。';
