@@ -1162,10 +1162,10 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
               ]),
             ),
           ]),
-          const Padding(
+             Padding(
             padding: EdgeInsets.only(left: 6, bottom: 16, top: 4),
              child: Text(l.classTimeSelectHint,
-                 style: const TextStyle(color: _kHint, fontSize: 12)),
+               style: TextStyle(color: _kHint, fontSize: 12)),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 6, bottom: 6),
@@ -1583,10 +1583,10 @@ class _ClassTimePageState extends State<ClassTimePage> {
               ),
             ),
           ]),
-          const Padding(
+             Padding(
             padding: EdgeInsets.only(left: 6, bottom: 12),
              child: Text(l.classTimeEditNameHint,
-                 style: const TextStyle(color: _kHint, fontSize: 12)),
+               style: TextStyle(color: _kHint, fontSize: 12)),
           ),
           _settingCard(context, [
             _SettingRow(
