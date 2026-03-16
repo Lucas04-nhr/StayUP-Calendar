@@ -285,5 +285,61 @@
       "end": {},
       "start": {}
     }
-  }
+  },
+  "courseEditorNameRequired": "授業名を入力してください",
+  "courseEditorWeekdayMon": "月曜",
+  "courseEditorWeekdayTue": "火曜",
+  "courseEditorWeekdayWed": "水曜",
+  "courseEditorWeekdayThu": "木曜",
+  "courseEditorWeekdayFri": "金曜",
+  "courseEditorWeekdaySat": "土曜",
+  "courseEditorWeekdaySun": "日曜",
+  "courseEditorWeekNthLabel": "第{week}週",
+  "@courseEditorWeekNthLabel": {
+    "placeholders": {
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorSectionNthLabel": "第{section}限",
+  "@courseEditorSectionNthLabel": {
+    "placeholders": {
+      "section": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorWeekRangeTitle": "週範囲",
+  "courseEditorStartLabel": "開始",
+  "courseEditorEndLabel": "終了",
+  "courseEditorSelectSectionsTitle": "コマを選択",
+  "courseEditorStartSectionLabel": "開始コマ",
+  "courseEditorEndSectionLabel": "終了コマ",
+  "courseEditorTimeSlotTitle": "時間枠 {index}",
+  "@courseEditorTimeSlotTitle": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorWeeksLabel": "週数",
+  "courseEditorDayLabel": "曜日",
+  "courseEditorWeekdayTitle": "曜日",
+  "courseEditorSectionsLabel": "コマ",
+  "courseEditorTeacherLabel": "教員",
+  "courseEditorLocationLabel": "場所",
+  "courseEditorEditTitle": "授業を編集",
+  "courseEditorAddTitle": "授業を追加",
+  "courseEditorCourseLabel": "授業",
+  "courseEditorRequiredHint": "必須",
+  "courseEditorOptionalHint": "任意",
+  "courseEditorColorLabel": "色",
+  "courseEditorCreditsLabel": "単位",
+  "courseEditorNotesLabel": "メモ",
+  "courseEditorTimeSlotsLabel": "時間枠",
+  "courseEditorAddSlotAction": "追加",
+  "courseEditorChooseColorTitle": "色を選択",
+  "courseEditorAutoPickNoConflict": "自動選択（既存授業と衝突回避）"
 }

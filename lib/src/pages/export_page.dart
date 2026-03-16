@@ -87,14 +87,9 @@ class _ExportPageState extends State<ExportPage> {
           margin: const EdgeInsets.only(top: 8),
           child: ElevatedButton(
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    context.l10n.exportSuccess(_formatLabel(context, _format)),
-                  ),
-                  backgroundColor: const Color(0xFFE5E5EA),
-                  behavior: SnackBarBehavior.floating,
-                ),
+              showAppToast(
+                context,
+                context.l10n.exportSuccess(_formatLabel(context, _format)),
               );
             },
             style: ElevatedButton.styleFrom(

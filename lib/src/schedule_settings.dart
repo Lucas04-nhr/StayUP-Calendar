@@ -401,11 +401,10 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
     s.replaceCourses(newCourses);
 
     Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(_t(context, '已将 ${_fmtDate(context, _fromDate)} 的课程移动到 ${_fmtDate(context, _toDate)}', 'Moved courses from ${_fmtDate(context, _fromDate)} to ${_fmtDate(context, _toDate)}', ja: '${_fmtDate(context, _fromDate)} から ${_fmtDate(context, _toDate)} に授業を移動しました')),
-      backgroundColor: ac(context).card,
-      behavior: SnackBarBehavior.floating,
-    ));
+    showAppToast(
+      context,
+      _t(context, '已将 ${_fmtDate(context, _fromDate)} 的课程移动到 ${_fmtDate(context, _toDate)}', 'Moved courses from ${_fmtDate(context, _fromDate)} to ${_fmtDate(context, _toDate)}', ja: '${_fmtDate(context, _fromDate)} から ${_fmtDate(context, _toDate)} に授業を移動しました'),
+    );
   }
 
   @override

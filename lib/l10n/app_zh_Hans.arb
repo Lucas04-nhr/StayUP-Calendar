@@ -285,5 +285,61 @@
       "end": {},
       "start": {}
     }
-  }
+  },
+  "courseEditorNameRequired": "请填写课程名称",
+  "courseEditorWeekdayMon": "周一",
+  "courseEditorWeekdayTue": "周二",
+  "courseEditorWeekdayWed": "周三",
+  "courseEditorWeekdayThu": "周四",
+  "courseEditorWeekdayFri": "周五",
+  "courseEditorWeekdaySat": "周六",
+  "courseEditorWeekdaySun": "周日",
+  "courseEditorWeekNthLabel": "第{week}周",
+  "@courseEditorWeekNthLabel": {
+    "placeholders": {
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorSectionNthLabel": "第{section}节",
+  "@courseEditorSectionNthLabel": {
+    "placeholders": {
+      "section": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorWeekRangeTitle": "周数",
+  "courseEditorStartLabel": "开始",
+  "courseEditorEndLabel": "结束",
+  "courseEditorSelectSectionsTitle": "选择节次",
+  "courseEditorStartSectionLabel": "开始节",
+  "courseEditorEndSectionLabel": "结束节",
+  "courseEditorTimeSlotTitle": "时间段 {index}",
+  "@courseEditorTimeSlotTitle": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorWeeksLabel": "周数",
+  "courseEditorDayLabel": "时间",
+  "courseEditorWeekdayTitle": "星期",
+  "courseEditorSectionsLabel": "节次",
+  "courseEditorTeacherLabel": "老师",
+  "courseEditorLocationLabel": "地点",
+  "courseEditorEditTitle": "编辑课程",
+  "courseEditorAddTitle": "添加课程",
+  "courseEditorCourseLabel": "课程",
+  "courseEditorRequiredHint": "必填",
+  "courseEditorOptionalHint": "选填",
+  "courseEditorColorLabel": "颜色",
+  "courseEditorCreditsLabel": "学分",
+  "courseEditorNotesLabel": "备注",
+  "courseEditorTimeSlotsLabel": "时间段",
+  "courseEditorAddSlotAction": "添加",
+  "courseEditorChooseColorTitle": "选择颜色",
+  "courseEditorAutoPickNoConflict": "自动选色（不与已有课程冲突）"
 }

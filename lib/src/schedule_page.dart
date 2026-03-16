@@ -773,6 +773,12 @@ class _CourseDetailSheet extends StatelessWidget {
     required this.onEdit,
   });
 
+  Color _textOn(Color color) {
+    return ThemeData.estimateBrightnessForColor(color) == Brightness.dark
+        ? Colors.white
+        : const Color(0xFF1C1C1E);
+  }
+
   String _weekdayLabel(BuildContext context, int day) {
     final locale = Localizations.localeOf(context).toLanguageTag();
     final base = DateTime(2020, 1, 6).add(Duration(days: day - 1));
@@ -781,6 +787,8 @@ class _CourseDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = ac(context);
+    final scheme = Theme.of(context).colorScheme;
     final color = course.effectiveColor;
     final startSlotIdx = course.startSection - 1;
     final endSlotIdx = course.startSection + course.span - 2;
@@ -792,9 +800,9 @@ class _CourseDetailSheet extends StatelessWidget {
         : '';
 
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF1C1C1E),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: colors.card,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       padding: EdgeInsets.fromLTRB(
           24, 16, 24, 24 + MediaQuery.of(context).viewInsets.bottom),
@@ -807,7 +815,7 @@ class _CourseDetailSheet extends StatelessWidget {
             child: Container(
               width: 36, height: 4,
               decoration: BoxDecoration(
-                color: const Color(0xFFE0E0E0),
+                color: colors.divider,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -833,15 +841,21 @@ class _CourseDetailSheet extends StatelessWidget {
                           course.startSection,
                           course.startSection + course.span - 1,
                         ),
-                        style: const TextStyle(
-                            fontSize: 12, color: Color(0xFF1C1C1E), fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: _textOn(color),
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 12),
                     Text(
                       course.name,
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.w700, color: Color(0xFF1A1A2E)),
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: colors.primaryText,
+                      ),
                     ),
                   ],
                 ),
@@ -852,13 +866,20 @@ class _CourseDetailSheet extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF0F0F0),
+                    color: colors.iconBg,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    const Icon(Icons.edit_outlined, size: 15, color: Color(0xFF555555)),
+                    Icon(Icons.edit_outlined, size: 15, color: colors.primaryText),
                     const SizedBox(width: 4),
-                    Text(context.l10n.editAction, style: const TextStyle(fontSize: 14, color: Color(0xFF555555), fontWeight: FontWeight.w500)),
+                    Text(
+                      context.l10n.editAction,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ]),
                 ),
               ),
@@ -869,7 +890,7 @@ class _CourseDetailSheet extends StatelessWidget {
             Row(children: [
               const Text('📍 ', style: TextStyle(fontSize: 14)),
               Text(course.location,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFF888888))),
+                  style: TextStyle(fontSize: 14, color: colors.hint)),
             ]),
           ],
           if (course.teacher.isNotEmpty) ...[
@@ -877,13 +898,13 @@ class _CourseDetailSheet extends StatelessWidget {
             Row(children: [
               const Text('👤 ', style: TextStyle(fontSize: 14)),
               Text(course.teacher,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFF888888))),
+                  style: TextStyle(fontSize: 14, color: colors.hint)),
             ]),
           ],
           const SizedBox(height: 8),
           Text(
             '$startTime – $endTime',
-            style: const TextStyle(fontSize: 13, color: Color(0xFFAAAAAA)),
+            style: TextStyle(fontSize: 13, color: colors.secondaryText),
           ),
           const SizedBox(height: 24),
           // 删除 + 关闭按钮行
@@ -892,8 +913,8 @@ class _CourseDetailSheet extends StatelessWidget {
               child: TextButton(
                 onPressed: onDelete,
                 style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFFFFF1F1),
-                  foregroundColor: const Color(0xFFE05555),
+                  backgroundColor: scheme.errorContainer,
+                  foregroundColor: scheme.error,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -906,8 +927,8 @@ class _CourseDetailSheet extends StatelessWidget {
               child: TextButton(
                 onPressed: () => Navigator.pop(context),
                 style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFFF5F5F5),
-                  foregroundColor: const Color(0xFF666666),
+                  backgroundColor: colors.inputBg,
+                  foregroundColor: colors.primaryText,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),

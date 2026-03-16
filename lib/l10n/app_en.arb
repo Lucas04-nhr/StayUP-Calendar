@@ -285,5 +285,61 @@
       "end": {},
       "start": {}
     }
-  }
+  },
+  "courseEditorNameRequired": "Please enter course name",
+  "courseEditorWeekdayMon": "Mon",
+  "courseEditorWeekdayTue": "Tue",
+  "courseEditorWeekdayWed": "Wed",
+  "courseEditorWeekdayThu": "Thu",
+  "courseEditorWeekdayFri": "Fri",
+  "courseEditorWeekdaySat": "Sat",
+  "courseEditorWeekdaySun": "Sun",
+  "courseEditorWeekNthLabel": "Week {week}",
+  "@courseEditorWeekNthLabel": {
+    "placeholders": {
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorSectionNthLabel": "Sec {section}",
+  "@courseEditorSectionNthLabel": {
+    "placeholders": {
+      "section": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorWeekRangeTitle": "Week Range",
+  "courseEditorStartLabel": "Start",
+  "courseEditorEndLabel": "End",
+  "courseEditorSelectSectionsTitle": "Select Sections",
+  "courseEditorStartSectionLabel": "Start Section",
+  "courseEditorEndSectionLabel": "End Section",
+  "courseEditorTimeSlotTitle": "Time Slot {index}",
+  "@courseEditorTimeSlotTitle": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorWeeksLabel": "Weeks",
+  "courseEditorDayLabel": "Day",
+  "courseEditorWeekdayTitle": "Weekday",
+  "courseEditorSectionsLabel": "Sections",
+  "courseEditorTeacherLabel": "Teacher",
+  "courseEditorLocationLabel": "Location",
+  "courseEditorEditTitle": "Edit Course",
+  "courseEditorAddTitle": "Add Course",
+  "courseEditorCourseLabel": "Course",
+  "courseEditorRequiredHint": "Required",
+  "courseEditorOptionalHint": "Optional",
+  "courseEditorColorLabel": "Color",
+  "courseEditorCreditsLabel": "Credits",
+  "courseEditorNotesLabel": "Notes",
+  "courseEditorTimeSlotsLabel": "Time Slots",
+  "courseEditorAddSlotAction": "Add",
+  "courseEditorChooseColorTitle": "Choose Color",
+  "courseEditorAutoPickNoConflict": "Auto pick (avoid conflicts)"
 }

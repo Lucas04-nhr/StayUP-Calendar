@@ -33,30 +33,33 @@ class _AddCoursePageState extends State<AddCoursePage> {
 
   static const Color _accent   = Color(0xFFFF3B5C);
 
-  String _tx(BuildContext context, String zh, String en, {String? ja}) {
-    final code = Localizations.localeOf(context).languageCode;
-    if (code == 'zh') return zh;
-    if (code == 'ja') return ja ?? en;
-    return en;
-  }
-
   String _weekdayLabel(BuildContext context, int day) {
-    const en = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const ja = ['月', '火', '水', '木', '金', '土', '日'];
-    return _tx(
-      context,
-      '周${kWeekDays[day - 1]}',
-      en[day - 1],
-      ja: '${ja[day - 1]}曜',
-    );
+    switch (day) {
+      case 1:
+        return context.l10n.courseEditorWeekdayMon;
+      case 2:
+        return context.l10n.courseEditorWeekdayTue;
+      case 3:
+        return context.l10n.courseEditorWeekdayWed;
+      case 4:
+        return context.l10n.courseEditorWeekdayThu;
+      case 5:
+        return context.l10n.courseEditorWeekdayFri;
+      case 6:
+        return context.l10n.courseEditorWeekdaySat;
+      case 7:
+        return context.l10n.courseEditorWeekdaySun;
+      default:
+        return context.l10n.courseEditorWeekdayMon;
+    }
   }
 
   String _weekNthLabel(BuildContext context, int week) {
-    return _tx(context, '第$week周', 'Week $week', ja: '第$week週');
+    return context.l10n.courseEditorWeekNthLabel(week);
   }
 
   String _sectionNthLabel(BuildContext context, int section) {
-    return _tx(context, '第$section节', 'Sec $section', ja: '$section限');
+    return context.l10n.courseEditorSectionNthLabel(section);
   }
 
   // 自动选一个与已有课程不冲突的颜色
@@ -160,11 +163,9 @@ class _AddCoursePageState extends State<AddCoursePage> {
 
   void _save() {
     if (_nameCtrl.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(_tx(context, '请填写课程名称', 'Please enter course name', ja: '授業名を入力してください')),
-          backgroundColor: Color(0xFFE5E5EA),
-        ),
+      showAppToast(
+        context,
+        context.l10n.courseEditorNameRequired,
       );
       return;
     }
@@ -332,7 +333,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                       child: Text(context.l10n.cancelAction,
                         style: const TextStyle(color: Color(0xFFFF3B5C), fontSize: 16)),
                     ),
-                    Text(_tx(context, '周数', 'Week Range', ja: '週範囲'),
+                    Text(context.l10n.courseEditorWeekRangeTitle,
                         style: TextStyle(
                             color: ac(context).primaryText,
                             fontSize: 16,
@@ -353,7 +354,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
               Row(
                 children: [
                   Expanded(child: Column(children: [
-                    Text(_tx(context, '开始', 'Start', ja: '開始'),
+                    Text(context.l10n.courseEditorStartLabel,
                         style: TextStyle(color: ac(context).hint, fontSize: 12)),
                     SizedBox(
                       height: 200,
@@ -383,7 +384,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                     ),
                   ])),
                   Expanded(child: Column(children: [
-                    Text(_tx(context, '结束', 'End', ja: '終了'),
+                    Text(context.l10n.courseEditorEndLabel,
                         style: TextStyle(color: ac(context).hint, fontSize: 12)),
                     SizedBox(
                       height: 200,
@@ -456,7 +457,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                       child: Text(context.l10n.cancelAction,
                         style: const TextStyle(color: Color(0xFFFF3B5C), fontSize: 16)),
                     ),
-                    Text(_tx(context, '选择节次', 'Select Sections', ja: 'コマを選択'),
+                    Text(context.l10n.courseEditorSelectSectionsTitle,
                         style: TextStyle(
                             color: ac(context).primaryText,
                             fontSize: 16,
@@ -478,7 +479,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
               Row(
                 children: [
                   Expanded(child: Column(children: [
-                    Text(_tx(context, '开始节', 'Start Section', ja: '開始コマ'),
+                    Text(context.l10n.courseEditorStartSectionLabel,
                         style: TextStyle(color: ac(context).hint, fontSize: 12)),
                     SizedBox(
                       height: 200,
@@ -512,7 +513,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                     ),
                   ])),
                   Expanded(child: Column(children: [
-                    Text(_tx(context, '结束节', 'End Section', ja: '終了コマ'),
+                    Text(context.l10n.courseEditorEndSectionLabel,
                         style: TextStyle(color: ac(context).hint, fontSize: 12)),
                     SizedBox(
                       height: 200,
@@ -654,7 +655,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
             child: Row(
               children: [
                 Text(
-                  _tx(context, '时间段 ${i + 1}', 'Time Slot ${i + 1}', ja: '時間枠 ${i + 1}'),
+                  context.l10n.courseEditorTimeSlotTitle(i + 1),
                   style: TextStyle(color: colors.hint, fontSize: 13),
                 ),
                 const Spacer(),
@@ -688,16 +689,16 @@ class _AddCoursePageState extends State<AddCoursePage> {
           _buildCard(context, [
             _buildTapRow(
               context,
-              _tx(context, '周数', 'Weeks', ja: '週数'),
+              context.l10n.courseEditorWeeksLabel,
               '${_weekNthLabel(context, slot.startWeek)} - ${_weekNthLabel(context, slot.endWeek)}',
               () => _showWeekRangePicker(i),
             ),
             _buildTapRow(
               context,
-              _tx(context, '时间', 'Day', ja: '曜日'),
+              context.l10n.courseEditorDayLabel,
               _weekdayLabel(context, slot.day),
               () => _showPicker<int>(
-                title: _tx(context, '星期', 'Weekday', ja: '曜日'),
+                title: context.l10n.courseEditorWeekdayTitle,
                 values: List.generate(7, (d) => d + 1),
                 selected: slot.day,
                 label: (v) => _weekdayLabel(context, v),
@@ -711,7 +712,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 16, vertical: 14),
                 child: Row(children: [
-                  Text(_tx(context, '节次', 'Sections', ja: 'コマ'),
+                  Text(context.l10n.courseEditorSectionsLabel,
                       style: TextStyle(
                           color: colors.primaryText, fontSize: 16)),
                   const Spacer(),
@@ -724,9 +725,9 @@ class _AddCoursePageState extends State<AddCoursePage> {
                 ]),
               ),
             ),
-            _buildTextRow(context, _tx(context, '老师', 'Teacher', ja: '教員'), _teacherCtrls[i], _tx(context, '选填', 'Optional', ja: '任意'),
+            _buildTextRow(context, context.l10n.courseEditorTeacherLabel, _teacherCtrls[i], context.l10n.courseEditorOptionalHint,
                 maxLength: 50),
-            _buildTextRow(context, _tx(context, '地点', 'Location', ja: '場所'), _locCtrls[i], _tx(context, '选填', 'Optional', ja: '任意'),
+            _buildTextRow(context, context.l10n.courseEditorLocationLabel, _locCtrls[i], context.l10n.courseEditorOptionalHint,
                 maxLength: 50),
           ]),
         ],
@@ -757,8 +758,8 @@ class _AddCoursePageState extends State<AddCoursePage> {
             const Spacer(),
             Text(
               widget.editCourse != null
-                ? _tx(context, '编辑课程', 'Edit Course', ja: '授業を編集')
-                : _tx(context, '添加课程', 'Add Course', ja: '授業を追加'),
+                ? context.l10n.courseEditorEditTitle
+                : context.l10n.courseEditorAddTitle,
               style: TextStyle(
                   color: ac(context).primaryText,
                   fontSize: 17,
@@ -783,7 +784,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
           children: [
             // ── 基本信息卡 ──
             _buildCard(context, [
-              _buildTextRow(context, _tx(context, '课程', 'Course', ja: '授業'), _nameCtrl, _tx(context, '必填', 'Required', ja: '必須'),
+              _buildTextRow(context, context.l10n.courseEditorCourseLabel, _nameCtrl, context.l10n.courseEditorRequiredHint,
                   maxLength: 50),
               // 颜色行
               Padding(
@@ -791,14 +792,14 @@ class _AddCoursePageState extends State<AddCoursePage> {
                     horizontal: 16, vertical: 12),
                 child: Row(
                   children: [
-                    Text(_tx(context, '颜色', 'Color', ja: '色'),
+                    Text(context.l10n.courseEditorColorLabel,
                         style: TextStyle(
                             color: colors.primaryText, fontSize: 16)),
                     const Spacer(),
                     if (_customColor == null)
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: Text(_tx(context, '自动', 'Auto', ja: '自動'),
+                        child: Text(context.l10n.autoLabel,
                             style: TextStyle(
                                 color: colors.hint, fontSize: 13)),
                       ),
@@ -818,8 +819,8 @@ class _AddCoursePageState extends State<AddCoursePage> {
                   ],
                 ),
               ),
-              _buildTextRow(context, _tx(context, '学分', 'Credits', ja: '単位'), _creditCtrl, _tx(context, '选填', 'Optional', ja: '任意')),
-              _buildTextRow(context, _tx(context, '备注', 'Notes', ja: 'メモ'), _noteCtrl, ''),
+              _buildTextRow(context, context.l10n.courseEditorCreditsLabel, _creditCtrl, context.l10n.courseEditorOptionalHint),
+              _buildTextRow(context, context.l10n.courseEditorNotesLabel, _noteCtrl, ''),
             ]),
 
             const SizedBox(height: 24),
@@ -829,7 +830,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
               padding: const EdgeInsets.only(left: 4, bottom: 8),
               child: Row(
                 children: [
-                    Text(_tx(context, '时间段', 'Time Slots', ja: '時間枠'),
+                    Text(context.l10n.courseEditorTimeSlotsLabel,
                       style:
                           TextStyle(color: colors.hint, fontSize: 13)),
                   const Spacer(),
@@ -848,7 +849,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                         children: [
                           const Icon(Icons.add, color: _accent, size: 13),
                           const SizedBox(width: 2),
-                          Text(_tx(context, '添加', 'Add', ja: '追加'),
+                          Text(context.l10n.courseEditorAddSlotAction,
                               style: TextStyle(
                                   color: _accent, fontSize: 12)),
                         ],
@@ -925,7 +926,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(_tx(context, '选择颜色', 'Choose Color', ja: '色を選択'),
+                    Text(context.l10n.courseEditorChooseColorTitle,
                         style: TextStyle(
                             color: ac(context).primaryText,
                             fontSize: 16,
@@ -1004,7 +1005,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                         ),
                       ),
                       const SizedBox(width: 10),
-                        Text(_tx(context, '自动选色（不与已有课程冲突）', 'Auto pick (avoid conflicts)', ja: '自動選択（既存授業と衝突回避）'),
+                        Text(context.l10n.courseEditorAutoPickNoConflict,
                           style: TextStyle(
                               color: ac(context).primaryText,
                               fontSize: 13)),

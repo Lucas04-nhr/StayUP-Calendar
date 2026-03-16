@@ -148,13 +148,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
   void _save() {
     final name = _nameCtrl.text.trim();
     if (name.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.l10n.scheduleNameRequired),
-          backgroundColor: const Color(0xFFE5E5EA),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      showAppToast(context, context.l10n.scheduleNameRequired);
       return;
     }
     final s = AppStateScope.of(context);

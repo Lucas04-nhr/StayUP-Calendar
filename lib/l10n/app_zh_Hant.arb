@@ -285,5 +285,61 @@
       "end": {},
       "start": {}
     }
-  }
+  },
+  "courseEditorNameRequired": "請填寫課程名稱",
+  "courseEditorWeekdayMon": "週一",
+  "courseEditorWeekdayTue": "週二",
+  "courseEditorWeekdayWed": "週三",
+  "courseEditorWeekdayThu": "週四",
+  "courseEditorWeekdayFri": "週五",
+  "courseEditorWeekdaySat": "週六",
+  "courseEditorWeekdaySun": "週日",
+  "courseEditorWeekNthLabel": "第{week}週",
+  "@courseEditorWeekNthLabel": {
+    "placeholders": {
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorSectionNthLabel": "第{section}節",
+  "@courseEditorSectionNthLabel": {
+    "placeholders": {
+      "section": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorWeekRangeTitle": "週數",
+  "courseEditorStartLabel": "開始",
+  "courseEditorEndLabel": "結束",
+  "courseEditorSelectSectionsTitle": "選擇節次",
+  "courseEditorStartSectionLabel": "開始節",
+  "courseEditorEndSectionLabel": "結束節",
+  "courseEditorTimeSlotTitle": "時間段 {index}",
+  "@courseEditorTimeSlotTitle": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "courseEditorWeeksLabel": "週數",
+  "courseEditorDayLabel": "時間",
+  "courseEditorWeekdayTitle": "星期",
+  "courseEditorSectionsLabel": "節次",
+  "courseEditorTeacherLabel": "老師",
+  "courseEditorLocationLabel": "地點",
+  "courseEditorEditTitle": "編輯課程",
+  "courseEditorAddTitle": "添加課程",
+  "courseEditorCourseLabel": "課程",
+  "courseEditorRequiredHint": "必填",
+  "courseEditorOptionalHint": "選填",
+  "courseEditorColorLabel": "顏色",
+  "courseEditorCreditsLabel": "學分",
+  "courseEditorNotesLabel": "備註",
+  "courseEditorTimeSlotsLabel": "時間段",
+  "courseEditorAddSlotAction": "添加",
+  "courseEditorChooseColorTitle": "選擇顏色",
+  "courseEditorAutoPickNoConflict": "自動選色（不與已有課程衝突）"
 }
