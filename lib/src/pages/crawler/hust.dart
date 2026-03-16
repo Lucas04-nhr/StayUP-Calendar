@@ -11,6 +11,7 @@ import '../widgets/school_importers.dart';
 class HustImporter extends SchoolImporter {
   int _selectedAcademicYear = _defaultAcademicYear(DateTime.now());
   int _selectedSemester = _defaultSemester(DateTime.now());
+  bool _termPrepared = false;
 
   @override
   String get schoolId => 'hust';
@@ -23,6 +24,7 @@ class HustImporter extends SchoolImporter {
 
   static const String _baseUrl =
       'http://mhub.hust.edu.cn/LsController/findNameCourse';
+  static const String _entryUrl = 'http://mhub.hust.edu.cn';
 
   static int _defaultAcademicYear(DateTime now) => now.month >= 8 ? now.year : now.year - 1;
 
@@ -32,7 +34,7 @@ class HustImporter extends SchoolImporter {
       '$_baseUrl?kcbxqh=$academicYear$semester';
 
   @override
-  String get webUrl => _buildUrl(_selectedAcademicYear, _selectedSemester);
+  String get webUrl => _entryUrl;
 
   @override
   String noticeText(BuildContext context) => context.l10n.hustNoticeText;
@@ -41,6 +43,30 @@ class HustImporter extends SchoolImporter {
   String newScheduleName(BuildContext context) {
     final now = DateTime.now();
     return context.l10n.schoolImportScheduleName(displayName(context), now.month, now.day);
+  }
+
+  Future<bool> prepareTermAndLoad(
+    BuildContext context,
+    WebViewController controller,
+    void Function(String error) onError,
+  ) async {
+    final l10n = context.l10n;
+    try {
+      final selection = await _showTermDialog(context);
+      // Cancelled → fall back to the date-derived default term.
+      _selectedAcademicYear = selection?.academicYear ?? _defaultAcademicYear(DateTime.now());
+      _selectedSemester    = selection?.semester    ?? _defaultSemester(DateTime.now());
+
+      await controller.loadRequest(
+        Uri.parse(_buildUrl(_selectedAcademicYear, _selectedSemester)),
+      );
+      await _waitForPageReady(controller);
+      _termPrepared = true;
+      return true;
+    } catch (e) {
+      onError(l10n.hustReadFailed(e));
+      return false;
+    }
   }
 
   @override
@@ -52,17 +78,12 @@ class HustImporter extends SchoolImporter {
   ) async {
     final l10n = context.l10n;
     try {
-      final selection = await _showTermDialog(context);
-      if (selection == null) {
-        return null;
+      if (!_termPrepared) {
+        final ready = await prepareTermAndLoad(context, controller, onError);
+        if (!ready) {
+          return null;
+        }
       }
-      _selectedAcademicYear = selection.academicYear;
-      _selectedSemester = selection.semester;
-
-      await controller.loadRequest(
-        Uri.parse(_buildUrl(_selectedAcademicYear, _selectedSemester)),
-      );
-      await _waitForPageReady(controller);
 
       final result = await controller.runJavaScriptReturningResult(
         'document.body.innerText',
@@ -96,17 +117,21 @@ class HustImporter extends SchoolImporter {
   }
 
   Future<_HustTermSelection?> _showTermDialog(BuildContext context) async {
-    final nowYear = DateTime.now().year;
-    final yearOptions = List<int>.generate(5, (index) => nowYear - 2 + index);
+    final now = DateTime.now();
+    final nowYear = now.year;
+    // 9 years: current year −4 … current year +4  (18 semesters total)
+    final yearOptions = List<int>.generate(9, (index) => nowYear - 4 + index);
 
-    int draftYear = _selectedAcademicYear;
+    // Default pre-selection: date-derived, not the last user choice
+    int draftYear     = _defaultAcademicYear(now);
+    int draftSemester = _defaultSemester(now);
     if (!yearOptions.contains(draftYear)) {
-      draftYear = _defaultAcademicYear(DateTime.now());
+      draftYear = nowYear;
     }
-    int draftSemester = _selectedSemester;
 
     return showDialog<_HustTermSelection>(
       context: context,
+      barrierDismissible: false,
       builder: (ctx) {
         return StatefulBuilder(
           builder: (ctx, setState) {

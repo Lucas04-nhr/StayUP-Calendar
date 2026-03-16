@@ -263,7 +263,12 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
                 color: ac(context).hint, fontSize: 14, height: 1.6)),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(ctx),
+            onPressed: () async {
+              Navigator.pop(ctx);
+              if (widget.importer is HustImporter) {
+                await _prepareHustTermAfterNotice(widget.importer as HustImporter);
+              }
+            },
           child: Text(context.l10n.okAction,
                 style: TextStyle(
                     color: Color(0xFFFF3B5C),
@@ -273,6 +278,20 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _prepareHustTermAfterNotice(HustImporter importer) async {
+    if (!mounted) return;
+    setState(() => _loading = true);
+
+    await importer.prepareTermAndLoad(
+      context,
+      _controller,
+      _showError,
+    );
+
+    if (!mounted) return;
+    setState(() => _loading = false);
   }
 
   Future<void> _startCrawl() async {
