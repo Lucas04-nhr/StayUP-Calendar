@@ -1,4 +1,4 @@
-## v0.4.0 Release Notes
+## v0.4.1 Release Notes
 
 - Add support to crawl the course schedule for Huazhong University of Science and Technology.
 - Add support to manually clean the cookies for the course schedule crawler, which can be used to fix the login issues.
@@ -7,10 +7,9 @@
 - Update minSDK Version on Android to 34 and targetSDK Version to 36.
 - Add localization support for zh-CN, zh-HK, en-US and ja-JP, with automatic restart to update UI language when changing language menu inside the App.
 
-
 ---
 
-## v0.4.0 版本更新日志
+## v0.4.1 版本更新日志
 
 - 添加了对华中科技大学课程表爬取的支持。
 - 添加了手动清除课程表爬虫的 cookies 的支持，可以用来修复登录问题。
@@ -21,7 +20,7 @@
 
 ---
 
-## v0.4.0 版本更新記錄
+## v0.4.1 版本更新記錄
 
 - 新增了對華中科技大学課程表爬取的支持。
 - 新增了手動清除課程表爬蟲的 cookies 的支持，可以用來修復登錄問題。
@@ -32,7 +31,7 @@
 
 ---
 
-## v0.4.0 リリースノート
+## v0.4.1 リリースノート
 
 - 華中科技大学のコーススケジュールをクロールするサポートを追加しました。
 - コーススケジュールクロールのクッキーを手動でクリアするサポートを追加しました。これを使用してログインの問題を修正できます。

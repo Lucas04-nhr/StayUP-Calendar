@@ -125,6 +125,8 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
           kDateFormatYmdDash,
           kDateFormatMdySlash,
           kDateFormatDmySlash,
+          kDateFormatDMonY,
+          kDateFormatMonDY,
         ];
         return Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 36),
