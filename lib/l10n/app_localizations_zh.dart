@@ -110,6 +110,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dateFormatSettingLabel => '日期格式';
 
   @override
+  String get dateFormatCustomOptionLabel => '自定义';
+
+  @override
+  String get dateFormatCustomDialogTitle => '自定义日期格式';
+
+  @override
+  String get dateFormatCustomDialogHint => '请输入 intl 日期格式，例如：MMM. d yyyy';
+
+  @override
+  String get dateFormatCustomDialogHelper =>
+      '使用 DateFormat 格式语法。示例：yyyy/MM/dd、d MMM. yyyy、MMM. d yyyy';
+
+  @override
+  String get dateFormatCustomDialogEmpty => '请输入日期格式';
+
+  @override
+  String get dateFormatCustomDialogInvalid => '日期格式无效，请检查后重试';
+
+  @override
   String get languageFollowSystem => '跟随系统';
 
   @override
@@ -853,6 +872,25 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get dateFormatSettingLabel => '日期格式';
 
   @override
+  String get dateFormatCustomOptionLabel => '自定义';
+
+  @override
+  String get dateFormatCustomDialogTitle => '自定义日期格式';
+
+  @override
+  String get dateFormatCustomDialogHint => '请输入 intl 日期格式，例如：MMM. d yyyy';
+
+  @override
+  String get dateFormatCustomDialogHelper =>
+      '使用 DateFormat 格式语法。示例：yyyy/MM/dd、d MMM. yyyy、MMM. d yyyy';
+
+  @override
+  String get dateFormatCustomDialogEmpty => '请输入日期格式';
+
+  @override
+  String get dateFormatCustomDialogInvalid => '日期格式无效，请检查后重试';
+
+  @override
   String get languageFollowSystem => '跟随系统';
 
   @override
@@ -1594,6 +1632,25 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get dateFormatSettingLabel => '日期格式';
+
+  @override
+  String get dateFormatCustomOptionLabel => '自訂';
+
+  @override
+  String get dateFormatCustomDialogTitle => '自訂日期格式';
+
+  @override
+  String get dateFormatCustomDialogHint => '請輸入 intl 日期格式，例如：MMM. d yyyy';
+
+  @override
+  String get dateFormatCustomDialogHelper =>
+      '使用 DateFormat 格式語法。示例：yyyy/MM/dd、d MMM. yyyy、MMM. d yyyy';
+
+  @override
+  String get dateFormatCustomDialogEmpty => '請輸入日期格式';
+
+  @override
+  String get dateFormatCustomDialogInvalid => '日期格式無效，請檢查後重試';
 
   @override
   String get languageFollowSystem => '跟隨系統';

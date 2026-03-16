@@ -14,6 +14,8 @@ class GlobalSettingsPage extends StatefulWidget {
 }
 
 class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
+  static const String _customDateFormatOption = '__custom_date_format_option__';
+
   final bool _notification = false;
   final bool _widgetSync = false;
   bool _isExitingForLocaleChange = false;
@@ -108,8 +110,122 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
   }
 
   String _datePatternLabel(BuildContext context, String pattern) {
-    final sample = DateFormat(pattern).format(DateTime.now());
+    final sample = _datePatternSample(pattern);
+    if (sample == null) return pattern;
     return '$pattern  ($sample)';
+  }
+
+  String? _datePatternSample(String pattern) {
+    try {
+      return DateFormat(pattern).format(DateTime.now());
+    } catch (_) {
+      return null;
+    }
+  }
+
+  bool _isPresetDatePattern(String pattern) {
+    const presets = {
+      kDateFormatYmdSlash,
+      kDateFormatYmdDash,
+      kDateFormatMdySlash,
+      kDateFormatDmySlash,
+      kDateFormatDMonY,
+      kDateFormatMonDY,
+    };
+    return presets.contains(pattern);
+  }
+
+  bool _isValidDatePattern(String pattern) {
+    final trimmed = pattern.trim();
+    if (trimmed.isEmpty) return false;
+    return _datePatternSample(trimmed) != null;
+  }
+
+  Future<void> _showCustomDateFormatDialog(
+    BuildContext context,
+    AppState appState,
+  ) async {
+    final l10n = context.l10n;
+    final isCurrentCustom = !_isPresetDatePattern(appState.dateFormatPattern);
+    final controller = TextEditingController(
+      text: isCurrentCustom ? appState.dateFormatPattern : '',
+    );
+    String? errorText;
+
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setS) => AlertDialog(
+          backgroundColor: ac(ctx).card,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          title: Text(
+            l10n.dateFormatCustomDialogTitle,
+            style: TextStyle(
+              color: ac(ctx).primaryText,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.dateFormatCustomDialogHelper,
+                style: const TextStyle(color: kHint, fontSize: 13, height: 1.5),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: controller,
+                autofocus: true,
+                style: TextStyle(color: ac(ctx).primaryText),
+                decoration: InputDecoration(
+                  hintText: l10n.dateFormatCustomDialogHint,
+                  hintStyle: const TextStyle(color: kHint),
+                  errorText: errorText,
+                  enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: kAccent),
+                  ),
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: kAccent, width: 2),
+                  ),
+                ),
+                onChanged: (_) {
+                  if (errorText != null) {
+                    setS(() => errorText = null);
+                  }
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.cancelAction, style: const TextStyle(color: kHint)),
+            ),
+            TextButton(
+              onPressed: () {
+                final input = controller.text.trim();
+                if (input.isEmpty) {
+                  setS(() => errorText = l10n.dateFormatCustomDialogEmpty);
+                  return;
+                }
+                if (!_isValidDatePattern(input)) {
+                  setS(() => errorText = l10n.dateFormatCustomDialogInvalid);
+                  return;
+                }
+                appState.updateDateFormatPattern(input);
+                Navigator.pop(ctx);
+              },
+              child: Text(
+                l10n.saveAction,
+                style: const TextStyle(color: kAccent),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _showDateFormatPicker(BuildContext context, AppState appState) {
@@ -123,9 +239,11 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
         final options = [
           kDateFormatYmdSlash,
           kDateFormatYmdDash,
-          kDateFormatMonDY,
           kDateFormatMdySlash,
           kDateFormatDmySlash,
+          kDateFormatDMonY,
+          kDateFormatMonDY,
+          _customDateFormatOption,
         ];
         return Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 36),
@@ -143,8 +261,23 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
               ),
               const SizedBox(height: 12),
               ...options.map(
-                (pattern) => GestureDetector(
+                (pattern) {
+                  final isCustomOption = pattern == _customDateFormatOption;
+                  final isSelected = isCustomOption
+                      ? !_isPresetDatePattern(appState.dateFormatPattern)
+                      : pattern == appState.dateFormatPattern;
+
+                  final label = isCustomOption
+                      ? context.l10n.dateFormatCustomOptionLabel
+                      : _datePatternLabel(context, pattern);
+
+                  return GestureDetector(
                   onTap: () {
+                    if (isCustomOption) {
+                      Navigator.pop(context);
+                      _showCustomDateFormatDialog(context, appState);
+                      return;
+                    }
                     appState.updateDateFormatPattern(pattern);
                     Navigator.pop(context);
                   },
@@ -162,16 +295,16 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
                     child: Row(
                       children: [
                         Text(
-                          _datePatternLabel(context, pattern),
+                          label,
                           style: TextStyle(
-                            color: pattern == appState.dateFormatPattern
+                            color: isSelected
                                 ? const Color(0xFF4ECDC4)
                                 : ac(context).primaryText,
                             fontSize: 15,
                           ),
                         ),
                         const Spacer(),
-                        if (pattern == appState.dateFormatPattern)
+                        if (isSelected)
                           const Icon(
                             Icons.check,
                             color: Color(0xFF4ECDC4),
@@ -180,7 +313,8 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
                       ],
                     ),
                   ),
-                ),
+                  );
+                },
               ),
             ],
           ),

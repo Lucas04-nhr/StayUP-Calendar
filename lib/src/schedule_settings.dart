@@ -181,9 +181,13 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
       appBar: AppBar(
         backgroundColor: ac(context).card,
         elevation: 0,
-        leading: buildBackLeading(
-          context,
-          label: context.l10n.scheduleSettingsTitle,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            const SizedBox(width: 8),
+            const Icon(Icons.arrow_back_ios, color: kAccent, size: 17),
+            Text(context.l10n.scheduleSettingsTitle, style: const TextStyle(color: kAccent, fontSize: 15)),
+          ]),
         ),
         leadingWidth: 100,
         title: Text(context.l10n.scheduleSettingsDataTitle,
@@ -234,70 +238,32 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
                             if (exceeded) {
                               showDialog(
                                 context: context,
-                                builder: (warnCtx) {
-                                  final colors = ac(warnCtx);
-                                  return AlertDialog(
-                                    backgroundColor: colors.card,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18),
-                                    ),
-                                    contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            color: kAccent.withValues(alpha: 0.12),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: const Icon(
-                                            Icons.content_cut_rounded,
-                                            color: kAccent,
-                                            size: 22,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 12),
-                                        Text(
-                                          context.l10n.scheduleNameTruncatedMessage,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: colors.primaryText,
-                                            fontSize: 15,
-                                            height: 1.4,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-                                    actions: [
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: FilledButton(
-                                          style: FilledButton.styleFrom(
-                                            backgroundColor: kAccent,
-                                            foregroundColor: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                            ),
-                                            padding: const EdgeInsets.symmetric(vertical: 12),
-                                          ),
-                                          onPressed: () {
-                                            AppStateScope.of(context).renameSchedule(
-                                              AppStateScope.of(context)
-                                                  .activeScheduleIndex,
-                                              name,
-                                            );
-                                            Navigator.pop(warnCtx);
-                                          },
-                                          child: Text(context.l10n.confirmAction),
-                                        ),
+                                builder: (warnCtx) => AlertDialog(
+                                  backgroundColor: ac(warnCtx).card,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  content: const Text(
+                                    context.l10n.scheduleNameTruncatedMessage,
+                                    style: TextStyle(fontSize: 14, height: 1.5),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        AppStateScope.of(context).renameSchedule(
+                                          AppStateScope.of(context)
+                                              .activeScheduleIndex,
+                                          name,
+                                        );
+                                        Navigator.pop(warnCtx);
+                                      },
+                                      child: const Text(
+                                        '确定',
+                                        style: TextStyle(color: kAccent),
                                       ),
-                                    ],
-                                  );
-                                },
+                                    ),
+                                  ],
+                                ),
                               );
                               return;
                             }
@@ -480,9 +446,13 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
       appBar: AppBar(
         backgroundColor: ac(context).card,
         elevation: 0,
-        leading: buildBackLeading(
-          context,
-          label: context.l10n.globalSettingsTitle,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            const SizedBox(width: 8),
+            const Icon(Icons.arrow_back_ios, color: kAccent, size: 17),
+            Text(context.l10n.globalSettingsTitle, style: const TextStyle(color: kAccent, fontSize: 15)),
+          ]),
         ),
         leadingWidth: 100,
         title: Text(context.l10n.scheduleSettingsAdjustToolTitle,
@@ -707,9 +677,13 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
       appBar: AppBar(
         backgroundColor: ac(context).card,
         elevation: 0,
-        leading: buildBackLeading(
-          context,
-          label: context.l10n.scheduleSettingsMoreTitle,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            const SizedBox(width: 8),
+            const Icon(Icons.arrow_back_ios, color: kAccent, size: 17),
+            Text(context.l10n.scheduleSettingsMoreTitle, style: const TextStyle(color: kAccent, fontSize: 15)),
+          ]),
         ),
         leadingWidth: 72,
         title: Text(

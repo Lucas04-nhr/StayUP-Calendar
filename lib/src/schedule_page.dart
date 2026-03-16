@@ -190,9 +190,36 @@ class _SchedulePageState extends State<SchedulePage> {
       builder: (_) => _CourseDetailSheet(
         course: course,
         onDelete: () {
-          _deleteCourse(course.id);
-          showAppToast(context, context.l10n.scheduleSettingsDeleteSuccess);
-          Navigator.pop(context);
+          showDialog<bool>(
+            context: context,
+            builder: (_) => AlertDialog(
+              backgroundColor: ac(context).card,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              title: Text(context.l10n.schedulePageDeleteCourse),
+              content: Text(
+                context.l10n.scheduleSettingsDeleteNamedCourseMessage(course.name),
+                style: TextStyle(color: kHint),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text(context.l10n.cancelAction, style: TextStyle(color: kHint)),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: Text(
+                    context.l10n.deleteAction,
+                    style: TextStyle(color: Color(0xFFFF3B5C)),
+                  ),
+                ),
+              ],
+            ),
+          ).then((confirmed) {
+            if (confirmed != true || !mounted) return;
+            _deleteCourse(course.id);
+            showAppToast(context, context.l10n.scheduleSettingsDeleteSuccess);
+            Navigator.pop(context);
+          });
         },
         onEdit: () {
           final appState = AppStateScope.of(context);
@@ -290,99 +317,114 @@ class _Header extends StatelessWidget {
         color: Colors.white.withValues(alpha: 0.92),
       ),
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Text(
-                dateText,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF1A1A2E),
-                  letterSpacing: -0.5,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF4ECDC4).withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: scheduleTagMaxWidth),
+                  child: Text(
+                    scheduleName,
+                    style: scheduleTagTextStyle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
-              const SizedBox(height: 2),
-              Row(
-                children: [
-                  // 课表名称标签
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF4ECDC4).withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(4),
+              Text(
+                context.l10n.schedulePageCurrentWeek(currentWeek),
+                style: const TextStyle(fontSize: 12, color: Color(0xFF888888)),
+              ),
+              if (!isThisWeek)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF07B8A).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    context.l10n.schedulePageNotCurrentWeek,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFFF07B8A),
+                      fontWeight: FontWeight.w500,
                     ),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: scheduleTagMaxWidth),
+                  ),
+                ),
+            ],
+          ),
+          if (!isThisWeek)
+            const SizedBox(height: 8)
+          else
+            const SizedBox(height: 6),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Flexible(
                       child: Text(
-                        scheduleName,
-                        style: scheduleTagTextStyle,
+                        dateText,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    context.l10n.schedulePageCurrentWeek(currentWeek),
-                    style: const TextStyle(fontSize: 12, color: Color(0xFF888888)),
-                  ),
-                  const SizedBox(width: 6),
-                  if (isThisWeek)
-                    Text(
-                      weekDayStr,
-                      style: const TextStyle(fontSize: 12, color: Color(0xFF888888)),
-                    )
-                  else
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF07B8A).withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        context.l10n.schedulePageNotCurrentWeek,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Color(0xFFF07B8A),
-                          fontWeight: FontWeight.w500,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF1A1A2E),
+                          letterSpacing: -0.5,
                         ),
                       ),
                     ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.add, size: 24),
-                onPressed: onAdd,
-                color: const Color(0xFF444444),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
-              ),
-              const SizedBox(width: 4),
-              IconButton(
-                icon: const Icon(Icons.download_outlined, size: 20),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const SchoolImportPage()),
+                    const SizedBox(width: 8),
+                    Text(
+                      weekDayStr,
+                      style: const TextStyle(fontSize: 12, color: Color(0xFF888888)),
+                    ),
+                  ],
                 ),
-                color: const Color(0xFF444444),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
               ),
-              const SizedBox(width: 4),
-              IconButton(
-                icon: const Icon(Icons.more_horiz, size: 22),
-                onPressed: onMore,
-                color: const Color(0xFF444444),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+              const SizedBox(width: 12),
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.add, size: 24),
+                    onPressed: onAdd,
+                    color: const Color(0xFF444444),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                  ),
+                  const SizedBox(width: 4),
+                  IconButton(
+                    icon: const Icon(Icons.download_outlined, size: 20),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const SchoolImportPage()),
+                    ),
+                    color: const Color(0xFF444444),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                  ),
+                  const SizedBox(width: 4),
+                  IconButton(
+                    icon: const Icon(Icons.more_horiz, size: 22),
+                    onPressed: onMore,
+                    color: const Color(0xFF444444),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                  ),
+                ],
               ),
             ],
           ),

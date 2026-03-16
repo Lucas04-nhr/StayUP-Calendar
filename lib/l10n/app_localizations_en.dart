@@ -112,6 +112,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dateFormatSettingLabel => 'Date Format';
 
   @override
+  String get dateFormatCustomOptionLabel => 'Custom';
+
+  @override
+  String get dateFormatCustomDialogTitle => 'Custom Date Format';
+
+  @override
+  String get dateFormatCustomDialogHint =>
+      'Enter an intl date pattern, e.g. MMM. d yyyy';
+
+  @override
+  String get dateFormatCustomDialogHelper =>
+      'Use DateFormat pattern syntax. Examples: yyyy/MM/dd, d MMM. yyyy, MMM. d yyyy';
+
+  @override
+  String get dateFormatCustomDialogEmpty => 'Please enter a date format';
+
+  @override
+  String get dateFormatCustomDialogInvalid => 'Invalid date format pattern';
+
+  @override
   String get languageFollowSystem => 'Follow System';
 
   @override

@@ -300,6 +300,42 @@ abstract class AppLocalizations {
   /// **'日期格式'**
   String get dateFormatSettingLabel;
 
+  /// No description provided for @dateFormatCustomOptionLabel.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'自定义'**
+  String get dateFormatCustomOptionLabel;
+
+  /// No description provided for @dateFormatCustomDialogTitle.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'自定义日期格式'**
+  String get dateFormatCustomDialogTitle;
+
+  /// No description provided for @dateFormatCustomDialogHint.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'请输入 intl 日期格式，例如：MMM. d yyyy'**
+  String get dateFormatCustomDialogHint;
+
+  /// No description provided for @dateFormatCustomDialogHelper.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'使用 DateFormat 格式语法。示例：yyyy/MM/dd、d MMM. yyyy、MMM. d yyyy'**
+  String get dateFormatCustomDialogHelper;
+
+  /// No description provided for @dateFormatCustomDialogEmpty.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'请输入日期格式'**
+  String get dateFormatCustomDialogEmpty;
+
+  /// No description provided for @dateFormatCustomDialogInvalid.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'日期格式无效，请检查后重试'**
+  String get dateFormatCustomDialogInvalid;
+
   /// No description provided for @languageFollowSystem.
   ///
   /// In zh_Hans, this message translates to:

@@ -1520,12 +1520,17 @@ class _ClassTimePageState extends State<ClassTimePage> {
       initialTime: TimeOfDay(
           hour: int.parse(sp[0]), minute: int.parse(sp[1])),
        helpText: l.classTimePickerStartHelpText(index + 1),
-      builder: (ctx, child) => Theme(
-        data: ThemeData.dark().copyWith(
-            colorScheme: const ColorScheme.dark(
-                primary: Color(0xFF4ECDC4))),
-        child: child!,
-      ),
+      builder: (ctx, child) {
+        final base = Theme.of(context);
+        return Theme(
+          data: base.copyWith(
+            colorScheme: base.colorScheme.copyWith(
+              primary: const Color(0xFF4ECDC4),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (!mounted || pickedStart == null) return;
 
@@ -1540,12 +1545,17 @@ class _ClassTimePageState extends State<ClassTimePage> {
         initialTime: TimeOfDay(
             hour: int.parse(ep[0]), minute: int.parse(ep[1])),
           helpText: l.classTimePickerEndHelpText(index + 1),
-        builder: (ctx, child) => Theme(
-          data: ThemeData.dark().copyWith(
-              colorScheme: const ColorScheme.dark(
-                  primary: Color(0xFF4ECDC4))),
-          child: child!,
-        ),
+        builder: (ctx, child) {
+          final base = Theme.of(context);
+          return Theme(
+            data: base.copyWith(
+              colorScheme: base.colorScheme.copyWith(
+                primary: const Color(0xFF4ECDC4),
+              ),
+            ),
+            child: child!,
+          );
+        },
       );
       if (!mounted || pickedEnd == null) return;
       newEnd =

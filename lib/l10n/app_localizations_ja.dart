@@ -111,6 +111,25 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dateFormatSettingLabel => '日付形式';
 
   @override
+  String get dateFormatCustomOptionLabel => 'カスタム';
+
+  @override
+  String get dateFormatCustomDialogTitle => '日付形式をカスタム';
+
+  @override
+  String get dateFormatCustomDialogHint => 'intl の日付パターンを入力（例: MMM. d yyyy）';
+
+  @override
+  String get dateFormatCustomDialogHelper =>
+      'DateFormat のパターン構文を使用します。例: yyyy/MM/dd, d MMM. yyyy, MMM. d yyyy';
+
+  @override
+  String get dateFormatCustomDialogEmpty => '日付形式を入力してください';
+
+  @override
+  String get dateFormatCustomDialogInvalid => '日付形式が無効です。パターンを確認してください';
+
+  @override
   String get languageFollowSystem => 'システム設定に従う';
 
   @override

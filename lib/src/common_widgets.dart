@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'l10n.dart';
 import 'models.dart';
@@ -27,6 +28,7 @@ Future<void> showAppToast(
   Toast toastLength = Toast.LENGTH_SHORT,
   ToastGravity gravity = ToastGravity.BOTTOM,
 }) async {
+  await HapticFeedback.mediumImpact();
   await Fluttertoast.showToast(
     msg: message,
     toastLength: toastLength,

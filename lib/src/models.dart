@@ -168,7 +168,8 @@ const String kDateFormatYmdSlash = 'yyyy/MM/dd';
 const String kDateFormatYmdDash = 'yyyy-MM-dd';
 const String kDateFormatMdySlash = 'MM/dd/yyyy';
 const String kDateFormatDmySlash = 'dd/MM/yyyy';
-const String kDateFormatMonDY = 'MMM d, yyyy';
+const String kDateFormatDMonY = 'd MMM. yyyy';
+const String kDateFormatMonDY = 'MMM. d yyyy';
 const int kScheduleNameMaxLength = 20;
 const int kScheduleNameChineseMaxLength = 5;
 
