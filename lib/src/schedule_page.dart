@@ -282,15 +282,8 @@ class _Header extends StatelessWidget {
       color: Color(0xFF4ECDC4),
       fontWeight: FontWeight.w600,
     );
-    final newScheduleTextPainter = TextPainter(
-      text: TextSpan(
-        text: context.l10n.newScheduleButton,
-        style: scheduleTagTextStyle,
-      ),
-      maxLines: 1,
-      textDirection: Directionality.of(context),
-    )..layout();
-    final scheduleTagMaxWidth = newScheduleTextPainter.width + 20;
+    // Fixed cap based on the tested width of English "New Schedule".
+    const scheduleTagMaxWidth = 96.0;
 
     return Container(
       decoration: BoxDecoration(
