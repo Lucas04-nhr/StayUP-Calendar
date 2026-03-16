@@ -1151,7 +1151,7 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
         children: [
           _settingCard(context, [
             _SettingRow(
-              label: '当前课表显示的时间表',
+               label: l.classTimeCurrentTableLabel,
               showDivider: false,
               onTap: () => _pickActive(context, s),
               trailing: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -1164,18 +1164,18 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
           ]),
           const Padding(
             padding: EdgeInsets.only(left: 6, bottom: 16, top: 4),
-            child: Text('轻触右侧选择当前使用的时间表',
-                style: TextStyle(color: _kHint, fontSize: 12)),
+             child: Text(l.classTimeSelectHint,
+                 style: const TextStyle(color: _kHint, fontSize: 12)),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 6, bottom: 6),
             child: Row(children: [
-              const Text('时间表',
-                  style: TextStyle(color: _kHint, fontSize: 12)),
+               Text(l.classTimeTableListHeader,
+                   style: const TextStyle(color: _kHint, fontSize: 12)),
               const Spacer(),
               if (tables.length > 1)
-                const Text('条目上左划删除',
-                    style: TextStyle(color: _kHint, fontSize: 12)),
+                 Text(l.classTimeSwipeHint,
+                     style: const TextStyle(color: _kHint, fontSize: 12)),
             ]),
           ),
           _settingCard(
@@ -1206,26 +1206,24 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.circular(14)),
-                            title: Text('删除时间表',
+                           title: Text(l.classTimeDeleteTitle,
                                 style: TextStyle(color: ac(ctx).primaryText, fontSize: 16)),
                             content: Text(
-                                '确定删除「${tables[i].name}」？',
+                             l.classTimeDeleteMessage(tables[i].name),
                                 style: const TextStyle(
                                     color: _kHint, fontSize: 14)),
                             actions: [
                               TextButton(
                                   onPressed: () =>
                                       Navigator.pop(ctx, false),
-                                  child: const Text('取消',
-                                      style:
-                                          TextStyle(color: _kHint))),
+                             child: Text(l.cancelAction,
+                               style: const TextStyle(color: _kHint))),
                               TextButton(
                                   onPressed: () =>
                                       Navigator.pop(ctx, true),
-                                  child: const Text('删除',
-                                      style: TextStyle(
-                                          color:
-                                              Color(0xFFFF3B5C)))),
+                             child: Text(l.deleteAction,
+                               style: const TextStyle(
+                                 color: Color(0xFFFF3B5C)))),
                             ],
                           ),
                         ) ??
@@ -1252,6 +1250,7 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
   }
 
   void _pickActive(BuildContext context, AppState s) {
+    final l = context.l10n;
     showModalBottomSheet(
       context: context,
       backgroundColor: ac(context).card,
@@ -1271,7 +1270,7 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
                     borderRadius: BorderRadius.circular(2))),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 14),
-              child: Text('选择时间表',
+               child: Text(l.classTimeSelectTitle,
                   style: TextStyle(
                       color: ac(ctx).primaryText,
                       fontSize: 16,
@@ -1301,6 +1300,7 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
   }
 
   void _newTimeTable(BuildContext context, AppState s) {
+     final l = context.l10n;
     final ctrl = TextEditingController();
     showDialog(
       context: context,
@@ -1308,15 +1308,15 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
         backgroundColor: ac(ctx).card,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14)),
-        title: Text('新建时间表',
+         title: Text(l.classTimeNewTitle,
             style: TextStyle(color: ac(ctx).primaryText, fontSize: 16)),
         content: TextField(
           controller: ctrl,
           autofocus: true,
           style: TextStyle(color: ac(ctx).primaryText),
-          decoration: const InputDecoration(
-            hintText: '请输入时间表名称',
-            hintStyle: TextStyle(color: _kHint),
+           decoration: InputDecoration(
+             hintText: l.classTimeNewHint,
+             hintStyle: const TextStyle(color: _kHint),
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Color(0xFF4ECDC4))),
             focusedBorder: UnderlineInputBorder(
@@ -1327,18 +1327,18 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('取消',
-                  style: TextStyle(color: _kHint))),
+               child: Text(l.cancelAction,
+                   style: const TextStyle(color: _kHint))),
           TextButton(
             onPressed: () {
               final name = ctrl.text.trim().isEmpty
-                  ? '时间表'
+                   ? l.classTimeDefaultName
                   : ctrl.text.trim();
               s.addTimeTable(name);
               Navigator.pop(ctx);
             },
-            child: const Text('新建',
-                style: TextStyle(color: _kAccent)),
+             child: Text(l.classTimeNewAction,
+                 style: const TextStyle(color: _kAccent)),
           ),
         ],
       ),
@@ -1406,19 +1406,20 @@ class _ClassTimePageState extends State<ClassTimePage> {
   }
 
   void _checkOrder() {
+     final l = context.l10n;
     final List<String> errors = [];
     for (int i = 0; i < _times.length; i++) {
       final s = _toMin(_times[i][0]);
       final e = _toMin(_times[i][1]);
       if (e <= s) {
         errors.add(
-            '第 ${i + 1} 节：结束时间不能早于或等于开始时间（${_times[i][0]} – ${_times[i][1]}）');
+             l.classTimeOrderEndBeforeStart(i + 1, _times[i][0], _times[i][1]));
       }
       if (i < _times.length - 1) {
         final nextS = _toMin(_times[i + 1][0]);
         if (e > nextS) {
           errors.add(
-              '第 ${i + 1} 节与第 ${i + 2} 节时间重叠\n  第${i + 1}节结束 ${_times[i][1]} > 第${i + 2}节开始 ${_times[i + 1][0]}');
+               l.classTimeOrderOverlap(i + 1, i + 2, _times[i][1], _times[i + 1][0]));
         }
       }
     }
@@ -1440,7 +1441,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
           ),
           const SizedBox(width: 8),
           Text(
-            errors.isEmpty ? '时间顺序正常' : '发现 ${errors.length} 处冲突',
+             errors.isEmpty ? l.classTimeOrderOkTitle : l.classTimeOrderConflicts(errors.length),
             style: TextStyle(
                 color: ac(context).primaryText,
                 fontSize: 16,
@@ -1448,7 +1449,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
           ),
         ]),
         content: errors.isEmpty
-            ? Text('所有节次时间区间无冲突，顺序正确。',
+               ? Text(l.classTimeOrderOkMessage,
                 style: TextStyle(
                     color: ac(context).hint, fontSize: 14))
             : SizedBox(
@@ -1470,9 +1471,9 @@ class _ClassTimePageState extends State<ClassTimePage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('确定',
-                style: TextStyle(
-                    color: Color(0xFFFF3B5C), fontSize: 15)),
+             child: Text(l.okAction,
+                 style: const TextStyle(
+                     color: Color(0xFFFF3B5C), fontSize: 15)),
           ),
         ],
       ),
@@ -1480,6 +1481,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
   }
 
   void _editTime(int index) async {
+     final l = context.l10n;
     final sp = _times[index][0].split(':');
     final ep = _times[index][1].split(':');
 
@@ -1487,7 +1489,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
       context: context,
       initialTime: TimeOfDay(
           hour: int.parse(sp[0]), minute: int.parse(sp[1])),
-      helpText: '第 ${index + 1} 节  开始时间',
+       helpText: l.classTimePickerStartHelpText(index + 1),
       builder: (ctx, child) => Theme(
         data: ThemeData.dark().copyWith(
             colorScheme: const ColorScheme.dark(
@@ -1507,7 +1509,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
         context: context,
         initialTime: TimeOfDay(
             hour: int.parse(ep[0]), minute: int.parse(ep[1])),
-        helpText: '第 ${index + 1} 节  结束时间',
+          helpText: l.classTimePickerEndHelpText(index + 1),
         builder: (ctx, child) => Theme(
           data: ThemeData.dark().copyWith(
               colorScheme: const ColorScheme.dark(
@@ -1530,6 +1532,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
 
   @override
   Widget build(BuildContext context) {
+     final l = context.l10n;
     return Scaffold(
       backgroundColor: ac(context).bg,
       appBar: AppBar(
@@ -1537,18 +1540,18 @@ class _ClassTimePageState extends State<ClassTimePage> {
         elevation: 0,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
-          child: const Row(
+           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(width: 8),
-              Icon(Icons.arrow_back_ios, color: _kAccent, size: 17),
-              Text('上课时间', style: TextStyle(color: _kAccent, fontSize: 15)),
+               const SizedBox(width: 8),
+               const Icon(Icons.arrow_back_ios, color: _kAccent, size: 17),
+               Text(l.schedulePageToolClassTime, style: const TextStyle(color: _kAccent, fontSize: 15)),
             ],
           ),
         ),
         leadingWidth: 88,
         title: Text(
-          '时间表编辑',
+           l.classTimeEditPageTitle,
           style: TextStyle(
               color: ac(context).primaryText,
               fontSize: 17,
@@ -1558,11 +1561,11 @@ class _ClassTimePageState extends State<ClassTimePage> {
         actions: [
           TextButton(
             onPressed: _checkOrder,
-            child: const Text('检查时间顺序',
-                style: TextStyle(
-                    color: _kAccent,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500)),
+             child: Text(l.classTimeCheckOrder,
+                 style: const TextStyle(
+                     color: _kAccent,
+                     fontSize: 14,
+                     fontWeight: FontWeight.w500)),
           ),
         ],
       ),
@@ -1571,7 +1574,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
         children: [
           _settingCard(context, [
             _SettingRow(
-              label: '时间表名称',
+               label: l.classTimeNameLabel,
               showDivider: false,
               onTap: () => _editName(),
               trailing: Text(
@@ -1582,12 +1585,12 @@ class _ClassTimePageState extends State<ClassTimePage> {
           ]),
           const Padding(
             padding: EdgeInsets.only(left: 6, bottom: 12),
-            child: Text('轻触上方以编辑名称',
-                style: TextStyle(color: _kHint, fontSize: 12)),
+             child: Text(l.classTimeEditNameHint,
+                 style: const TextStyle(color: _kHint, fontSize: 12)),
           ),
           _settingCard(context, [
             _SettingRow(
-              label: '每节课时长相同',
+               label: l.classTimeSameDuration,
               showDivider: _sameLength,
               trailing: Switch(
                 value: _sameLength,
@@ -1597,7 +1600,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
             ),
             if (_sameLength) ...[
               _SettingRow(
-                label: '每节课时长（分钟）',
+                 label: l.classTimeDurationLabel,
                 showDivider: false,
                 onTap: _pickDuration,
                 trailing: Text(
@@ -1611,7 +1614,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
                   child: Text(
-                    '谨慎调整此项！调整后，将会根据每节课的「上课时间」，\n加上这个时长，来计算并更新「下课时间」，这意味着原来设置的下课时间会被覆盖！',
+                     l.classTimeDurationWarning,
                     style: const TextStyle(color: _kHint, fontSize: 12, height: 1.5),
                   ),
                 ),
@@ -1622,7 +1625,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
             Padding(
               padding: const EdgeInsets.only(left: 6, bottom: 8),
               child: Text(
-                '调整时间，多余的节数不用管\n如果想修改课表显示的节数，请去「课表设置」中的「每天节次数」',
+                 l.classTimeSectionListHint,
                 style: const TextStyle(color: _kHint, fontSize: 12, height: 1.5),
               ),
             ),
@@ -1631,7 +1634,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
               context,
               List.generate(20, (i) {
                 return _SettingRow(
-                  label: '第 ${i + 1} 节',
+                   label: l.classTimeSectionLabel(i + 1),
                   showDivider: i < 19,
                   onTap: () => _editTime(i),
                   trailing: Text(
@@ -1643,7 +1646,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
               })),
           _settingCard(context, [
             _SettingRow(
-              label: '重置为默认时间',
+               label: l.classTimeReset,
               showDivider: false,
               trailing: const SizedBox(),
               onTap: () {
@@ -1662,6 +1665,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
   }
 
   void _editName() {
+       final l = context.l10n;
     final ctrl = TextEditingController(text: _nameCtrl.text);
     showDialog(
       context: context,
@@ -1669,14 +1673,14 @@ class _ClassTimePageState extends State<ClassTimePage> {
         backgroundColor: ac(bCtx).card,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14)),
-        title: Text('编辑名称',
+         title: Text(l.classTimeEditNameTitle,
             style: TextStyle(color: ac(bCtx).primaryText, fontSize: 16)),
         content: TextField(
           controller: ctrl,
           autofocus: true,
           style: TextStyle(color: ac(bCtx).primaryText),
           decoration: InputDecoration(
-            hintText: '请输入时间表名称',
+             hintText: l.classTimeNewHint,
             hintStyle: TextStyle(color: ac(bCtx).hint),
             enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Color(0xFF4ECDC4))),
@@ -1688,25 +1692,26 @@ class _ClassTimePageState extends State<ClassTimePage> {
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(bCtx),
-              child: const Text('取消',
-                  style: TextStyle(color: _kHint))),
+               child: Text(l.cancelAction,
+                 style: const TextStyle(color: _kHint))),
           TextButton(
               onPressed: () {
                 final newName = ctrl.text.trim().isEmpty
-                    ? '时间表'
+                   ? l.classTimeDefaultName
                     : ctrl.text.trim();
                 setState(() => _nameCtrl.text = newName);
                 _pushName(newName);
                 Navigator.pop(bCtx);
               },
-              child: const Text('确定',
-                  style: TextStyle(color: _kAccent))),
+               child: Text(l.confirmAction,
+                 style: const TextStyle(color: _kAccent))),
         ],
       ),
     );
   }
 
   void _pickDuration() {
+    final l = context.l10n;
     showModalBottomSheet(
       context: context,
       backgroundColor: ac(context).card,
@@ -1730,10 +1735,9 @@ class _ClassTimePageState extends State<ClassTimePage> {
                       children: [
                         TextButton(
                             onPressed: () => Navigator.pop(ctx),
-                            child: const Text('取消',
-                                style:
-                                    TextStyle(color: _kAccent))),
-                        Text('每节课时长（分钟）',
+                               child: Text(l.cancelAction,
+                                 style: const TextStyle(color: _kAccent))),
+                             Text(l.classTimeDurationPickerTitle,
                             style: TextStyle(
                                 color: ac(ctx).primaryText,
                                 fontWeight: FontWeight.w600,
@@ -1754,9 +1758,8 @@ class _ClassTimePageState extends State<ClassTimePage> {
                             _push();
                             Navigator.pop(ctx);
                           },
-                          child: const Text('确定',
-                              style:
-                                  TextStyle(color: _kAccent)),
+                           child: Text(l.confirmAction,
+                             style: const TextStyle(color: _kAccent)),
                         ),
                       ]),
                 ),
@@ -1777,7 +1780,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
                       childCount: options.length,
                       builder: (_, i) => Center(
                           child: Text(
-                        '${options[i]} 分钟',
+                         l.classTimeMinutes(options[i]),
                         style: TextStyle(
                           color: options[i] == tmp
                               ? ac(ctx).primaryText
