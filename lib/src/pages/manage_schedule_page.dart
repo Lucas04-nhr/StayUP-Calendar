@@ -27,10 +27,13 @@ class _ManageSchedulePageState extends State<ManageSchedulePage> {
       appBar: AppBar(
         backgroundColor: ac(context).bg,
         elevation: 0,
-        leading: buildLeadingTextAction(
-          context,
-          label: context.l10n.backAction,
-          onPressed: () => Navigator.pop(context),
+        leading: SizedBox(
+          width: 110,
+          child: buildLeadingTextAction(
+            context,
+            label: context.l10n.backAction,
+            onPressed: () => Navigator.pop(context),
+          ),
         ),
         leadingWidth: 60,
         title: Text(
