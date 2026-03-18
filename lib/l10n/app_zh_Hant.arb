@@ -1,9 +1,9 @@
 {
   "@@locale": "zh_Hant",
-  "appTitle": "WakeUp 課表",
+  "appTitle": "StayUP 課表",
   "loadingSchedule": "正在載入課表...",
   "aboutTitle": "關於",
-  "appName": "StayUP課表",
+  "appName": "StayUP 課表",
   "appVersionLabel": "版本 {version}",
   "@appVersionLabel": {
     "placeholders": {

@@ -9,7 +9,7 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
-  String get appTitle => 'WakeUp 時間割';
+  String get appTitle => 'StayUP 時間割';
 
   @override
   String get loadingSchedule => '時間割を読み込み中...';

@@ -105,7 +105,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In zh_Hans, this message translates to:
-  /// **'WakeUp 课程表'**
+  /// **'StayUP 课程表'**
   String get appTitle;
 
   /// No description provided for @loadingSchedule.
