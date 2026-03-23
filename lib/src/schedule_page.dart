@@ -319,54 +319,6 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 6,
-            runSpacing: 6,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF4ECDC4).withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: scheduleTagMaxWidth),
-                  child: Text(
-                    scheduleName,
-                    style: scheduleTagTextStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-              Text(
-                context.l10n.schedulePageCurrentWeek(currentWeek),
-                style: const TextStyle(fontSize: 12, color: Color(0xFF888888)),
-              ),
-              if (!isThisWeek)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF07B8A).withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    context.l10n.schedulePageNotCurrentWeek,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      color: Color(0xFFF07B8A),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          if (!isThisWeek)
-            const SizedBox(height: 8)
-          else
-            const SizedBox(height: 6),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -426,6 +378,54 @@ class _Header extends StatelessWidget {
                   ),
                 ],
               ),
+            ],
+          ),
+          if (!isThisWeek)
+            const SizedBox(height: 8)
+          else
+            const SizedBox(height: 6),
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 6,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF4ECDC4).withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: scheduleTagMaxWidth),
+                  child: Text(
+                    scheduleName,
+                    style: scheduleTagTextStyle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              Text(
+                context.l10n.schedulePageCurrentWeek(currentWeek),
+                style: const TextStyle(fontSize: 12, color: Color(0xFF888888)),
+              ),
+              if (!isThisWeek)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF07B8A).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    context.l10n.schedulePageNotCurrentWeek,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFFF07B8A),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
             ],
           ),
         ],

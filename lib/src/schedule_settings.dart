@@ -518,7 +518,7 @@ class _AdjustCoursePageState extends State<AdjustCoursePage> {
               ]),
             ),
             // 分隔线
-            Container(height: 0.5, color: const Color(0xFFE5E5EA), margin: const EdgeInsets.only(left: 16)),
+            Container(height: 0.5, color: const Color(0xFFE5E5EA), margin: const EdgeInsets.symmetric(horizontal: 16)),
             // 移动到 xxx
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -836,7 +836,7 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                           row,
                           if (!isLast)
                             Container(height: 0.5, color: const Color(0xFFE5E5EA),
-                                margin: const EdgeInsets.only(left: 50)),
+                                margin: const EdgeInsets.symmetric(horizontal: 16)),
                         ]);
                       }
 
@@ -847,7 +847,7 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                           direction: DismissDirection.endToStart,
                           background: Container(
                             alignment: Alignment.centerRight,
-                            padding: const EdgeInsets.only(right: 20),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             color: const Color(0xFFFF3B5C).withValues(alpha: 0.15),
                             child: const Icon(Icons.delete_outline, color: Color(0xFFFF3B5C), size: 22),
                           ),
@@ -879,7 +879,7 @@ class _AddedCoursesPageState extends State<AddedCoursesPage> {
                         ),
                         if (!isLast)
                           Container(height: 0.5, color: const Color(0xFFE5E5EA),
-                              margin: const EdgeInsets.only(left: 32)),
+                              margin: const EdgeInsets.symmetric(horizontal: 16)),
                       ]);
                     }),
                   ),
