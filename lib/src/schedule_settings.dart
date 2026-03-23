@@ -330,7 +330,7 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
           settingCard(context, [
             SettingRow(
                 label: context.l10n.sectionsPerDay,
-                onTap: () => _pickNumber(context.l10n.sectionsPerDay, cfg.sectionsPerDay, 1, 12,
+                onTap: () => _pickNumber(context.l10n.sectionsPerDay, cfg.sectionsPerDay, 1, 20,
                   (v) => s.updateActiveConfig(sectionsPerDay: v)),
               trailing: Text('${cfg.sectionsPerDay}',
                   style: TextStyle(color: kHint, fontSize: 15)),

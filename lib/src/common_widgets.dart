@@ -112,7 +112,7 @@ class SubPageScaffold extends StatelessWidget {
   scrolledUnderElevation: 0,
 
   leading: buildBackLeading(context, label: context.l10n.backAction),
-  leadingWidth: 80,
+  leadingWidth: 120,
 
   title: Text(
     centerTitle ?? title,
@@ -143,7 +143,7 @@ Widget settingCard(BuildContext context, List<Widget> items) {
   return Container(
     decoration: BoxDecoration(
       color: ac(context).card,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(20),
     ),
     child: Column(children: items),
   );
@@ -196,7 +196,7 @@ class SettingRow extends StatelessWidget {
           Container(
             height: 0.5,
             color: ac(context).divider,
-            margin: const EdgeInsets.only(left: 16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
           ),
       ],
     );

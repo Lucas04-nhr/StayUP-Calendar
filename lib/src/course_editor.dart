@@ -368,7 +368,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                         onSelectedItemChanged: (i) =>
                             setS(() => tmpStart = i + 1),
                         childDelegate: ListWheelChildBuilderDelegate(
-                          childCount: 12,
+                          childCount: 20,
                           builder: (_, i) => Center(
                             child: Text(_weekNthLabel(context, i + 1),
                               style: TextStyle(
@@ -397,7 +397,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                             initialItem: tmpEnd - 1),
                         onSelectedItemChanged: (i) => setS(() => tmpEnd = i + 1),
                         childDelegate: ListWheelChildBuilderDelegate(
-                          childCount: 12,
+                          childCount: 20,
                           builder: (_, i) => Center(
                             child: Text(_weekNthLabel(context, i + 1),
                               style: TextStyle(
@@ -573,7 +573,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
               Container(
                 height: 0.5,
                 color: colors.divider,
-                margin: const EdgeInsets.symmetric(horizontal: 16),
+                margin: const EdgeInsets.only(left: 16),
               ),
           ],
         ],
@@ -595,7 +595,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            width: 86,
+            width: 110,
             child: Text(label,
                 style: TextStyle(color: colors.primaryText, fontSize: 16)),
           ),
@@ -654,7 +654,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
         children: [
           // 卡片标题行：时间段 N + 删除按钮
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.only(left: 4, bottom: 6),
             child: Row(
               children: [
                 Text(
@@ -802,7 +802,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
                     const Spacer(),
                     if (_customColor == null)
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.only(right: 8),
                         child: Text(context.l10n.autoLabel,
                             style: TextStyle(
                                 color: colors.hint, fontSize: 13)),
@@ -831,7 +831,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
 
             // ── 时间段标题行 ──
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.only(left: 4, bottom: 8),
               child: Row(
                 children: [
                     Text(context.l10n.courseEditorTimeSlotsLabel,
@@ -1122,7 +1122,7 @@ class _SettingRow extends StatelessWidget {
           Container(
               height: 0.5,
               color: colors.divider,
-              margin: const EdgeInsets.symmetric(horizontal: 16)),
+              margin: const EdgeInsets.only(left: 16)),
       ],
     );
   }
@@ -1193,12 +1193,12 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
             ),
           ]),
              Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.only(left: 6, bottom: 16, top: 4),
              child: Text(l.classTimeSelectHint,
                style: TextStyle(color: _kHint, fontSize: 12)),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.only(left: 6, bottom: 6),
             child: Row(children: [
                Text(l.classTimeTableListHeader,
                    style: const TextStyle(color: _kHint, fontSize: 12)),
@@ -1218,11 +1218,11 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
                       : DismissDirection.none,
                   background: Container(
                     alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.only(right: 20),
                     decoration: const BoxDecoration(
                       color: Color(0xFFFF3B5C),
                       borderRadius:
-                          BorderRadius.all(Radius.circular(12)),
+                          BorderRadius.all(Radius.circular(20)),
                     ),
                     child: Icon(Icons.delete_outline,
                         color: ac(context).primaryText),
@@ -1235,7 +1235,7 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
                             backgroundColor: ac(ctx).card,
                             shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.circular(14)),
+                                    BorderRadius.circular(20)),
                            title: Text(l.classTimeDeleteTitle,
                                 style: TextStyle(color: ac(ctx).primaryText, fontSize: 16)),
                             content: Text(
@@ -1377,7 +1377,7 @@ class _ClassTimeListPageState extends State<ClassTimeListPage> {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 1. 上课时间（仿 WakeUp 风格，固定12节，检查冲突）
+// 1. 上课时间（仿 WakeUp 风格，固定20节，检查冲突）
 // ═══════════════════════════════════════════════════════════════
 class ClassTimePage extends StatefulWidget {
   final int timeTableIndex;
@@ -1401,7 +1401,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
     final tt =
         AppStateScope.of(context).allTimeTables[widget.timeTableIndex];
     _nameCtrl = TextEditingController(text: tt.name);
-    _times = List.generate(12, (i) {
+    _times = List.generate(20, (i) {
       if (i < tt.times.length) return List<String>.from(tt.times[i]);
       return List<String>.from(kDefaultTimes[i]);
     });
@@ -1583,7 +1583,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
           label: l.schedulePageToolClassTime,
           color: _kAccent,
         ),
-        leadingWidth: 88,
+        leadingWidth: 110,
         title: Text(
            l.classTimeEditPageTitle,
           style: TextStyle(
@@ -1618,7 +1618,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
             ),
           ]),
              Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.only(left: 6, bottom: 12),
              child: Text(l.classTimeEditNameHint,
                style: TextStyle(color: _kHint, fontSize: 12)),
           ),
@@ -1657,7 +1657,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
           ]),
           if (!_sameLength)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.only(left: 6, bottom: 8),
               child: Text(
                  l.classTimeSectionListHint,
                 style: const TextStyle(color: _kHint, fontSize: 12, height: 1.5),
@@ -1666,7 +1666,7 @@ class _ClassTimePageState extends State<ClassTimePage> {
           const SizedBox(height: 8),
           _settingCard(
               context,
-              List.generate(12, (i) {
+              List.generate(20, (i) {
                 return _SettingRow(
                    label: l.classTimeSectionLabel(i + 1),
                   showDivider: i < 19,

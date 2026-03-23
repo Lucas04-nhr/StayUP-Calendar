@@ -15,7 +15,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
   final _nameCtrl = TextEditingController();
   bool _initializedName = false;
   DateTime _firstDay = DateTime(DateTime.now().year, 9, 1);
-  int _sectionsPerDay = 12;
+  int _sectionsPerDay = 20;
   int _totalWeeks = 20;
 
   @override
@@ -72,7 +72,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 12,
+                  vertical: 20,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -280,7 +280,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
               onTap: _pickDate,
               trailing: Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
+                  horizontal: 20,
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
@@ -327,7 +327,7 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
                 context.l10n.sectionsPerDay,
                 _sectionsPerDay,
                 1,
-                12,
+                20,
                 (v) => setState(() => _sectionsPerDay = v),
               ),
               trailing: Text(

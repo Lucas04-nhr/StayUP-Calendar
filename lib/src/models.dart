@@ -87,7 +87,7 @@ class AppColors extends ThemeExtension<AppColors> {
 }
 
 // ─────────────────────────────────────────────
-// 时间表配置（名称 + 12节时间）
+// 时间表配置（名称 +20节时间）
 // ─────────────────────────────────────────────
 
 class TimeTableConfig {
@@ -123,7 +123,7 @@ class ScheduleConfig {
   const ScheduleConfig({
     required this.name,
     required this.firstWeekDay,
-    this.sectionsPerDay = 10,
+    this.sectionsPerDay = 20,
     this.totalWeeks = 20,
   });
 
@@ -272,7 +272,7 @@ class AppState extends ChangeNotifier {
              ScheduleConfig(
                name: '新建课表',
                firstWeekDay: _defaultFirstWeekDay,
-               sectionsPerDay: 12,
+               sectionsPerDay: 20,
                totalWeeks: 20,
              ),
            ],
@@ -621,7 +621,7 @@ class AppState extends ChangeNotifier {
         ScheduleConfig(
           name: '新建课表',
           firstWeekDay: DateTime(DateTime.now().year, 9, 1),
-          sectionsPerDay:12,
+          sectionsPerDay:20,
           totalWeeks: 20,
         ),
       ],
@@ -680,7 +680,7 @@ class CourseSlot {
     required this.endWeek,
   });
 
-  int get span => (endSection - startSection + 1).clamp(1,12);
+  int get span => (endSection - startSection + 1).clamp(1,20);
   List<int> get weeks =>
       List.generate(endWeek - startWeek + 1, (i) => startWeek + i);
 
@@ -803,7 +803,7 @@ class Course {
     isNonWeek: j['isNonWeek'] as bool? ?? false,
     weeks: (j['weeks'] as List).cast<int>(),
     startWeek: j['startWeek'] as int? ?? 1,
-    endWeek: j['endWeek'] as int? ?? 18,
+    endWeek: j['endWeek'] as int? ?? 20,
     extraSlots: (j['extraSlots'] as List? ?? [])
         .map((e) => CourseSlot.fromJson(e as Map<String, dynamic>))
         .toList(),
@@ -829,9 +829,17 @@ const List<TimeSlot> kTimeSlots = [
   TimeSlot(10, '19:20', '20:05'),
   TimeSlot(11, '20:15', '21:00'),
   TimeSlot(12, '21:05', '21:50'),
+  TimeSlot(13, '21:05', '21:50'),
+  TimeSlot(14, '21:05', '21:50'),
+  TimeSlot(15, '21:05', '21:50'),
+  TimeSlot(16, '21:05', '21:50'),
+  TimeSlot(17, '21:05', '21:50'),
+  TimeSlot(18, '21:05', '21:50'),
+  TimeSlot(19, '21:05', '21:50'),
+  TimeSlot(20, '21:05', '21:50'),
 ];
 
-// 默认12节时间表（供重置使用）
+// 默认20节时间表（供重置使用）
 final List<List<String>> kDefaultTimes = kTimeSlots
     .map((s) => [s.start, s.end])
     .toList();
@@ -849,7 +857,7 @@ const List<Color> kCourseColors = [
 
 const List<String> kWeekDays = ['一', '二', '三', '四', '五', '六', '日'];
 
-final List<int> kAllWeeks = List.generate(12, (i) => i + 1);
+final List<int> kAllWeeks = List.generate(20, (i) => i + 1);
 final List<int> kEvenWeeks = [2, 4, 6, 8, 10, 12, 14, 16];
 
 final List<Course> kInitialCourses = [
