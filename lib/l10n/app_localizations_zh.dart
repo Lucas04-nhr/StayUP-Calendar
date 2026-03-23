@@ -9,7 +9,7 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
-  String get appTitle => 'WakeUp 课程表';
+  String get appTitle => 'StayUP 课程表';
 
   @override
   String get loadingSchedule => '正在加载课表...';
@@ -806,7 +806,7 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   AppLocalizationsZhHans() : super('zh_Hans');
 
   @override
-  String get appTitle => 'WakeUp 课程表';
+  String get appTitle => 'StayUP 课程表';
 
   @override
   String get loadingSchedule => '正在加载课表...';
@@ -1603,7 +1603,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   AppLocalizationsZhHant() : super('zh_Hant');
 
   @override
-  String get appTitle => 'WakeUp 課表';
+  String get appTitle => 'StayUP 課表';
 
   @override
   String get loadingSchedule => '正在載入課表...';
