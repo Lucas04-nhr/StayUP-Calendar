@@ -170,3 +170,119 @@ jobs:
         with:
           name: nightly-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
+
+  build-ios-ipa:
+    if: github.event_name != 'push' || !(startsWith(github.event.head_commit.message, 'chore') && contains(github.event.head_commit.message, 'Bump build number to '))
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Compute build metadata
+        id: build_meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION_LINE="$(grep -E '^version:' pubspec.yaml | awk '{print $2}')"
+          if [ -z "$VERSION_LINE" ]; then
+            echo "Failed to read version from pubspec.yaml" >&2
+            exit 1
+          fi
+
+          BASE_VERSION="${VERSION_LINE%%+*}"
+          if [ "$BASE_VERSION" = "$VERSION_LINE" ]; then
+            echo "pubspec.yaml version must include build number suffix (+N). Got: $VERSION_LINE" >&2
+            exit 1
+          fi
+
+          BUILD_NUMBER="${VERSION_LINE##*+}"
+          if ! [[ "$BUILD_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "Invalid build number in pubspec.yaml version: $VERSION_LINE" >&2
+            exit 1
+          fi
+
+          SHORT_SHA="$(git rev-parse --short HEAD)"
+          echo "BUILD_NAME=${BASE_VERSION}-${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+          echo "BUILD_NUMBER=${BUILD_NUMBER}" >> "$GITHUB_OUTPUT"
+
+      - name: Check iOS signing secrets
+        id: ios_signing
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${{ secrets.IOS_DISTRIBUTION_CERT_BASE64 }}" ] || \
+             [ -z "${{ secrets.IOS_DISTRIBUTION_CERT_PASSWORD }}" ] || \
+             [ -z "${{ secrets.IOS_APPSTORE_PROFILE_BASE64 }}" ] || \
+             [ -z "${{ secrets.IOS_APPSTORE_PROFILE_NAME }}" ] || \
+             [ -z "${{ secrets.IOS_TEAM_ID }}" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "iOS signing secrets are missing; skipping nightly iOS IPA build."
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Import signing certificate
+        if: steps.ios_signing.outputs.enabled == 'true'
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.IOS_DISTRIBUTION_CERT_BASE64 }}
+          p12-password: ${{ secrets.IOS_DISTRIBUTION_CERT_PASSWORD }}
+
+      - name: Install provisioning profile
+        if: steps.ios_signing.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROFILE_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
+          mkdir -p "$PROFILE_DIR"
+          PROFILE_PATH="$RUNNER_TEMP/appstore.mobileprovision"
+          printf '%s' "${{ secrets.IOS_APPSTORE_PROFILE_BASE64 }}" | base64 --decode > "$PROFILE_PATH"
+          UUID=$(/usr/libexec/PlistBuddy -c 'Print UUID' /dev/stdin <<< "$(security cms -D -i "$PROFILE_PATH")")
+          cp "$PROFILE_PATH" "$PROFILE_DIR/$UUID.mobileprovision"
+
+      - name: Generate export options
+        if: steps.ios_signing.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > ios/ExportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>app-store</string>
+            <key>signingStyle</key>
+            <string>manual</string>
+            <key>teamID</key>
+            <string>${{ secrets.IOS_TEAM_ID }}</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>com.stayup.schedule</key>
+              <string>${{ secrets.IOS_APPSTORE_PROFILE_NAME }}</string>
+            </dict>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Build signed IPA
+        if: steps.ios_signing.outputs.enabled == 'true'
+        run: flutter build ipa --release --build-name "${{ steps.build_meta.outputs.BUILD_NAME }}" --build-number "${{ steps.build_meta.outputs.BUILD_NUMBER }}" --export-options-plist=ios/ExportOptions.plist
+
+      - name: Upload IPA artifact
+        if: steps.ios_signing.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-ipa
+          path: build/ios/ipa/*.ipa
