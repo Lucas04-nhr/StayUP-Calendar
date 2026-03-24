@@ -837,7 +837,12 @@ class _CourseDetailSheet extends StatelessWidget {
   String _weekdayLabel(BuildContext context, int day) {
     final locale = Localizations.localeOf(context).toLanguageTag();
     final base = DateTime(2020, 1, 6).add(Duration(days: day - 1));
-    return DateFormat.E(locale).format(base);
+    final weekday = DateFormat.E(locale).format(base);
+    if (locale.startsWith('zh')) {
+      // Chinese templates already include 周/週 prefix, so strip it here.
+      return weekday.replaceFirst(RegExp(r'^(星期|週|周)'), '');
+    }
+    return weekday;
   }
 
   @override
@@ -942,19 +947,33 @@ class _CourseDetailSheet extends StatelessWidget {
           ),
           if (course.location.isNotEmpty) ...[
             const SizedBox(height: 6),
-            Row(children: [
-              const Text('📍 ', style: TextStyle(fontSize: 14)),
-              Text(course.location,
-                  style: TextStyle(fontSize: 14, color: colors.hint)),
-            ]),
+            Row(
+              children: [
+                Icon(Icons.location_on_outlined, size: 16, color: colors.hint),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    '${context.l10n.courseEditorLocationLabel}: ${course.location}',
+                    style: TextStyle(fontSize: 14, color: colors.hint),
+                  ),
+                ),
+              ],
+            ),
           ],
           if (course.teacher.isNotEmpty) ...[
             const SizedBox(height: 4),
-            Row(children: [
-              const Text('👤 ', style: TextStyle(fontSize: 14)),
-              Text(course.teacher,
-                  style: TextStyle(fontSize: 14, color: colors.hint)),
-            ]),
+            Row(
+              children: [
+                Icon(Icons.person_outline, size: 16, color: colors.hint),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    '${context.l10n.courseEditorTeacherLabel}: ${course.teacher}',
+                    style: TextStyle(fontSize: 14, color: colors.hint),
+                  ),
+                ),
+              ],
+            ),
           ],
           const SizedBox(height: 8),
           Text(
