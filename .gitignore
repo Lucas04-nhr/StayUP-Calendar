@@ -33,6 +33,7 @@ local_build_script.sh
 # Others
 *.log
 *.lock
+.certificates
 
 # Miscellaneous
 *.class
