@@ -295,8 +295,10 @@ class _ScheduleDataPageState extends State<ScheduleDataPage> {
           settingCard(context, [
             SettingRow(
               label: context.l10n.firstDayOfWeekOne,
-              onTap: () => _pickDate(cfg.firstWeekDay,
-                  (d) => s.updateActiveConfig(firstWeekDay: d)),
+              onTap: () => _pickDate(cfg.firstWeekDay, (d) {
+                s.updateActiveConfig(firstWeekDay: d);
+                if (mounted) setState(() {});
+              }),
               trailing: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(

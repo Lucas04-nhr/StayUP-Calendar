@@ -26,9 +26,19 @@ class HustImporter extends SchoolImporter {
       'http://mhub.hust.edu.cn/LsController/findNameCourse';
   static const String _entryUrl = 'http://mhub.hust.edu.cn';
 
-  static int _defaultAcademicYear(DateTime now) => now.month >= 8 ? now.year : now.year - 1;
+  static int _defaultAcademicYear(DateTime now) {
+    if (now.month == 1) {
+      return now.year - 1;
+    }
+    return now.year;
+  }
 
-  static int _defaultSemester(DateTime now) => now.month >= 8 ? 1 : 2;
+  static int _defaultSemester(DateTime now) {
+    if (now.month >= 2 && now.month <= 7) {
+      return 2;
+    }
+    return 1;
+  }
 
   String _buildUrl(int academicYear, int semester) =>
       '$_baseUrl?kcbxqh=$academicYear$semester';
@@ -46,13 +56,23 @@ class HustImporter extends SchoolImporter {
 
   @override
   String newScheduleName(BuildContext context) {
+    final locale = Localizations.localeOf(context);
     final season = _selectedSemester == 1
-        ? context.l10n.schoolImportSeasonFallShort
-        : context.l10n.schoolImportSeasonSpringShort;
-    return context.l10n.schoolImportScheduleNameByTerm(
-      _selectedAcademicYear,
-      season,
-    );
+        ? (locale.languageCode == 'en'
+            ? context.l10n.schoolImportSeasonFallShort
+            : context.l10n.hustSemesterFall)
+        : (locale.languageCode == 'en'
+            ? context.l10n.schoolImportSeasonSpringShort
+            : context.l10n.hustSemesterSpring);
+    return '$_selectedAcademicYear$season';
+  }
+
+  @override
+  DateTime? preferredFirstWeekDay() {
+    if (_selectedSemester == 1) {
+      return DateTime(_selectedAcademicYear, 9, 1);
+    }
+    return DateTime(_selectedAcademicYear, 2, 15);
   }
 
   Future<bool> prepareTermAndLoad(
@@ -131,10 +151,10 @@ class HustImporter extends SchoolImporter {
   Future<_HustTermSelection?> _showTermDialog(BuildContext context) async {
     final now = DateTime.now();
     final nowYear = now.year;
-    // 6 years: current year −4 … current year +1  (12 semesters total)
+    // 默认学年范围：当前年-4 到 当前年+1，覆盖近 6 年的 12 个学期
     final yearOptions = List<int>.generate(6, (index) => nowYear - 4 + index);
 
-    // Default pre-selection: date-derived, not the last user choice
+    // 默认值规则：1 月为上一年秋季，2-7 月为当年春季，8-12 月为当年秋季
     int draftYear     = _defaultAcademicYear(now);
     int draftSemester = _defaultSemester(now);
     if (!yearOptions.contains(draftYear)) {

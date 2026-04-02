@@ -30,6 +30,7 @@ class SchoolImportPage extends StatefulWidget {
 }
 
 class _SchoolImportPageState extends State<SchoolImportPage> {
+  // 先按拼音首字母分组，再按首字母快速定位。
   static List<_SchoolEntry> get _allSchools => kSchoolImporters.entries
       .map((e) => _SchoolEntry(id: e.key, pinyin: e.value.pinyin))
       .toList();
@@ -68,6 +69,7 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
   }
 
   List<_SchoolEntry> get _filtered {
+    // 搜索命中时只保留名称包含关键字的学校。
     if (_query.isEmpty) return _allSchools;
     return _allSchools.where((s) => _schoolName(context, s.id).contains(_query)).toList();
   }
@@ -86,6 +88,7 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
     final grouped = _filteredGrouped;
     final letters = _filteredLetters;
     if (!letters.contains(letter)) return;
+    // 根据当前过滤结果，估算目标字母对应的滚动位置。
     double offset = 0;
     for (final l in letters) {
       if (l == letter) break;
@@ -99,6 +102,7 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
   }
 
   Future<void> _confirmResetLogin() async {
+    // 先二次确认，再清理 Cookie 和各导入器的会话状态。
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -146,6 +150,7 @@ class _SchoolImportPageState extends State<SchoolImportPage> {
   Future<void> _clearCookiesAndResetSessions() async {
     FocusScope.of(context).unfocus();
     try {
+      // HUST 这类导入器需要同时重置内部状态。
       for (final importer in kSchoolImporters.values) {
         importer.resetSession();
       }
@@ -338,6 +343,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
   }
 
   void _showNotice() {
+    // 进入导入页后先展示说明，避免用户直接开始抓取。
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -356,6 +362,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
           TextButton(
             onPressed: () async {
               Navigator.pop(ctx);
+              // HUST 需要先选择学期并加载对应接口页，再允许抓取课程。
               if (widget.importer is HustImporter) {
                 await _prepareHustTermAfterNotice(widget.importer as HustImporter);
               }
@@ -386,6 +393,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
   }
 
   Future<void> _startCrawl() async {
+    // 抓取完成后先弹出预览确认，再真正写入课表。
     setState(() => _crawling = true);
     final appState = AppStateScope.of(context);
     final courses = await widget.importer.onPageLoaded(
@@ -405,6 +413,7 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
 
   Future<void> _refreshCurrentPage() async {
     if (!mounted) return;
+    // HUST 刷新时要重新选学期并重新加载接口页，其它学校直接刷新页面。
     if (widget.importer is HustImporter) {
       await _prepareHustTermAfterNotice(widget.importer as HustImporter);
       return;
@@ -484,10 +493,13 @@ class _SchoolWebViewPageState extends State<_SchoolWebViewPage> {
   }
 
   void _importCourses(List<Course> courses) {
+    // 新建一个课表承接导入结果，保留当前课表配置不被覆盖。
     final appState = AppStateScope.of(context);
+    final firstWeekDay = widget.importer.preferredFirstWeekDay() ??
+        appState.config.firstWeekDay;
     final cfg = ScheduleConfig(
       name: widget.importer.newScheduleName(context),
-      firstWeekDay: appState.config.firstWeekDay,
+      firstWeekDay: firstWeekDay,
       sectionsPerDay: appState.config.sectionsPerDay,
       totalWeeks: appState.config.totalWeeks,
     );

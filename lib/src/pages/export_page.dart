@@ -92,7 +92,7 @@ class _ExportPageState extends State<ExportPage> {
     }
 
     final match = RegExp(
-      r'^(\\d{4})\\s+(Spring|Fall|Autumn|春|秋)$',
+      r'^(\\d{4})(?:\\s+)?(Spring|Fall|Autumn|春|秋)$',
       caseSensitive: false,
     ).firstMatch(rawName);
     if (match == null) return rawName;
@@ -105,7 +105,7 @@ class _ExportPageState extends State<ExportPage> {
         (seasonToken == 'spring' || seasonToken == '春')
             ? l10n.schoolImportSeasonSpringShort
             : l10n.schoolImportSeasonFallShort;
-    return l10n.schoolImportScheduleNameByTerm(year, season);
+    return '$year$season';
   }
 
   Future<void> _importFromJson() async {

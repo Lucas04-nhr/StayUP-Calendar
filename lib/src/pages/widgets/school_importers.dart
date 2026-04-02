@@ -19,6 +19,8 @@ abstract class SchoolImporter {
     return context.l10n.newScheduleTitle;
   }
 
+  DateTime? preferredFirstWeekDay() => null;
+
   String displayName(BuildContext context);
 
   /// 页面加载完成后调用，返回解析好的课程列表

@@ -853,6 +853,14 @@ const List<Color> kCourseColors = [
   Color(0xFF82C9A0),
   Color(0xFFF0D07B),
   Color(0xFFC4A882),
+  Color(0xFF5B8FF9),
+  Color(0xFF61DDAA),
+  Color(0xFF65789B),
+  Color(0xFFF6BD16),
+  Color(0xFFE8684A),
+  Color(0xFF6DC8EC),
+  Color(0xFF9270CA),
+  Color(0xFF3BA272),
 ];
 
 const List<String> kWeekDays = ['一', '二', '三', '四', '五', '六', '日'];
