@@ -208,6 +208,15 @@
   },
   "schedulePageDeleteCourse": "Delete Course",
   "schedulePageClose": "Close",
+  "schedulePageUpcomingClass": "Upcoming Class",
+  "schedulePageRemainMinutes": "Starts in {minutes} min",
+  "@schedulePageRemainMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "schedulePageToolClassTime": "Class Time",
   "schedulePageToolScheduleSettings": "Schedule Settings",
   "schedulePageToolAddedCourses": "Added Courses",

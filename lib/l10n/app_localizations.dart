@@ -822,6 +822,18 @@ abstract class AppLocalizations {
   /// **'关闭'**
   String get schedulePageClose;
 
+  /// No description provided for @schedulePageUpcomingClass.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'即将开始'**
+  String get schedulePageUpcomingClass;
+
+  /// No description provided for @schedulePageRemainMinutes.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'距离上课还有 {minutes} 分钟'**
+  String schedulePageRemainMinutes(int minutes);
+
   /// No description provided for @schedulePageToolClassTime.
   ///
   /// In zh_Hans, this message translates to:

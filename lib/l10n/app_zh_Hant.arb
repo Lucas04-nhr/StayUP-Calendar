@@ -208,6 +208,15 @@
   },
   "schedulePageDeleteCourse": "刪除課程",
   "schedulePageClose": "關閉",
+  "schedulePageUpcomingClass": "即將開始",
+  "schedulePageRemainMinutes": "距離上課還有 {minutes} 分鐘",
+  "@schedulePageRemainMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "schedulePageToolClassTime": "上課時間",
   "schedulePageToolScheduleSettings": "課表設定",
   "schedulePageToolAddedCourses": "已添課程",

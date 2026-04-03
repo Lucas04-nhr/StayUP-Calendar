@@ -208,6 +208,15 @@
   },
   "schedulePageDeleteCourse": "删除课程",
   "schedulePageClose": "关闭",
+  "schedulePageUpcomingClass": "即将开始",
+  "schedulePageRemainMinutes": "距离上课还有 {minutes} 分钟",
+  "@schedulePageRemainMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "schedulePageToolClassTime": "上课时间",
   "schedulePageToolScheduleSettings": "课表设置",
   "schedulePageToolAddedCourses": "已添课程",

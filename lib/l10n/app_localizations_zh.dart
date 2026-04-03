@@ -398,6 +398,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get schedulePageClose => '关闭';
 
   @override
+  String get schedulePageUpcomingClass => '即将开始';
+
+  @override
+  String schedulePageRemainMinutes(int minutes) {
+    return '距离上课还有 $minutes 分钟';
+  }
+
+  @override
   String get schedulePageToolClassTime => '上课时间';
 
   @override
@@ -1195,6 +1203,14 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get schedulePageClose => '关闭';
 
   @override
+  String get schedulePageUpcomingClass => '即将开始';
+
+  @override
+  String schedulePageRemainMinutes(int minutes) {
+    return '距离上课还有 $minutes 分钟';
+  }
+
+  @override
   String get schedulePageToolClassTime => '上课时间';
 
   @override
@@ -1990,6 +2006,14 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get schedulePageClose => '關閉';
+
+  @override
+  String get schedulePageUpcomingClass => '即將開始';
+
+  @override
+  String schedulePageRemainMinutes(int minutes) {
+    return '距離上課還有 $minutes 分鐘';
+  }
 
   @override
   String get schedulePageToolClassTime => '上課時間';

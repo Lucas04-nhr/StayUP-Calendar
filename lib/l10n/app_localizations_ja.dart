@@ -400,6 +400,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get schedulePageClose => '閉じる';
 
   @override
+  String get schedulePageUpcomingClass => 'まもなく開始';
+
+  @override
+  String schedulePageRemainMinutes(int minutes) {
+    return '授業まであと $minutes 分';
+  }
+
+  @override
   String get schedulePageToolClassTime => '授業時間';
 
   @override

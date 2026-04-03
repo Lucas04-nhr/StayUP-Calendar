@@ -208,6 +208,15 @@
   },
   "schedulePageDeleteCourse": "授業を削除",
   "schedulePageClose": "閉じる",
+  "schedulePageUpcomingClass": "まもなく開始",
+  "schedulePageRemainMinutes": "授業まであと {minutes} 分",
+  "@schedulePageRemainMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "schedulePageToolClassTime": "授業時間",
   "schedulePageToolScheduleSettings": "時間割設定",
   "schedulePageToolAddedCourses": "追加済み授業",

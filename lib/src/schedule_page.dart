@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
 import 'l10n.dart';
 import 'models.dart';
 import 'common_widgets.dart';
 import 'course_editor.dart';
 import 'schedule_settings.dart';
 import 'app_pages.dart';
+import 'course_reminder.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
@@ -20,10 +22,28 @@ class _SchedulePageState extends State<SchedulePage> {
   final DateTime _today = DateTime.now();
   int _lastActiveIndex = -1; // 追踪课表切换
 
+  // 课前提醒相关
+  late Timer _reminderTimer;
+  int? _lastRemindedCourseId;  // 追踪最后一次提醒的课程 ID
+  DateTime? _lastRemindTime;   // 追踪最后一次提醒的时间，防止同课程频繁提醒
+  static const int _reminderMinutes = 10;  // 课前10分钟提醒
+
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _currentWeek - 1);
+    // 启动定时器，每分钟检查一次是否需要提醒（仅在功能开启时）
+    _reminderTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (mounted) {
+        _checkAndShowReminder();
+      }
+    });
+    // 初始化时也立即检查一次
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _checkAndShowReminder();
+      }
+    });
   }
 
   @override
@@ -41,6 +61,7 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   void dispose() {
     _pageController.dispose();
+    _reminderTimer.cancel();  // 停止提醒定时器
     super.dispose();
   }
 
@@ -66,6 +87,63 @@ class _SchedulePageState extends State<SchedulePage> {
       if (total >= sMin && total <= eMin) return i;
     }
     return -1;
+  }
+
+  /// 检查和显示课前10分钟提醒
+  void _checkAndShowReminder() {
+    final appState = AppStateScope.of(context);
+    
+    // 检查功能是否开启
+    if (!appState.courseReminderEnabled) return;
+
+    final courses = appState.courses;
+    final customTimes = appState.customTimes;
+    final cfg = appState.config;
+
+    // 计算今天是第几周
+    final week1Monday = _week1MondayFor(cfg.firstWeekDay);
+    final daysSinceWeek1Monday = _today.difference(week1Monday).inDays;
+    final todayWeek = (daysSinceWeek1Monday ~/ 7) + 1;
+
+    // 获取下一节课程
+    final nextCourse = CourseReminderManager.getNextUpcomingCourse(
+      courses,
+      _today,
+      todayWeek,
+      _todayCol,
+      customTimes,
+      _reminderMinutes,
+    );
+
+    if (nextCourse != null) {
+      // 防止同一课程频繁提醒（同一天只提醒一次）
+      final today = DateTime(_today.year, _today.month, _today.day);
+      if (_lastRemindedCourseId == nextCourse.id &&
+          _lastRemindTime != null &&
+          DateTime(_lastRemindTime!.year, _lastRemindTime!.month, _lastRemindTime!.day) == today) {
+        // 同一课程已在今天提醒过，跳过
+        return;
+      }
+
+      // 更新追踪信息
+      _lastRemindedCourseId = nextCourse.id;
+      _lastRemindTime = DateTime.now();
+
+      // 计算距离上课的分钟数和开始时间
+      final nowMinutes = DateTime.now().hour * 60 + DateTime.now().minute;
+      final startTimeStr = customTimes[nextCourse.startSection - 1][0];
+      final startMinutes = CourseReminderManager.timeStringToMinutes(startTimeStr);
+      final minutesUntilClass = startMinutes - nowMinutes;
+
+      // 显示提醒弹窗
+      if (!mounted) return;
+      CourseReminderManager.showUpcomingClassReminder(
+        context,
+        nextCourse,
+        minutesUntilClass,
+        startTimeStr,
+      );
+    }
   }
 
   void _deleteCourse(int id) => AppStateScope.of(context).deleteCourse(id);

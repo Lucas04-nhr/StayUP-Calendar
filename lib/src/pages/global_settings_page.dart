@@ -17,7 +17,6 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
   // BottomSheet 中“自定义日期格式”这一项的哨兵值。
   static const String _customDateFormatOption = '__custom_date_format_option__';
 
-  final bool _notification = false;
   final bool _widgetSync = false;
   bool _isExitingForLocaleChange = false;
 
@@ -547,8 +546,10 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
             trailing: Transform.scale(
               scale: 0.92,
               child: Switch(
-                value: _notification,
-                onChanged: (v) => _showWip(context),
+                value: appState.courseReminderEnabled,
+                onChanged: (v) {
+                  appState.updateCourseReminderEnabled(v);
+                },
                 activeThumbColor: const Color(0xFF4ECDC4),
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),

@@ -409,6 +409,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schedulePageClose => 'Close';
 
   @override
+  String get schedulePageUpcomingClass => 'Upcoming Class';
+
+  @override
+  String schedulePageRemainMinutes(int minutes) {
+    return 'Starts in $minutes min';
+  }
+
+  @override
   String get schedulePageToolClassTime => 'Class Time';
 
   @override
