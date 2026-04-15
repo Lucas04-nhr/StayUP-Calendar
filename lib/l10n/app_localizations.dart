@@ -834,6 +834,22 @@ abstract class AppLocalizations {
   /// **'距离上课还有 {minutes} 分钟'**
   String schedulePageRemainMinutes(int minutes);
 
+  /// No description provided for @courseReminderLocationUnknown.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'未填写地点'**
+  String get courseReminderLocationUnknown;
+
+  /// No description provided for @courseReminderNotificationBody.
+  ///
+  /// In zh_Hans, this message translates to:
+  /// **'在 {minutes} 分钟后在 {location} 有 {courseName} 课程'**
+  String courseReminderNotificationBody(
+    int minutes,
+    Object location,
+    Object courseName,
+  );
+
   /// No description provided for @schedulePageToolClassTime.
   ///
   /// In zh_Hans, this message translates to:

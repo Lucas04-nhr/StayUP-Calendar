@@ -217,6 +217,17 @@
       }
     }
   },
+  "courseReminderLocationUnknown": "Unknown location",
+  "courseReminderNotificationBody": "In {minutes} minutes, you have {courseName} at {location}",
+  "@courseReminderNotificationBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "location": {},
+      "courseName": {}
+    }
+  },
   "schedulePageToolClassTime": "Class Time",
   "schedulePageToolScheduleSettings": "Schedule Settings",
   "schedulePageToolAddedCourses": "Added Courses",

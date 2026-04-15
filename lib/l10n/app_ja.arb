@@ -217,6 +217,17 @@
       }
     }
   },
+  "courseReminderLocationUnknown": "場所未設定",
+  "courseReminderNotificationBody": "{minutes} 分後に {location} で {courseName} の授業があります",
+  "@courseReminderNotificationBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "location": {},
+      "courseName": {}
+    }
+  },
   "schedulePageToolClassTime": "授業時間",
   "schedulePageToolScheduleSettings": "時間割設定",
   "schedulePageToolAddedCourses": "追加済み授業",

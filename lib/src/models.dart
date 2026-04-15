@@ -172,6 +172,8 @@ const String kDateFormatDMonY = 'd MMM. yyyy';
 const String kDateFormatMonDY = 'MMM d, yyyy';
 const int kScheduleNameMaxLength = 20;
 const int kScheduleNameChineseMaxLength = 5;
+const List<int> kCourseReminderMinuteOptions = [0, 5, 10, 15, 30];
+const int kCourseReminderDefaultMinutes = 10;
 
 class AppState extends ChangeNotifier {
   List<TimeTableConfig> allTimeTables;
@@ -188,7 +190,7 @@ class AppState extends ChangeNotifier {
   String localeMode;
   String dateFormatPattern;
   bool useMaterialDynamicColor;
-  bool courseReminderEnabled;
+  int courseReminderMinutes;
 
   // 全局主题色（null = 使用 kCourseColors[0] 默认值）
   int? themeColorValue;
@@ -256,7 +258,7 @@ class AppState extends ChangeNotifier {
     this.localeMode = kLocaleModeSystem,
     this.dateFormatPattern = kDateFormatYmdSlash,
     this.useMaterialDynamicColor = false,
-    this.courseReminderEnabled = true,
+    this.courseReminderMinutes = kCourseReminderDefaultMinutes,
     this.themeColorValue,
     this.activeScheduleIndex = 0,
     List<ScheduleConfig>? allConfigs,
@@ -398,7 +400,9 @@ class AppState extends ChangeNotifier {
     final configRaw = schedule['config'];
     final coursesRaw = schedule['courses'];
     if (configRaw is! Map || coursesRaw is! List) {
-      throw const FormatException('Invalid schedule JSON: config/courses not found.');
+      throw const FormatException(
+        'Invalid schedule JSON: config/courses not found.',
+      );
     }
 
     final importedConfig = ScheduleConfig.fromJson(
@@ -411,9 +415,7 @@ class AppState extends ChangeNotifier {
     final fallbackName = '导入课表';
     final candidateName = importedNameOverride ?? importedConfig.name;
     final normalizedName = normalizeScheduleName(candidateName);
-    final finalName = normalizedName.isEmpty
-        ? fallbackName
-        : normalizedName;
+    final finalName = normalizedName.isEmpty ? fallbackName : normalizedName;
 
     allConfigs = [...allConfigs, importedConfig.copyWith(name: finalName)];
     allCourses = [...allCourses, importedCourses];
@@ -474,9 +476,17 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateCourseReminderEnabled(bool value) {
-    courseReminderEnabled = value;
+  void updateCourseReminderMinutes(int value) {
+    if (!kCourseReminderMinuteOptions.contains(value)) {
+      return;
+    }
+    courseReminderMinutes = value;
     notifyListeners();
+  }
+
+  // 兼容旧调用：true -> 默认 10 分钟，false -> 不提醒
+  void updateCourseReminderEnabled(bool value) {
+    updateCourseReminderMinutes(value ? kCourseReminderDefaultMinutes : 0);
   }
 
   void updateThemeMode(String value) {
@@ -539,7 +549,8 @@ class AppState extends ChangeNotifier {
         'localeMode': localeMode,
         'dateFormatPattern': dateFormatPattern,
         'useMaterialDynamicColor': useMaterialDynamicColor,
-        'courseReminderEnabled': courseReminderEnabled,
+        'courseReminderMinutes': courseReminderMinutes,
+        'courseReminderEnabled': courseReminderMinutes > 0,
         'themeColorValue': themeColorValue,
         'allTimeTables': allTimeTables.map((t) => t.toJson()).toList(),
         'allConfigs': allConfigs.map((c) => c.toJson()).toList(),
@@ -595,7 +606,8 @@ class AppState extends ChangeNotifier {
 
         final legacyIsDark = j['isDarkMode'] as bool?;
         final persistedThemeMode = j['themeMode'] as String?;
-        final resolvedThemeMode = persistedThemeMode ??
+        final resolvedThemeMode =
+            persistedThemeMode ??
             (legacyIsDark == null
                 ? kThemeModeSystem
                 : (legacyIsDark ? kThemeModeDark : kThemeModeLight));
@@ -611,11 +623,15 @@ class AppState extends ChangeNotifier {
           showSection: j['showSection'] as bool? ?? true,
           themeMode: resolvedThemeMode,
           localeMode: j['localeMode'] as String? ?? kLocaleModeSystem,
-            dateFormatPattern:
+          dateFormatPattern:
               j['dateFormatPattern'] as String? ?? kDateFormatYmdSlash,
           useMaterialDynamicColor:
               j['useMaterialDynamicColor'] as bool? ?? false,
-          courseReminderEnabled: j['courseReminderEnabled'] as bool? ?? true,
+          courseReminderMinutes:
+              j['courseReminderMinutes'] as int? ??
+              ((j['courseReminderEnabled'] as bool? ?? true)
+                  ? kCourseReminderDefaultMinutes
+                  : 0),
           themeColorValue: j['themeColorValue'] as int?,
         ).._loadedCourses(allCourses);
       }
@@ -630,7 +646,7 @@ class AppState extends ChangeNotifier {
         ScheduleConfig(
           name: '新建课表',
           firstWeekDay: DateTime(DateTime.now().year, 9, 1),
-          sectionsPerDay:20,
+          sectionsPerDay: 20,
           totalWeeks: 20,
         ),
       ],
@@ -689,7 +705,7 @@ class CourseSlot {
     required this.endWeek,
   });
 
-  int get span => (endSection - startSection + 1).clamp(1,20);
+  int get span => (endSection - startSection + 1).clamp(1, 20);
   List<int> get weeks =>
       List.generate(endWeek - startWeek + 1, (i) => startWeek + i);
 

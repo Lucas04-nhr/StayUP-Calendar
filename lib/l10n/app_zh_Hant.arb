@@ -217,6 +217,17 @@
       }
     }
   },
+  "courseReminderLocationUnknown": "未填寫地點",
+  "courseReminderNotificationBody": "在 {minutes} 分鐘後在 {location} 有 {courseName} 課程",
+  "@courseReminderNotificationBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "location": {},
+      "courseName": {}
+    }
+  },
   "schedulePageToolClassTime": "上課時間",
   "schedulePageToolScheduleSettings": "課表設定",
   "schedulePageToolAddedCourses": "已添課程",

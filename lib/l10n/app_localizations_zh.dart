@@ -406,6 +406,18 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get courseReminderLocationUnknown => '未填写地点';
+
+  @override
+  String courseReminderNotificationBody(
+    int minutes,
+    Object location,
+    Object courseName,
+  ) {
+    return '在 $minutes 分钟后在 $location 有 $courseName 课程';
+  }
+
+  @override
   String get schedulePageToolClassTime => '上课时间';
 
   @override
@@ -1211,6 +1223,18 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   }
 
   @override
+  String get courseReminderLocationUnknown => '未填写地点';
+
+  @override
+  String courseReminderNotificationBody(
+    int minutes,
+    Object location,
+    Object courseName,
+  ) {
+    return '在 $minutes 分钟后在 $location 有 $courseName 课程';
+  }
+
+  @override
   String get schedulePageToolClassTime => '上课时间';
 
   @override
@@ -2013,6 +2037,18 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String schedulePageRemainMinutes(int minutes) {
     return '距離上課還有 $minutes 分鐘';
+  }
+
+  @override
+  String get courseReminderLocationUnknown => '未填寫地點';
+
+  @override
+  String courseReminderNotificationBody(
+    int minutes,
+    Object location,
+    Object courseName,
+  ) {
+    return '在 $minutes 分鐘後在 $location 有 $courseName 課程';
   }
 
   @override

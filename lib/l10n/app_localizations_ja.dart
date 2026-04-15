@@ -408,6 +408,18 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get courseReminderLocationUnknown => '場所未設定';
+
+  @override
+  String courseReminderNotificationBody(
+    int minutes,
+    Object location,
+    Object courseName,
+  ) {
+    return '$minutes 分後に $location で $courseName の授業があります';
+  }
+
+  @override
   String get schedulePageToolClassTime => '授業時間';
 
   @override

@@ -8,6 +8,7 @@ import 'course_editor.dart';
 import 'schedule_settings.dart';
 import 'app_pages.dart';
 import 'course_reminder.dart';
+import 'local_notification_service.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
@@ -24,9 +25,8 @@ class _SchedulePageState extends State<SchedulePage> {
 
   // 课前提醒相关
   late Timer _reminderTimer;
-  int? _lastRemindedCourseId;  // 追踪最后一次提醒的课程 ID
-  DateTime? _lastRemindTime;   // 追踪最后一次提醒的时间，防止同课程频繁提醒
-  static const int _reminderMinutes = 10;  // 课前10分钟提醒
+  int? _lastRemindedCourseId; // 追踪最后一次提醒的课程 ID
+  DateTime? _lastRemindTime; // 追踪最后一次提醒的时间，防止同课程频繁提醒
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   void dispose() {
     _pageController.dispose();
-    _reminderTimer.cancel();  // 停止提醒定时器
+    _reminderTimer.cancel(); // 停止提醒定时器
     super.dispose();
   }
 
@@ -71,9 +71,12 @@ class _SchedulePageState extends State<SchedulePage> {
     // 找到 firstWeekDay 所在周的周一
     return firstWeekDay.subtract(Duration(days: firstWeekDay.weekday - 1));
   }
+
   DateTime get _currentWeekMonday {
     final cfg = AppStateScope.of(context).config;
-    return _week1MondayFor(cfg.firstWeekDay).add(Duration(days: (_currentWeek - 1) * 7));
+    return _week1MondayFor(
+      cfg.firstWeekDay,
+    ).add(Duration(days: (_currentWeek - 1) * 7));
   }
 
   int _currentSectionIdx(List<List<String>> customTimes) {
@@ -89,12 +92,13 @@ class _SchedulePageState extends State<SchedulePage> {
     return -1;
   }
 
-  /// 检查和显示课前10分钟提醒
+  /// 检查和显示课前提醒
   void _checkAndShowReminder() {
     final appState = AppStateScope.of(context);
-    
+    final reminderMinutes = appState.courseReminderMinutes;
+
     // 检查功能是否开启
-    if (!appState.courseReminderEnabled) return;
+    if (reminderMinutes <= 0) return;
 
     final courses = appState.courses;
     final customTimes = appState.customTimes;
@@ -112,7 +116,7 @@ class _SchedulePageState extends State<SchedulePage> {
       todayWeek,
       _todayCol,
       customTimes,
-      _reminderMinutes,
+      reminderMinutes,
     );
 
     if (nextCourse != null) {
@@ -120,7 +124,12 @@ class _SchedulePageState extends State<SchedulePage> {
       final today = DateTime(_today.year, _today.month, _today.day);
       if (_lastRemindedCourseId == nextCourse.id &&
           _lastRemindTime != null &&
-          DateTime(_lastRemindTime!.year, _lastRemindTime!.month, _lastRemindTime!.day) == today) {
+          DateTime(
+                _lastRemindTime!.year,
+                _lastRemindTime!.month,
+                _lastRemindTime!.day,
+              ) ==
+              today) {
         // 同一课程已在今天提醒过，跳过
         return;
       }
@@ -132,8 +141,29 @@ class _SchedulePageState extends State<SchedulePage> {
       // 计算距离上课的分钟数和开始时间
       final nowMinutes = DateTime.now().hour * 60 + DateTime.now().minute;
       final startTimeStr = customTimes[nextCourse.startSection - 1][0];
-      final startMinutes = CourseReminderManager.timeStringToMinutes(startTimeStr);
+      final startMinutes = CourseReminderManager.timeStringToMinutes(
+        startTimeStr,
+      );
       final minutesUntilClass = startMinutes - nowMinutes;
+
+      final notificationLocation = nextCourse.location.isNotEmpty
+          ? nextCourse.location
+          : context.l10n.courseReminderLocationUnknown;
+      final notificationBody = context.l10n.courseReminderNotificationBody(
+        reminderMinutes,
+        notificationLocation,
+        nextCourse.name,
+      );
+      final notificationId =
+          '${nextCourse.id}-${today.year}${today.month}${today.day}'.hashCode &
+          0x7fffffff;
+      unawaited(
+        LocalNotificationService.instance.showCourseReminder(
+          notificationId: notificationId,
+          title: '要上课了！',
+          body: notificationBody,
+        ),
+      );
 
       // 显示提醒弹窗
       if (!mounted) return;
@@ -150,15 +180,15 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
-    final appState    = AppStateScope.of(context);
-    final cfg         = appState.config;
+    final appState = AppStateScope.of(context);
+    final cfg = appState.config;
     final showWeekend = appState.showWeekend;
     final showNonWeek = appState.showNonWeek;
     final showSection = appState.showSection;
     final customTimes = appState.customTimes;
-    final courses     = appState.courses;
+    final courses = appState.courses;
     final visibleDays = showWeekend ? 7 : 5;
-    final totalWeeks  = cfg.totalWeeks;
+    final totalWeeks = cfg.totalWeeks;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF0F4F8),
@@ -182,10 +212,16 @@ class _SchedulePageState extends State<SchedulePage> {
                 },
                 itemBuilder: (context, page) {
                   final week = page + 1;
-                  final weekMonday = _week1MondayFor(cfg.firstWeekDay).add(Duration(days: (week - 1) * 7));
-                  var visibleForWeek = courses.where((c) => c.weeks.contains(week)).toList();
+                  final weekMonday = _week1MondayFor(
+                    cfg.firstWeekDay,
+                  ).add(Duration(days: (week - 1) * 7));
+                  var visibleForWeek = courses
+                      .where((c) => c.weeks.contains(week))
+                      .toList();
                   if (!showNonWeek) {
-                    visibleForWeek = visibleForWeek.where((c) => !c.isNonWeek).toList();
+                    visibleForWeek = visibleForWeek
+                        .where((c) => !c.isNonWeek)
+                        .toList();
                   }
                   List<Course> getCoursesAt(int day, int section) {
                     final result = <Course>[];
@@ -204,28 +240,31 @@ class _SchedulePageState extends State<SchedulePage> {
                             s.day == day &&
                             section >= s.startSection &&
                             section < s.startSection + s.span) {
-                          result.add(Course(
-                            id: c.id,
-                            name: c.name,
-                            location: c.location,
-                            teacher: c.teacher,
-                            credit: c.credit,
-                            note: c.note,
-                            day: s.day,
-                            startSection: s.startSection,
-                            span: s.span,
-                            colorIdx: c.colorIdx,
-                            customColor: c.customColor,
-                            isNonWeek: c.isNonWeek,
-                            weeks: s.weeks,
-                            startWeek: s.startWeek,
-                            endWeek: s.endWeek,
-                          ));
+                          result.add(
+                            Course(
+                              id: c.id,
+                              name: c.name,
+                              location: c.location,
+                              teacher: c.teacher,
+                              credit: c.credit,
+                              note: c.note,
+                              day: s.day,
+                              startSection: s.startSection,
+                              span: s.span,
+                              colorIdx: c.colorIdx,
+                              customColor: c.customColor,
+                              isNonWeek: c.isNonWeek,
+                              weeks: s.weeks,
+                              startWeek: s.startWeek,
+                              endWeek: s.endWeek,
+                            ),
+                          );
                         }
                       }
                     }
                     return result;
                   }
+
                   return Column(
                     children: [
                       _DayHeader(
@@ -243,7 +282,9 @@ class _SchedulePageState extends State<SchedulePage> {
                           todayCol: _todayCol,
                           getCoursesAt: getCoursesAt,
                           onCourseTap: (c) => _showDetailSheet(context, c),
-                          customTimes: customTimes.take(cfg.sectionsPerDay).toList(),
+                          customTimes: customTimes
+                              .take(cfg.sectionsPerDay)
+                              .toList(),
                           showSection: showSection,
                           visibleDays: visibleDays,
                         ),
@@ -272,16 +313,23 @@ class _SchedulePageState extends State<SchedulePage> {
             context: context,
             builder: (_) => AlertDialog(
               backgroundColor: ac(context).card,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
               title: Text(context.l10n.schedulePageDeleteCourse),
               content: Text(
-                context.l10n.scheduleSettingsDeleteNamedCourseMessage(course.name),
+                context.l10n.scheduleSettingsDeleteNamedCourseMessage(
+                  course.name,
+                ),
                 style: TextStyle(color: kHint),
               ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, false),
-                  child: Text(context.l10n.cancelAction, style: TextStyle(color: kHint)),
+                  child: Text(
+                    context.l10n.cancelAction,
+                    style: TextStyle(color: kHint),
+                  ),
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context, true),
@@ -301,13 +349,16 @@ class _SchedulePageState extends State<SchedulePage> {
         onEdit: () {
           final appState = AppStateScope.of(context);
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (_) => AddCoursePage(
-              editCourse: course,
-              onEdit: (updated) => appState.editCourse(updated),
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (_) => AddCoursePage(
+                editCourse: course,
+                onEdit: (updated) => appState.editCourse(updated),
+              ),
             ),
-          ));
+          );
         },
       ),
     );
@@ -353,8 +404,8 @@ class _SchedulePageState extends State<SchedulePage> {
 // ─────────────────────────────────────────────
 
 class _Header extends StatelessWidget {
-  final DateTime weekMonday;   // 当前显示周的周一
-  final DateTime today;        // 真实今天
+  final DateTime weekMonday; // 当前显示周的周一
+  final DateTime today; // 真实今天
   final int currentWeek;
   final int todayCol;
   final VoidCallback onMore;
@@ -372,7 +423,8 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final thisWeekMonday = today.subtract(Duration(days: today.weekday - 1));
-    final isThisWeek = weekMonday.year == thisWeekMonday.year &&
+    final isThisWeek =
+        weekMonday.year == thisWeekMonday.year &&
         weekMonday.month == thisWeekMonday.month &&
         weekMonday.day == thisWeekMonday.day;
 
@@ -390,9 +442,7 @@ class _Header extends StatelessWidget {
     const scheduleTagMaxWidth = 96.0;
 
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.92),
-      ),
+      decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.92)),
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -420,7 +470,10 @@ class _Header extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       weekDayStr,
-                      style: const TextStyle(fontSize: 12, color: Color(0xFF888888)),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF888888),
+                      ),
                     ),
                   ],
                 ),
@@ -433,18 +486,26 @@ class _Header extends StatelessWidget {
                     onPressed: onAdd,
                     color: const Color(0xFF444444),
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                    constraints: const BoxConstraints(
+                      minWidth: 36,
+                      minHeight: 36,
+                    ),
                   ),
                   const SizedBox(width: 4),
                   IconButton(
                     icon: const Icon(Icons.download_outlined, size: 20),
                     onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => const SchoolImportPage()),
+                      MaterialPageRoute(
+                        builder: (_) => const SchoolImportPage(),
+                      ),
                     ),
                     color: const Color(0xFF444444),
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                    constraints: const BoxConstraints(
+                      minWidth: 32,
+                      minHeight: 32,
+                    ),
                   ),
                   const SizedBox(width: 4),
                   IconButton(
@@ -452,7 +513,10 @@ class _Header extends StatelessWidget {
                     onPressed: onMore,
                     color: const Color(0xFF444444),
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                    constraints: const BoxConstraints(
+                      minWidth: 32,
+                      minHeight: 32,
+                    ),
                   ),
                 ],
               ),
@@ -475,7 +539,9 @@ class _Header extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: scheduleTagMaxWidth),
+                  constraints: const BoxConstraints(
+                    maxWidth: scheduleTagMaxWidth,
+                  ),
                   child: Text(
                     scheduleName,
                     style: scheduleTagTextStyle,
@@ -490,7 +556,10 @@ class _Header extends StatelessWidget {
               ),
               if (!isThisWeek)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 1,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF07B8A).withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -532,7 +601,8 @@ class _DayHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final thisWeekMonday = today.subtract(Duration(days: today.weekday - 1));
-    final isCurrentWeek = weekMonday.year == thisWeekMonday.year &&
+    final isCurrentWeek =
+        weekMonday.year == thisWeekMonday.year &&
         weekMonday.month == thisWeekMonday.month &&
         weekMonday.day == thisWeekMonday.day;
     final locale = Localizations.localeOf(context).toLanguageTag();
@@ -553,7 +623,10 @@ class _DayHeader extends StatelessWidget {
                 children: [
                   Text(
                     DateFormat.MMM(locale).format(weekMonday),
-                    style: const TextStyle(fontSize: 10, color: Color(0xFF999999)),
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Color(0xFF999999),
+                    ),
                   ),
                 ],
               ),
@@ -576,14 +649,19 @@ class _DayHeader extends StatelessWidget {
                       DateFormat.E(locale).format(date),
                       style: TextStyle(
                         fontSize: 11,
-                        color: isToday ? const Color(0xFF4ECDC4) : const Color(0xFF999999),
+                        color: isToday
+                            ? const Color(0xFF4ECDC4)
+                            : const Color(0xFF999999),
                       ),
                     ),
                     const SizedBox(height: 2),
                     Container(
-                      width: 26, height: 26,
+                      width: 26,
+                      height: 26,
                       decoration: BoxDecoration(
-                        color: isToday ? const Color(0xFF4ECDC4) : Colors.transparent,
+                        color: isToday
+                            ? const Color(0xFF4ECDC4)
+                            : Colors.transparent,
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
@@ -591,8 +669,12 @@ class _DayHeader extends StatelessWidget {
                         '${date.day}',
                         style: TextStyle(
                           fontSize: 14,
-                          fontWeight: isToday ? FontWeight.w700 : FontWeight.w400,
-                          color: isToday ? Colors.white : const Color(0xFF333333),
+                          fontWeight: isToday
+                              ? FontWeight.w700
+                              : FontWeight.w400,
+                          color: isToday
+                              ? Colors.white
+                              : const Color(0xFF333333),
                         ),
                       ),
                     ),
@@ -652,7 +734,7 @@ class _ScheduleGrid extends StatelessWidget {
                 children: List.generate(customTimes.length, (i) {
                   final isCurrent = i == currentSectionIdx;
                   final start = customTimes[i][0];
-                  final end   = customTimes[i][1];
+                  final end = customTimes[i][1];
                   return Container(
                     height: kSlotHeight,
                     decoration: BoxDecoration(
@@ -672,12 +754,26 @@ class _ScheduleGrid extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
-                              color: isCurrent ? const Color(0xFF4ECDC4) : const Color(0xFFAAAAAA),
+                              color: isCurrent
+                                  ? const Color(0xFF4ECDC4)
+                                  : const Color(0xFFAAAAAA),
                             ),
                           ),
                         const SizedBox(height: 2),
-                        Text(start, style: const TextStyle(fontSize: 8, color: Color(0xFFBBBBBB))),
-                        Text(end,   style: const TextStyle(fontSize: 8, color: Color(0xFFBBBBBB))),
+                        Text(
+                          start,
+                          style: const TextStyle(
+                            fontSize: 8,
+                            color: Color(0xFFBBBBBB),
+                          ),
+                        ),
+                        Text(
+                          end,
+                          style: const TextStyle(
+                            fontSize: 8,
+                            color: Color(0xFFBBBBBB),
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -739,11 +835,13 @@ class _DayColumn extends StatelessWidget {
         final key = '${c.id}_${c.day}_${c.startSection}';
         if (c.startSection == section && !rendered.contains(key)) {
           rendered.add(key);
-          positioned.add(_CoursePosition(
-            course: c,
-            top: sIdx * kSlotHeight,
-            height: c.span * kSlotHeight,
-          ));
+          positioned.add(
+            _CoursePosition(
+              course: c,
+              top: sIdx * kSlotHeight,
+              height: c.span * kSlotHeight,
+            ),
+          );
         }
       }
     }
@@ -764,9 +862,7 @@ class _DayColumn extends StatelessWidget {
               return Container(
                 height: kSlotHeight,
                 decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Color(0x08000000)),
-                  ),
+                  border: Border(bottom: BorderSide(color: Color(0x08000000))),
                 ),
               );
             }),
@@ -799,8 +895,11 @@ class _CoursePosition {
   final Course course;
   final double top;
   final double height;
-  const _CoursePosition(
-      {required this.course, required this.top, required this.height});
+  const _CoursePosition({
+    required this.course,
+    required this.top,
+    required this.height,
+  });
 }
 
 // ─────────────────────────────────────────────
@@ -851,10 +950,7 @@ class _CourseCard extends StatelessWidget {
               if (course.isNonWeek)
                 Text(
                   context.l10n.schedulePageCourseNotCurrentWeekTag,
-                  style: TextStyle(
-                    fontSize: 7,
-                    color: Color(0xFF3C3C43),
-                  ),
+                  style: TextStyle(fontSize: 7, color: Color(0xFF3C3C43)),
                   textAlign: TextAlign.center,
                 ),
               Text(
@@ -943,7 +1039,11 @@ class _CourseDetailSheet extends StatelessWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       padding: EdgeInsets.fromLTRB(
-          24, 16, 24, 24 + MediaQuery.of(context).viewInsets.bottom),
+        24,
+        16,
+        24,
+        24 + MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -951,7 +1051,8 @@ class _CourseDetailSheet extends StatelessWidget {
           // 拖动条
           Center(
             child: Container(
-              width: 36, height: 4,
+              width: 36,
+              height: 4,
               decoration: BoxDecoration(
                 color: colors.divider,
                 borderRadius: BorderRadius.circular(2),
@@ -968,7 +1069,10 @@ class _CourseDetailSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: color,
                         borderRadius: BorderRadius.circular(8),
@@ -1002,23 +1106,33 @@ class _CourseDetailSheet extends StatelessWidget {
               GestureDetector(
                 onTap: onEdit,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: colors.iconBg,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(Icons.edit_outlined, size: 15, color: colors.primaryText),
-                    const SizedBox(width: 4),
-                    Text(
-                      context.l10n.editAction,
-                      style: TextStyle(
-                        fontSize: 14,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.edit_outlined,
+                        size: 15,
                         color: colors.primaryText,
-                        fontWeight: FontWeight.w500,
                       ),
-                    ),
-                  ]),
+                      const SizedBox(width: 4),
+                      Text(
+                        context.l10n.editAction,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -1060,34 +1174,48 @@ class _CourseDetailSheet extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           // 删除 + 关闭按钮行
-          Row(children: [
-            Expanded(
-              child: TextButton(
-                onPressed: onDelete,
-                style: TextButton.styleFrom(
-                  backgroundColor: scheme.errorContainer,
-                  foregroundColor: scheme.error,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: onDelete,
+                  style: TextButton.styleFrom(
+                    backgroundColor: scheme.errorContainer,
+                    foregroundColor: scheme.error,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    context.l10n.schedulePageDeleteCourse,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-                child: Text(context.l10n.schedulePageDeleteCourse,
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
               ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: TextButton(
-                onPressed: () => Navigator.pop(context),
-                style: TextButton.styleFrom(
-                  backgroundColor: colors.inputBg,
-                  foregroundColor: colors.primaryText,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: TextButton.styleFrom(
+                    backgroundColor: colors.inputBg,
+                    foregroundColor: colors.primaryText,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    context.l10n.schedulePageClose,
+                    style: const TextStyle(fontSize: 15),
+                  ),
                 ),
-                child: Text(context.l10n.schedulePageClose, style: const TextStyle(fontSize: 15)),
               ),
-            ),
-          ]),
+            ],
+          ),
         ],
       ),
     );
@@ -1126,12 +1254,32 @@ class _MoreMenuSheetState extends State<_MoreMenuSheet> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final tools = [
-      _MenuTool(icon: Icons.access_time_outlined, label: l.schedulePageToolClassTime,       route: 'class_time'),
-      _MenuTool(icon: Icons.tune_outlined,         label: l.schedulePageToolScheduleSettings, route: 'schedule_settings'),
-      _MenuTool(icon: Icons.inbox_outlined,        label: l.schedulePageToolAddedCourses,     route: 'added_courses'),
-      _MenuTool(icon: Icons.settings_outlined,     label: l.globalSettingsTitle,              route: 'global_settings'),
-      _MenuTool(icon: Icons.storage_outlined,         label: l.dataManagementTitle,              route: 'export'),
-      _MenuTool(icon: Icons.info_outline,          label: l.aboutTitle,                       route: 'about'),
+      _MenuTool(
+        icon: Icons.access_time_outlined,
+        label: l.schedulePageToolClassTime,
+        route: 'class_time',
+      ),
+      _MenuTool(
+        icon: Icons.tune_outlined,
+        label: l.schedulePageToolScheduleSettings,
+        route: 'schedule_settings',
+      ),
+      _MenuTool(
+        icon: Icons.inbox_outlined,
+        label: l.schedulePageToolAddedCourses,
+        route: 'added_courses',
+      ),
+      _MenuTool(
+        icon: Icons.settings_outlined,
+        label: l.globalSettingsTitle,
+        route: 'global_settings',
+      ),
+      _MenuTool(
+        icon: Icons.storage_outlined,
+        label: l.dataManagementTitle,
+        route: 'export',
+      ),
+      _MenuTool(icon: Icons.info_outline, label: l.aboutTitle, route: 'about'),
     ];
     final colors = ac(context);
     return Container(
@@ -1150,7 +1298,8 @@ class _MoreMenuSheetState extends State<_MoreMenuSheet> {
               // 拖动条
               Center(
                 child: Container(
-                  width: 36, height: 4,
+                  width: 36,
+                  height: 4,
                   margin: const EdgeInsets.only(bottom: 16),
                   decoration: BoxDecoration(
                     color: colors.divider,
@@ -1166,14 +1315,22 @@ class _MoreMenuSheetState extends State<_MoreMenuSheet> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(l.schedulePageWeekLabel, style: TextStyle(color: colors.primaryText, fontSize: 15, fontWeight: FontWeight.w600)),
+                      Text(
+                        l.schedulePageWeekLabel,
+                        style: TextStyle(
+                          color: colors.primaryText,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       const SizedBox(height: 12),
                       // 带数字标签的滑块
                       Row(
                         children: [
                           // 当前周气泡
                           Container(
-                            width: 44, height: 28,
+                            width: 44,
+                            height: 28,
                             decoration: BoxDecoration(
                               color: colors.divider,
                               borderRadius: BorderRadius.circular(14),
@@ -1181,7 +1338,11 @@ class _MoreMenuSheetState extends State<_MoreMenuSheet> {
                             alignment: Alignment.center,
                             child: Text(
                               '${_sliderValue.round()}',
-                              style: TextStyle(color: colors.primaryText, fontSize: 14, fontWeight: FontWeight.w700),
+                              style: TextStyle(
+                                color: colors.primaryText,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                           Expanded(
@@ -1190,7 +1351,9 @@ class _MoreMenuSheetState extends State<_MoreMenuSheet> {
                                 activeTrackColor: const Color(0xFF4ECDC4),
                                 inactiveTrackColor: colors.divider,
                                 thumbColor: const Color(0xFF4ECDC4),
-                                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
+                                thumbShape: const RoundSliderThumbShape(
+                                  enabledThumbRadius: 12,
+                                ),
                                 trackHeight: 4,
                                 overlayShape: SliderComponentShape.noOverlay,
                               ),
@@ -1199,8 +1362,10 @@ class _MoreMenuSheetState extends State<_MoreMenuSheet> {
                                 min: 1,
                                 max: 20,
                                 divisions: 19,
-                                onChanged: (v) => setState(() => _sliderValue = v),
-                                onChangeEnd: (v) => widget.onWeekChanged(v.round()),
+                                onChanged: (v) =>
+                                    setState(() => _sliderValue = v),
+                                onChangeEnd: (v) =>
+                                    widget.onWeekChanged(v.round()),
                               ),
                             ),
                           ),
@@ -1223,46 +1388,73 @@ class _MoreMenuSheetState extends State<_MoreMenuSheet> {
                     children: [
                       Row(
                         children: [
-                          Text(l.schedulePageSwitchSchedule, style: TextStyle(color: colors.primaryText, fontSize: 15, fontWeight: FontWeight.w600)),
+                          Text(
+                            l.schedulePageSwitchSchedule,
+                            style: TextStyle(
+                              color: colors.primaryText,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                           const Spacer(),
                           GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
-                              Navigator.push(context, MaterialPageRoute(
-                                fullscreenDialog: true,
-                                builder: (_) => const NewSchedulePage(),
-                              ));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  fullscreenDialog: true,
+                                  builder: (_) => const NewSchedulePage(),
+                                ),
+                              );
                             },
-                            child: Text('${l.newScheduleButton}  ', style: const TextStyle(color: _accent, fontSize: 13)),
+                            child: Text(
+                              '${l.newScheduleButton}  ',
+                              style: const TextStyle(
+                                color: _accent,
+                                fontSize: 13,
+                              ),
+                            ),
                           ),
                           GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (_) => const ManageSchedulePage(),
-                              ));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const ManageSchedulePage(),
+                                ),
+                              );
                             },
-                            child: Text(l.manageScheduleTitle, style: const TextStyle(color: _accent, fontSize: 13)),
+                            child: Text(
+                              l.manageScheduleTitle,
+                              style: const TextStyle(
+                                color: _accent,
+                                fontSize: 13,
+                              ),
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
                       SizedBox(
                         height: 106,
-                        child: Builder(builder: (ctx) {
-                          final s = AppStateScope.of(ctx);
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: s.scheduleNames.length,
-                            itemBuilder: (_, i) => GestureDetector(
-                              onTap: () => s.switchSchedule(i),
-                              child: _ScheduleThumb(
-                                label: s.scheduleNames[i],
-                                isSelected: i == s.activeScheduleIndex,
+                        child: Builder(
+                          builder: (ctx) {
+                            final s = AppStateScope.of(ctx);
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: s.scheduleNames.length,
+                              itemBuilder: (_, i) => GestureDetector(
+                                onTap: () => s.switchSchedule(i),
+                                child: _ScheduleThumb(
+                                  label: s.scheduleNames[i],
+                                  isSelected: i == s.activeScheduleIndex,
+                                ),
                               ),
-                            ),
-                          );
-                        }),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -1274,7 +1466,10 @@ class _MoreMenuSheetState extends State<_MoreMenuSheet> {
               // ── 工具格子卡片 ──
               _Card(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 12,
+                  ),
                   child: GridView.count(
                     crossAxisCount: 3,
                     shrinkWrap: true,
@@ -1327,24 +1522,29 @@ class _ScheduleThumb extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            width: 72, height: 64,
+            width: 72,
+            height: 64,
             decoration: BoxDecoration(
               color: isSelected
                   ? const Color(0xFF4ECDC4).withValues(alpha: 0.25)
                   : colors.divider,
               borderRadius: BorderRadius.circular(10),
-              border: isSelected ? Border.all(color: const Color(0xFF4ECDC4), width: 1.5) : null,
+              border: isSelected
+                  ? Border.all(color: const Color(0xFF4ECDC4), width: 1.5)
+                  : null,
             ),
             child: isSelected
                 ? const Icon(Icons.check, color: Color(0xFF4ECDC4), size: 24)
                 : null,
           ),
           const SizedBox(height: 6),
-          Text(label,
-              style: TextStyle(color: colors.secondaryText, fontSize: 11),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis),
+          Text(
+            label,
+            style: TextStyle(color: colors.secondaryText, fontSize: 11),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );
@@ -1356,7 +1556,11 @@ class _MenuTool {
   final IconData icon;
   final String label;
   final String route;
-  const _MenuTool({required this.icon, required this.label, required this.route});
+  const _MenuTool({
+    required this.icon,
+    required this.label,
+    required this.route,
+  });
 }
 
 class _ToolCell extends StatelessWidget {
@@ -1399,7 +1603,8 @@ class _ToolCell extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: colors.iconBg,
               shape: BoxShape.circle,
@@ -1407,7 +1612,10 @@ class _ToolCell extends StatelessWidget {
             child: Icon(tool.icon, color: colors.secondaryText, size: 24),
           ),
           const SizedBox(height: 6),
-          Text(tool.label, style: TextStyle(color: colors.secondaryText, fontSize: 12)),
+          Text(
+            tool.label,
+            style: TextStyle(color: colors.secondaryText, fontSize: 12),
+          ),
         ],
       ),
     );

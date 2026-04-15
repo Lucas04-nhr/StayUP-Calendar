@@ -417,6 +417,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get courseReminderLocationUnknown => 'Unknown location';
+
+  @override
+  String courseReminderNotificationBody(
+    int minutes,
+    Object location,
+    Object courseName,
+  ) {
+    return 'In $minutes minutes, you have $courseName at $location';
+  }
+
+  @override
   String get schedulePageToolClassTime => 'Class Time';
 
   @override

@@ -110,6 +110,94 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
     }
   }
 
+  String _courseReminderLabel(int minutes) {
+    switch (minutes) {
+      case 0:
+        return '无';
+      case 5:
+        return '5分钟前';
+      case 10:
+        return '10分钟前';
+      case 15:
+        return '15分钟前';
+      case 30:
+        return '30分钟前';
+      default:
+        return '$minutes分钟前';
+    }
+  }
+
+  void _showCourseReminderPicker(BuildContext context, AppState appState) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: ac(context).card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) {
+        const options = [0, 5, 10, 15, 30];
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 36),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.l10n.courseReminder,
+                style: TextStyle(
+                  color: ac(context).primaryText,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 12),
+              ...options.map(
+                (minutes) => GestureDetector(
+                  onTap: () {
+                    appState.updateCourseReminderMinutes(minutes);
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 14,
+                      horizontal: 4,
+                    ),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: kDivider, width: 0.5),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          _courseReminderLabel(minutes),
+                          style: TextStyle(
+                            color: minutes == appState.courseReminderMinutes
+                                ? const Color(0xFF4ECDC4)
+                                : ac(context).primaryText,
+                            fontSize: 15,
+                          ),
+                        ),
+                        const Spacer(),
+                        if (minutes == appState.courseReminderMinutes)
+                          const Icon(
+                            Icons.check,
+                            color: Color(0xFF4ECDC4),
+                            size: 18,
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   String _datePatternLabel(BuildContext context, String pattern) {
     // 在候选项中同时显示格式串和示例，便于用户直观看到效果。
     final sample = _datePatternSample(pattern);
@@ -159,7 +247,9 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setS) => AlertDialog(
           backgroundColor: ac(ctx).card,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
           title: Text(
             l10n.dateFormatCustomDialogTitle,
             style: TextStyle(
@@ -203,7 +293,10 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: Text(l10n.cancelAction, style: const TextStyle(color: kHint)),
+              child: Text(
+                l10n.cancelAction,
+                style: const TextStyle(color: kHint),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -263,18 +356,17 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
                 ),
               ),
               const SizedBox(height: 12),
-              ...options.map(
-                (pattern) {
-                  final isCustomOption = pattern == _customDateFormatOption;
-                  final isSelected = isCustomOption
-                      ? !_isPresetDatePattern(appState.dateFormatPattern)
-                      : pattern == appState.dateFormatPattern;
+              ...options.map((pattern) {
+                final isCustomOption = pattern == _customDateFormatOption;
+                final isSelected = isCustomOption
+                    ? !_isPresetDatePattern(appState.dateFormatPattern)
+                    : pattern == appState.dateFormatPattern;
 
-                  final label = isCustomOption
-                      ? context.l10n.dateFormatCustomOptionLabel
-                      : _datePatternLabel(context, pattern);
+                final label = isCustomOption
+                    ? context.l10n.dateFormatCustomOptionLabel
+                    : _datePatternLabel(context, pattern);
 
-                  return GestureDetector(
+                return GestureDetector(
                   onTap: () {
                     if (isCustomOption) {
                       Navigator.pop(context);
@@ -316,9 +408,8 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
                       ],
                     ),
                   ),
-                  );
-                },
-              ),
+                );
+              }),
             ],
           ),
         );
@@ -416,11 +507,7 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (_) {
-        final options = [
-          kThemeModeSystem,
-          kThemeModeLight,
-          kThemeModeDark,
-        ];
+        final options = [kThemeModeSystem, kThemeModeLight, kThemeModeDark];
         return Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 36),
           child: Column(
@@ -543,17 +630,18 @@ class _GlobalSettingsPageState extends State<GlobalSettingsPage> {
         settingCard(context, [
           _WideSettingRow(
             label: context.l10n.courseReminder,
-            trailing: Transform.scale(
-              scale: 0.92,
-              child: Switch(
-                value: appState.courseReminderEnabled,
-                onChanged: (v) {
-                  appState.updateCourseReminderEnabled(v);
-                },
-                activeThumbColor: const Color(0xFF4ECDC4),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  _courseReminderLabel(appState.courseReminderMinutes),
+                  style: const TextStyle(color: kHint, fontSize: 13),
+                ),
+                const SizedBox(width: 4),
+                const Icon(Icons.chevron_right, color: kHint, size: 18),
+              ],
             ),
+            onTap: () => _showCourseReminderPicker(context, appState),
           ),
           _WideSettingRow(
             label: context.l10n.widgetSync,
@@ -615,18 +703,21 @@ class _WideSettingRow extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
-            children: [
-              Text(label,
-                  style: TextStyle(color: colors.primaryText, fontSize: 15)),
-              const Spacer(),
-              onTap != null
-                  ? IgnorePointer(
-                      child: trailing ??
-                          Icon(Icons.chevron_right, color: colors.hint, size: 18),
-                    )
-                  : (trailing ??
+          children: [
+            Text(
+              label,
+              style: TextStyle(color: colors.primaryText, fontSize: 15),
+            ),
+            const Spacer(),
+            onTap != null
+                ? IgnorePointer(
+                    child:
+                        trailing ??
+                        Icon(Icons.chevron_right, color: colors.hint, size: 18),
+                  )
+                : (trailing ??
                       Icon(Icons.chevron_right, color: colors.hint, size: 18)),
-            ],
+          ],
         ),
       ),
     );
